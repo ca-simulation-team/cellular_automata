@@ -1,5 +1,6 @@
 <?xml version='1.0' encoding='UTF-8' ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
       xmlns:h="http://java.sun.com/jsf/html"  
@@ -19,6 +20,7 @@
                         <p:commandButton type="button" value="Load"/>
                         <p:commandButton type="button" value="Save"/>
                         <p:commandButton type="button" value="View Exmaples"/>
+                        <p:commandButton value= "start" action= "#{SimulationBean.getData()}"/>
                     </f:facet>
 
                     <f:facet name="right">
@@ -34,6 +36,7 @@
                         <p:tab title="Model">
                             <p:panel style="min-height: 200px">
                                 <p:outputLabel value="Model stuff goes here"/>
+                                
                             </p:panel>
                         </p:tab>
                         <p:tab title="Parameters">
@@ -45,11 +48,10 @@
                 </h:form>
             </ui:define>
 
-            <ui:define name="content">
-                
+            <ui:define name="content" id ="content">
             </ui:define>
-
+            
         </ui:composition>
-
     </body>
+
 </html>

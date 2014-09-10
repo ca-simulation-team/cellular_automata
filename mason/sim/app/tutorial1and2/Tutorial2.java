@@ -11,6 +11,10 @@ import sim.portrayal.grid.*;
 import java.awt.*;
 import javax.swing.*;
 
+/**
+ *
+ * @author Hoana
+ */
 public class Tutorial2 extends GUIState
     {
     public Display2D display;
