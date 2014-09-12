@@ -46,11 +46,28 @@
             </ui:define>
 
             <ui:define name="content">
-                <p:panel style="min-height: 300px">
-                    <canvas width="400" height="400"  style="border:1px solid #000000">
-                         
-                    </canvas>
-                </p:panel>
+                <h:form>
+                    <p:panel style='margin-bottom: 6px'>
+                        <p:commandButton type="button" value="Play"/>
+                        <p:commandButton type="button" value="Pause"/>
+                        <p:commandButton type="button" value="Stop"/>
+                        <div style="float: right; display: inline-block">
+                            <p:panelGrid columns="6">
+                                <h:outputText value="Number of evolutions:"/>
+                                <h:outputText value="0"/>
+                                <h:outputText value="Time passed:"/>
+                                <h:outputText value="00:00"/>
+                                <h:outputText value="Number of agents:"/>
+                                <h:outputText value="0"/>
+                            </p:panelGrid>
+                        </div>
+                    </p:panel>
+                    <p:panel style="min-height: 300px">
+                        <canvas width="400" height="400"  style="border:1px solid #000000">
+
+                        </canvas>
+                    </p:panel>
+                </h:form>
             </ui:define>
 
         </ui:composition>
