@@ -13,10 +13,10 @@ $(document).ready(function () {
     
     var posX = 0;
     var posY = 0;
-    var cellWidth = 20;
-    var cellHeight = 20;
-    var columns = 20;
-    var rows = 20;
+    var cellWidth = 40;
+    var cellHeight = 40;
+    var columns = 4;
+    var rows = 4;
     var width = cellWidth * columns;
     var height = cellHeight * rows;
     canvas.width = width;
@@ -26,14 +26,20 @@ $(document).ready(function () {
             ctx.rect(posX,posY,cellWidth,cellHeight);
             ctx.strokeStyle = "black";
             ctx.stroke();
-            if(posX === 40 && posY=== 40){
-                ctx.fillStyle = 'black';
-                ctx.fill();
-            }
+//            if(posX === 80 && posY === 40){
+//                ctx.fillStyle = 'blue';
+//                ctx.fill();
+//            }
             posX = posX + cellWidth;
+            ctx.font = '12pt Calibri';
+            ctx.fillStyle = 'green';
+            ctx.fillText(posX, posX, posY);
         }
         posX = 0;
         posY = posY + cellHeight;
+        ctx.font = '12pt Calibri';
+        ctx.fillStyle = 'green';
+        ctx.fillText(posY, posX + 10, posY + 10);
     }
     
     
