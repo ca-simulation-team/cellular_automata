@@ -1,6 +1,10 @@
 package com.bcis.ca.service;
 
+import ec.util.MersenneTwisterFast;
 import javax.ejb.Stateful;
+import sim.app.tutorial1and2.Tutorial1;
+import sim.app.tutorial1and2.tutorial1and2;
+
 import sim.engine.SimState;
 
 /**
@@ -9,7 +13,7 @@ import sim.engine.SimState;
  * states
  *
  * @author Nawaz Gayoom
- * @version 0.1 - 14/09/2014: Skeleton methods added - Vadim Chernov
+ * @version 0.2 - 14/09/2014: Skeleton methods added and updated - Vadim Chernov
  */
 @Stateful
 public class Simulation {
@@ -22,10 +26,15 @@ public class Simulation {
     private Agent[] agents;
 
     public Simulation() {
+    }
 
+    public Simulation(SimState sim) {
+        this.simulationState = sim;
+     
     }
 
     public void startSimulation() {
+        simulationState.start();
     }
 
     public boolean createNewSimulation() {
@@ -35,11 +44,11 @@ public class Simulation {
     }
 
     public void stopSimulation() {
-
+        simulationState.finish();
     }
 
     public void resetSimulation() {
-
+        simulationState.kill();
     }
 
     public boolean updateSimulation() {
