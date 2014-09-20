@@ -26,8 +26,8 @@ $(document).ready(function () {
             ctx.rect(posX,posY,cellWidth,cellHeight);
             ctx.strokeStyle = "black";
             ctx.stroke();
-            if(j === 3){
-                ctx.fillStyle = "black";
+            if(posX === 40 && posY=== 40){
+                ctx.fillStyle = 'black';
                 ctx.fill();
             }
             posX = posX + cellWidth;
