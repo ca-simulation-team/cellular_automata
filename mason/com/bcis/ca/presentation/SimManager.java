@@ -16,8 +16,4 @@ public class SimManager {
     public SimManager() {
     }
     
-    
-    public void startSimulation(){
-        
-    }
 }
