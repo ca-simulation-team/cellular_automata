@@ -1,11 +1,8 @@
 package com.bcis.ca.presentation;
 
 import com.bcis.ca.service.Simulation;
-<<<<<<< HEAD
 import java.awt.event.ActionEvent;
-=======
-import javafx.event.ActionEvent;
->>>>>>> origin/development
+import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -18,6 +15,8 @@ import javax.inject.Named;
 @Named(value = "simManager")
 @ViewScoped
 public class SimManager {
+    
+    @EJB
     Simulation sim;
 
     
