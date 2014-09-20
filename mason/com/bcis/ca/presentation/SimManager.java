@@ -1,7 +1,11 @@
 package com.bcis.ca.presentation;
 
 import com.bcis.ca.service.Simulation;
+<<<<<<< HEAD
 import java.awt.event.ActionEvent;
+=======
+import javafx.event.ActionEvent;
+>>>>>>> origin/development
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
 
@@ -34,6 +38,6 @@ public class SimManager {
         
     }
 
-
-
+    
+    
 }
