@@ -50,6 +50,16 @@ public class Tutorial1 extends SimState
         grid = new IntGrid2D(gridWidth, gridHeight);
         seedGrid();
         schedule.scheduleRepeating(new CA());
+                long steps = 0;
+        while(steps < 5000)
+            {
+            if (!this.schedule.step(this))
+                break;
+            steps = this.schedule.getSteps();
+            if (steps % 500 == 0)
+                System.out.println("Steps: " + steps + " Time: " + this.schedule.getTime());
+            }
+        this.finish();
         }
 
     // THIS VERSION IS FOR TUTORIAL 1

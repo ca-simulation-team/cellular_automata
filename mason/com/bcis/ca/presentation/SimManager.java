@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import javax.ejb.EJB;
 import javax.faces.view.ViewScoped;
 import javax.inject.Named;
+import sim.app.tutorial1and2.Tutorial1;
 
 /**
  * Manages the main simulation view
@@ -21,21 +22,28 @@ public class SimManager {
 
     
     public SimManager() {
-
+        
     }
 
     public void playButton(ActionEvent actionEvent) {
-
+        sim.startSimulation();
     }
 
     public void stopButton(ActionEvent actionEvent) {
-
+        sim.stopSimulation();
     }
     
 
     public void pauseButton(ActionEvent actionEvent) {
         
     }
+
+    public void loadGoL() {
+        sim = new Simulation(new Tutorial1(System.currentTimeMillis()));
+        
+    }
+    
+    
 
     
     
