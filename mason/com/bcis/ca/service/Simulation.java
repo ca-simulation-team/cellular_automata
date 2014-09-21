@@ -1,8 +1,7 @@
 package com.bcis.ca.service;
 
-import ec.util.MersenneTwisterFast;
+import javax.ejb.EJB;
 import javax.ejb.Stateful;
-import sim.app.tutorial1and2.Tutorial1;
 
 import sim.engine.SimState;
 
@@ -12,28 +11,32 @@ import sim.engine.SimState;
  * states
  *
  * @author Nawaz Gayoom
- * @version 0.2 - 14/09/2014: Skeleton methods added and updated - Vadim Chernov
+ * @version 0.1 - 14/09/2014: Created.
+ * 
+ * @author Vadim Chernov
+ * @version 0.2 - 20/09/2014: Skeleton methods added and updated
  */
 @Stateful
 public class Simulation {
 
-    SimState simulationState;
+    private SimState simulationState;
     private String backgroundColor;
     private String backgroundImage;
     private Object[] objects;
     private Rule[] rules;
     private Agent[] agents;
-
+    @EJB
+    CanvasHandler canvasHandler;
+    
     public Simulation() {
+        
     }
 
-    public Simulation(SimState sim) {
-        this.simulationState = sim;
-     
-    }
-
+    
     public void startSimulation() {
+        canvasHandler.drawCanvas();
         simulationState.start();
+        
     }
 
     public boolean createNewSimulation() {
@@ -125,4 +128,12 @@ public class Simulation {
         this.backgroundImage = backgroundImage;
     }
 
+    /**
+     * @param simulationState the simulationState to set
+     */
+    public void setSimulationState(SimState sim) {
+        this.simulationState = sim;
+    }
+
+    
 }
