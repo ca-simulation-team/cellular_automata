@@ -34,7 +34,6 @@ public class SimManager {
 //        sim.setSimulationState(new Tutorial1(System.currentTimeMillis()));
 //        sim.startSimulation();
         canvasHandler.drawCanvas();
-        FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", message));
         
     }
 
