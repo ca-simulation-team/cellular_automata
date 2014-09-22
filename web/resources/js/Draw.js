@@ -8,6 +8,7 @@ file.
 
 //$(document).ready(function () {
     function drawca(){
+    alert("this runs");
     var canvas = document.getElementById("simArea");
     var ctx = canvas.getContext("2d");
     var values = [[0,0,1,0,0],[0,1,0,0,1],[0,0,0,1,0],[1,0,0,1,1],[0,0,0,0,1]];

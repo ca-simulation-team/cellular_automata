@@ -1,8 +1,9 @@
 package com.bcis.ca.service;
 
+import com.bcis.ca.presentation.ExampleObject;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
-
+import sim.app.tutorial1and2.Tutorial1;
 import sim.engine.SimState;
 
 /**
@@ -12,6 +13,7 @@ import sim.engine.SimState;
  *
  * @author Nawaz Gayoom
  * @version 0.1 - 14/09/2014: Created.
+ * @version 1.0 - 22/09/2014: updated to load a simulation and start it
  * 
  * @author Vadim Chernov
  * @version 0.2 - 20/09/2014: Skeleton methods added and updated
@@ -34,8 +36,9 @@ public class Simulation {
 
     
     public void startSimulation() {
-        canvasHandler.drawCanvas();
-        simulationState.start();
+        canvasHandler.drawCanvas("drawca");
+//        this.simulationState = new Tutorial1(System.currentTimeMillis());
+//        simulationState.start();
         
     }
 
@@ -44,7 +47,7 @@ public class Simulation {
 
         return simulationCreated;
     }
-
+ 
     public void stopSimulation() {
         simulationState.finish();
     }
@@ -129,11 +132,18 @@ public class Simulation {
     }
 
     /**
-     * @param simulationState the simulationState to set
-     */
-    public void setSimulationState(SimState sim) {
-        this.simulationState = sim;
+     * loads the simulation
+     * @param exampleToLoad  the simulationState to set
+     */ 
+    public void setSimulationStateFromExamples(ExampleObject exampleToLoad) {
+        if(exampleToLoad.getExampleID() == 0){
+            this.simulationState = new Tutorial1(System.currentTimeMillis());
+        }
+        
     }
 
+    public void setSimulationState(SimState state){
+        
+    }
     
 }

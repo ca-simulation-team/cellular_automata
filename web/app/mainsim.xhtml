@@ -13,13 +13,28 @@
 
             <ui:define name="top">
                 <p:graphicImage value="./resources/images/ca_banner.png" style="width: 100%; height: 100px"/>
-                <h:form>
+                <h:form id="toolbarForm">
                 <p:toolbar>
                     <f:facet name="left">
                         <p:commandButton type="button" value="Create new"/>
-                        <p:commandButton type="button" value="Load Game of life" action="#{simManager.loadSimulation}" />
                         <p:commandButton type="button" value="Save"/>
-                        <p:commandButton type="button" value="View Examples" />
+                        <p:commandButton id="viewExamplesBtn" type="button" value="View Examples" />
+                        <p:overlayPanel id="exampleList" for="viewExamplesBtn" hideEffect="fade" widgetVar="examplePanel">
+                            <p:panelGrid columns="1">
+                                <h:outputText value="Select Example:"/>
+                                <p:selectOneListbox id="selectExample" value="#{simManager.exampleToLoad}" converter="eoConverter" var="etl" filter="true" filterMatchMode="contains" style="min-height: 150px; min-width: 400px">
+                                    <f:selectItems value="#{simManager.examples}" var="examples" itemLabel="#{examples.name}" itemValue="#{examples}"/>
+                                    <p:column>
+                                        <h:outputText value="#{etl.name}"/>
+                                        <br/>
+                                        <h:outputText value="#{etl.description}" style="font-size: 6pt"/>
+                                    </p:column>
+                                    
+                                </p:selectOneListbox>
+                                
+                            </p:panelGrid>
+                            <p:commandButton type="submit" value="Load" action="#{simManager.loadSimulationFromExamples}" ajax="true" update="toolbarForm"/>
+                        </p:overlayPanel>
                     </f:facet>
 
                     <f:facet name="right">
@@ -52,7 +67,7 @@
                     
                     <p:panel id="contentPanel" style='margin-bottom: 6px'>
                         <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
-                        <p:commandButton value="Play" action="#{simManager.playButton}" update="contentPanel" onclick="drawca()"/>
+                        <p:commandButton value="Play" action="#{simManager.playButton}" update="contentPanel"/>
                         <p:commandButton type="button" value="Pause" actionListener="#{simManager.pauseButton}"/>
                         <p:commandButton type="button" value="Stop" actionListener="#{simManager.stopButton}"/>
                         <div style="float: right; display: inline-block">
