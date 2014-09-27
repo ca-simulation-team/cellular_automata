@@ -31,7 +31,7 @@ public class CanvasHandler implements Serializable {
         ScriptEngineManager manager = new ScriptEngineManager();
         ScriptEngine engine = manager.getEngineByName("JavaScript");
         try {
-            engine.eval(Files.newBufferedReader(Paths.get("C:\\Users\\Nawaz\\Documents\\NetBeansProjects\\cellular_automata\\web\\resources\\js\\draw.js"), StandardCharsets.UTF_8));
+            engine.eval(Files.newBufferedReader(Paths.get("C:\\Users\\Nawaz\\Documents\\NetbeansProjects\\cellular_automata\\web\\resources\\js\\draw.js"), StandardCharsets.UTF_8));
             Invocable inv = (Invocable) engine;
             inv.invokeFunction(functionToCall);
         } catch (ScriptException se){

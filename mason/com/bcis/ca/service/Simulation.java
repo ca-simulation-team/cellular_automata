@@ -37,8 +37,8 @@ public class Simulation {
     
     public void startSimulation() {
         canvasHandler.drawCanvas("drawca");
-//        this.simulationState = new Tutorial1(System.currentTimeMillis());
-//        simulationState.start();
+        this.simulationState = new Tutorial1(System.currentTimeMillis());
+        simulationState.start();
         
     }
 
