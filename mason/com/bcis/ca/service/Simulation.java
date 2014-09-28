@@ -1,10 +1,14 @@
 package com.bcis.ca.service;
 
-import com.bcis.ca.presentation.ExampleObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
+import javax.ejb.Stateless;
 import sim.app.tutorial1and2.Tutorial1;
 import sim.engine.SimState;
+import sim.engine.UniformJSON;
 
 /**
  * Acts as a middle layer between Mason and the presentation. It holds all the
@@ -14,21 +18,21 @@ import sim.engine.SimState;
  * @author Nawaz Gayoom
  * @version 0.1 - 14/09/2014: Created.
  * @version 1.0 - 22/09/2014: updated to load a simulation and start it
+ * @version 1.1 - 29/09/2014: removed unnecessary code to clean up (file access
+ *                            and managed beans are no longer necessary)
  * 
  * @author Vadim Chernov
  * @version 0.2 - 20/09/2014: Skeleton methods added and updated
  */
-@Stateful
-public class Simulation {
+@Stateless
+public class Simulation implements Serializable{
 
-    private SimState simulationState;
+    private SimState simulationState = null;
     private String backgroundColor;
     private String backgroundImage;
     private Object[] objects;
     private Rule[] rules;
     private Agent[] agents;
-    @EJB
-    CanvasHandler canvasHandler;
     
     public Simulation() {
         
@@ -36,12 +40,21 @@ public class Simulation {
 
     
     public void startSimulation() {
-        canvasHandler.drawCanvas("drawca");
-//        this.simulationState = new Tutorial1(System.currentTimeMillis());
-//        simulationState.start();
+        
+        this.simulationState = new Tutorial1(System.currentTimeMillis());
+        simulationState.start();
         
     }
 
+    public UniformJSON stepThrough(){
+        UniformJSON ujson;
+        if(simulationState == null){
+            startSimulation();
+        }
+        ujson = simulationState.getCurrentState();
+        return ujson;
+    }
+    
     public boolean createNewSimulation() {
         boolean simulationCreated = false;
 
@@ -131,17 +144,7 @@ public class Simulation {
         this.backgroundImage = backgroundImage;
     }
 
-    /**
-     * loads the simulation
-     * @param exampleToLoad  the simulationState to set
-     */ 
-    public void setSimulationStateFromExamples(ExampleObject exampleToLoad) {
-        if(exampleToLoad.getExampleID() == 0){
-            this.simulationState = new Tutorial1(System.currentTimeMillis());
-        }
-        
-    }
-
+    
     public void setSimulationState(SimState state){
         
     }

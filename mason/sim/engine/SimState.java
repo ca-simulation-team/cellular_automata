@@ -35,6 +35,8 @@ public class SimState implements java.io.Serializable
     /** SimState's schedule */
     public Schedule schedule;
     
+    public boolean isRunning;
+    
     // All registered AsynchronousSteppables
     HashSet asynchronous = new HashSet();
     // Lock for accessing the HashSet
@@ -625,4 +627,13 @@ public class SimState implements java.io.Serializable
             n = n*10;
             }
         }
+    
+    public UniformJSON getCurrentState(){
+        UniformJSON json = new UniformJSON();
+        return json;
+    }
+    
+    public void stepMethod(){
+        
+    }
     }

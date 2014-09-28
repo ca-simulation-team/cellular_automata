@@ -6,9 +6,10 @@
 
 package sim.app.tutorial1and2;
 
-import com.bcis.ca.service.CanvasHandler;
-import com.bcis.ca.service.UniformJSON;
-import com.google.gson.*;
+import com.bcis.ca.service.Simulation;
+import sim.engine.UniformJSON;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import javax.ejb.EJB;
 import sim.engine.*;
 import sim.field.grid.*;
@@ -18,11 +19,10 @@ public class Tutorial1 extends SimState
     public static final long serialVersionUID = 1;
     
     public IntGrid2D grid;
-    public int gridWidth = 100;
-    public int gridHeight = 100;
-    boolean isRunning = false;
-//    @EJB
-//    CanvasHandler cHandler;
+    public int gridWidth = 40;
+    public int gridHeight = 40;
+    int[][] currentGrid;
+    
     public static final int[][] b_heptomino = new int[][]
             {{0,1,1},
             {1,1,0},
@@ -46,57 +46,60 @@ public class Tutorial1 extends SimState
         grid = new IntGrid2D(gridWidth, gridHeight);
         seedGrid();
         schedule.scheduleRepeating(new CA());
-        long steps;
-        
-        do {
-            
-            if(!schedule.step(this)){
-                break;
-            }
-            steps = schedule.getSteps();
-            int[][] currentGrid = new int[gridHeight][gridWidth];
+    }
+    
+    public int[][] getGrid(){
+        currentGrid = new int[gridHeight][gridWidth];
             for(int i = 0; i < gridHeight; i++){
                 for(int j = 0; j < gridWidth; j++){
                     currentGrid[i][j] = (grid.get(i, j));
                     
-                }
+               }
             }
-            CanvasHandler caHandler = new CanvasHandler();
-            caHandler.drawCanvas("drawca");
-//            UniformJSON ujson = new UniformJSON();
-//            ujson.setCurrentGrid(currentGrid);
-//            GsonBuilder builder = new GsonBuilder();
-//            Gson gson = builder.create();
-//            String arrayString = (gson.toJson(ujson));
-            
-        }
-        while (steps < 100);
-        finish();
+        return currentGrid;
     }
     
-//    public void runSim(){
-//        Tutorial1 tute = new Tutorial1(System.currentTimeMillis());
-//        tute.start();
-//        long steps;
-//        
-//        do {
-//            
-//            if(!tute.schedule.step(tute)){
+    @Override
+    public UniformJSON getCurrentState(){
+        UniformJSON ujson = new UniformJSON();
+        //initialize
+        int[][] thisgrid;
+        long steps = 0;
+        double time = 0;
+        
+        //step
+        schedule.step(this);
+        
+        //get step details
+        thisgrid = getGrid();
+        steps = schedule.getSteps();
+        time = schedule.getTime();
+        
+        //create ujson object
+        ujson.currentGrid = thisgrid;
+        ujson.steps = steps;
+        ujson.time = time;
+        ujson.isRunning = true;
+        return ujson;
+    }
+//    public static void main(String[] args)
+//        {
+//        Tutorial1 tutorial1 = new Tutorial1(System.currentTimeMillis());
+//        tutorial1.start();
+//        long steps = 0;
+//        while(steps < 5000)
+//            {
+//            if (!tutorial1.schedule.step(tutorial1))
 //                break;
-//            }
-//            steps = tute.schedule.getSteps();
-//            int[][] currentGrid = new int[tute.gridHeight][tute.gridWidth];
-//            for(int i = 0; i < tute.gridHeight; i++){
-//                for(int j = 0; j < tute.gridWidth; j++){
-//                    currentGrid[i][j] = (tute.grid.get(i, j));
-//                    
-//                }
-//            }
+//            steps = tutorial1.schedule.getSteps();
+//            if (steps % 500 == 0)
+//                System.out.println("Steps: " + steps + " Time: " + tutorial1.schedule.getTime());
 //            
+//        tutorial1.finish();
+//        System.exit(0);
+//            }
 //        }
-//        while (steps < 100);
-//        tute.finish();
-//    }
+//   
     
     public boolean isIsRunning() {
         return isRunning;

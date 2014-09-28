@@ -6,7 +6,6 @@
 
 package com.bcis.ca.service;
 
-import com.bcis.ca.presentation.ExampleObject;
 import java.util.ArrayList;
 import javax.ejb.Stateless;
 
@@ -19,22 +18,9 @@ import javax.ejb.Stateless;
 @Stateless
 public class ExampleManager {
 
-    ArrayList<ExampleObject> examples;
-    
+   
     public ExampleManager(){
         
-    }
-    
-    public void loadAllExamples(){
-       examples = new ArrayList<>();
-       ExampleObject gameOfLife = new ExampleObject(0,
-                                                    "Game of Life - Heptomino B",
-                                                    "Steven conway's game of life simplied into a single heptomino B form. Useful for testing purposes");
-       examples.add(gameOfLife);
-    }
-
-    public ArrayList<ExampleObject> getExamples() {
-        return examples;
     }
     
 }
