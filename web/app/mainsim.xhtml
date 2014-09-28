@@ -8,8 +8,7 @@
 
     <body>
         
-        
-        <ui:composition template="./../WEB-INF/SimPageTemplate.xhtml">
+        <ui:composition id ="fraser" template="./../WEB-INF/SimPageTemplate.xhtml">
 
             <ui:define name="top">
                 <p:graphicImage value="./resources/images/ca_banner.png" style="width: 100%; height: 100px"/>
@@ -62,7 +61,7 @@
             </ui:define>
 
             <ui:define name="content">
-                <h:outputScript name="js/draw.js" target="head"/>
+                <h:outputScript name="js/Draw.js" target="head"/>
                 <h:form>
                     
                     <p:panel id="contentPanel" style='margin-bottom: 6px'>
@@ -88,7 +87,6 @@
                     </p:panel>
                 </h:form>
             </ui:define>
-
         </ui:composition>
 
     </body>

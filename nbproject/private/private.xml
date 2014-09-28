@@ -2,6 +2,26 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/CanvasHandler.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/Object.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/presentation/ExampleObjConverter.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/Ellipse.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/Rule.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/web/WEB-INF/SimPageTemplate.xhtml</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/Shape.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/Simulation.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/FileAccess.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/UniformJSON.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/Parser.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/ExampleManager.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/Agent.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/web/resources/js/Draw.js</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/sim/app/tutorial1and2/Tutorial1.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/presentation/ExampleObject.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/web/app/mainsim.xhtml</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/presentation/SimManager.java</file>
+            <file>file:/C:/Users/Hoana/Documents/CA%20project/cellular_automata/mason/com/bcis/ca/service/Rectangle.java</file>
+        </group>
     </open-files>
 </project-private>
