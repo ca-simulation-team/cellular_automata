@@ -2,3 +2,21 @@
     display: block;
     border:1px solid #000000
 }
+
+img.button_icon{
+    height: 30px;
+    width: 30px;
+}
+
+#simDetails{
+    border-bottom: #000000 solid thin;
+    border-top: #000000 solid thin;
+    background: gainsboro;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    width: 100%;
+}
+
+#controlButtons{
+    margin: 5px;
+}
