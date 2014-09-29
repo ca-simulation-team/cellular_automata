@@ -1,10 +1,18 @@
 
 
 
-function runSim(array){
+
+var simStatus = "stop";
+var simLoaded = false;
+
+var callThread;
+
+function runSim(array) {
     var canvas = $('#drawArea')[0];
     var ctx = canvas.getContext("2d");
     var values = array;
+
+
     //var values = [[0,0,0,0,0],[0,0,0,1,1],[0,1,0,1,0],[0,0,0,0,0],[0,0,0,0,0]];
     var posX = 0;
     var posY = 0;
@@ -14,6 +22,7 @@ function runSim(array){
     var isRunning = true;
     canvas.width = width;
     canvas.height = height;
+
     function drawca(){
 	for(var i = 0; i < values.length; i++){
 	    var row = values[i];
@@ -39,39 +48,54 @@ function runSim(array){
 
 
 
-
-function callJava(run){
+function controlSimulation(status) {
+    if ((status === 'play') ){
+        simStatus = 'playing';
+        callJava(true);
+    }
+        
+    if (status === 'pause')
+        simStatus = 'paused';
+    if (status === 'stop'){
+        callJava(false);
+        simStatus = 'stopped';}
     
+    
+
+}
+
+
+function callJava(isRun) {
+
     var ujson = new Object();
-    ujson.currentGrid = [[0,0,0,0,0],[0,0,0,1,1],[0,1,0,1,0],[0,0,0,0,0],[0,0,0,0,0]];
-    ujson.isRunning = false;
+    ujson.currentGrid = [[0, 0, 0, 0, 0], [0, 0, 0, 1, 1], [0, 1, 0, 1, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
+    ujson.isRunning = isRun;
     ujson.steps = 0;
     ujson.time = 0.0;
-    var isRunning = run;
-
-   
+    simLoaded = true;
+    if(simStatus ==='playing') {
     $.ajax({
         url: 'MasonRequest',
         type: 'POST',
         dataType: 'json',
-	data: JSON.stringify(ujson),
+        data: JSON.stringify(ujson),
         contentType: 'application/json',
-	success: function(data) {
-	    ujson.currentGrid = data["currentGrid"];
-	    ujson.isRunning = data["isRunning"];
-	    ujson.steps = data["steps"];
-	    ujson.time = data["time"];
+        success: function(data) {
+            ujson.currentGrid = data["currentGrid"];
+            ujson.isRunning = data["isRunning"];
+            ujson.steps = data["steps"];
+            ujson.time = data["time"];
             runSim(ujson.currentGrid);
             document.getElementById("steps").innerHTML = ujson.steps;
             document.getElementById("time").innerHTML = ujson.time;
-            if(isRunning){
-                callJava(true);
-            }
-	},
-	error: function(){
-	    alert("error error error");
-	}
+            callJava();
+                
+        },
+        error: function() {
+            alert("request/response error");
+        }
     });
-    
-    
+        
+    }
+
 }

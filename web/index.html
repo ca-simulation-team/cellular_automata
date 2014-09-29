@@ -4,6 +4,7 @@
 	<script src="resources/js/jquery-2.1.1.js" type="text/javascript"></script>
 	<script src="resources/js/simulation.js" type="text/javascript"></script>
         <script src="resources/js/bootstrap.js" type="text/javascript"></script>
+        
 	<link rel="stylesheet" href="resources/css/bootstrap.css">
 	<link rel="stylesheet" href="resources/css/style.css">
     </head>
@@ -13,16 +14,16 @@
         </div>
         <div id="simDetails" class="panel panel-default">
             <div id="controlButtons" class="btn-group panel-body">
-                <button class="btn btn-default" id="playBtn" onclick="callJava(true)">
+                <button class="btn btn-default" id="playBtn" onclick="controlSimulation('play')">
                     <img src="resources/images/icons/appbar.control.play.png" class="button_icon">
                 </button>
-                <button class="btn btn-default" id="pauseBtn">
+                <button class="btn btn-default" id="pauseBtn" onclick="controlSimulation('pause')">
                     <img src="resources/images/icons/appbar.control.pause.png" class="button_icon">
                 </button>
-                <button class="btn btn-default" id="stopBtn">
+                <button class="btn btn-default" id="stopBtn"  onclick="controlSimulation('stop')">
                     <img src="resources/images/icons/appbar.control.stop.png" class="button_icon">
                 </button>
-                <button class="btn btn-default" id="resumeBtn" onclick="callJava(false)">
+                <button class="btn btn-default" id="resumeBtn" onclick="simStatus">
                     <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
                 </button>
             </div>
