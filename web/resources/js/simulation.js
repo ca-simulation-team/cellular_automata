@@ -5,7 +5,7 @@ var callThread;
 var delay = 0;
 
 function setSpeed(value){
-    delay = value*1000;
+    delay = value*100;
 }
 
 function runSim(array) {
