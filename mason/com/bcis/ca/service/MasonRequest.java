@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.bcis.ca.service;
 
 import com.google.gson.Gson;
@@ -27,8 +26,10 @@ import sim.engine.UniformJSON;
 @WebServlet(name = "MasonRequest", urlPatterns = {"/MasonRequest"})
 public class MasonRequest extends HttpServlet {
 
+    public boolean firstRequest = true;
     @EJB
     Simulation sim;
+
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -42,15 +43,32 @@ public class MasonRequest extends HttpServlet {
             throws ServletException, IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
         String req = "";
-        if(br != null){
+
+        if (br != null) {
             req = br.readLine();
+        }
+
+        if (firstRequest) {
+            firstRequest = false;
+
+            System.err.println(req);
         }
         Gson gson = new Gson();
         UniformJSON ujObj = gson.fromJson(req, UniformJSON.class);
-        
-        
+
         response.setContentType("application/json");
-        ujObj = sim.stepThrough();
+        
+        //Need to wokr on that later on!
+        //if(ujObj.isRunning = false)
+            //sim.stopSimulation();
+        //else
+            ujObj = sim.stepThrough();
+        
+        
+
+
+        response.setContentType("application/json");
+        
         GsonBuilder builder = new GsonBuilder();
         gson = builder.create();
         String jsonContent = gson.toJson(ujObj);
