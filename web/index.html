@@ -9,7 +9,29 @@
 	<link rel="stylesheet" href="resources/css/style.css">
     </head>
     <body>
-        
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="navbar-header">
+               <a class="navbar-brand" href="#">CAMAS Team</a>
+            </div>
+            <div>
+               <ul class="nav navbar-nav">
+                  <li class="active"><a href="#">simulation</a></li>
+                  <li class="dropdown">
+                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                        Options 
+                        <b class="caret"></b>
+                     </a>
+                     <ul class="dropdown-menu">
+                        <li><a href="#">Save local</a></li>
+                        <li><a href="#">Load from file</a></li>
+                        <li><a href="#">Load pre-existing example</a></li>
+                     </ul>
+                  </li>
+                  <li><a href="#">about</a></li>
+                  <li><a href="#">help</a></li>  
+               </ul>
+            </div>
+         </nav>
         <div id="simDetails" class="panel panel-default">
             <div id="controlButtons" class="btn-group panel-body">
                 <button class="btn btn-default" id="playBtn" onclick="controlSimulation('play')">

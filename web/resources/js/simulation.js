@@ -12,8 +12,6 @@ function runSim(array) {
     var canvas = $('#drawArea')[0];
     var ctx = canvas.getContext("2d");
     var values = array;
-
-
     //var values = [[0,0,0,0,0],[0,0,0,1,1],[0,1,0,1,0],[0,0,0,0,0],[0,0,0,0,0]];
     var posX = 0;
     var posY = 0;
