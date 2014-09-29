@@ -25,7 +25,7 @@ function runSim(array){
 		}
     
 		ctx.fillRect(posX, posY, cellSize, cellSize);
-		ctx.strokeStyle = 'green';
+		ctx.strokeStyle = 'black';
 		ctx.lineWidth = 1;
 		ctx.strokeRect(posX, posY, cellSize, cellSize);
 		posX = posX + cellSize;
