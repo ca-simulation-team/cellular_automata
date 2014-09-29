@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.bcis.ca.service;
 
 import com.google.gson.Gson;
@@ -41,41 +36,39 @@ public class MasonRequest extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-        String req = "";
+                BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+                String req = "";
 
-        if (br != null) {
-            req = br.readLine();
-        }
+                if (br != null) {
+                    req = br.readLine();
+                }
 
-        if (firstRequest) {
-            firstRequest = false;
+                if (firstRequest) {
+                    firstRequest = false;
 
-            System.err.println(req);
-        }
-        Gson gson = new Gson();
-        UniformJSON ujObj = gson.fromJson(req, UniformJSON.class);
+                    System.err.println(req);
+                }
+                Gson gson = new Gson();
+                UniformJSON ujObj = gson.fromJson(req, UniformJSON.class);
 
-        response.setContentType("application/json");
-        
-        //Need to wokr on that later on!
-        //if(ujObj.isRunning = false)
-            //sim.stopSimulation();
-        //else
-            ujObj = sim.stepThrough();
-        
-        
+                //Need to wokr on that later on!
+                //if(ujObj.isRunning = false)
+                    //sim.stopSimulation();
+                //else
+                    ujObj = sim.stepThrough();
 
 
-        response.setContentType("application/json");
-        
-        GsonBuilder builder = new GsonBuilder();
-        gson = builder.create();
-        String jsonContent = gson.toJson(ujObj);
-        PrintWriter out = response.getWriter();
-        out.print(jsonContent);
-        out.close();
-        //response.getOutputStream().print(jsonContent);
+
+
+                response.setContentType("application/json");
+
+                GsonBuilder builder = new GsonBuilder();
+                gson = builder.create();
+                String jsonContent = gson.toJson(ujObj);
+                PrintWriter out = response.getWriter();
+                out.print(jsonContent);
+                out.close();
+                //response.getOutputStream().print(jsonContent);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

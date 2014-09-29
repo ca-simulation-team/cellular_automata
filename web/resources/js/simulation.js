@@ -1,11 +1,12 @@
-
-
-
-
 var simStatus = "stop";
 var simLoaded = false;
-
+var runOnce = false;
 var callThread;
+var delay = 0;
+
+function setSpeed(value){
+    delay = value*1000;
+}
 
 function runSim(array) {
     var canvas = $('#drawArea')[0];
@@ -51,25 +52,29 @@ function runSim(array) {
 function controlSimulation(status) {
     if ((status === 'play') ){
         simStatus = 'playing';
-        callJava(true);
+        runOnce = false;
+        callJava();
     }
         
     if (status === 'pause')
         simStatus = 'paused';
     if (status === 'stop'){
-        callJava(false);
+        callJava();
         simStatus = 'stopped';}
     
-    
+    if(status === 'step'){
+        simStatus = 'playing';
+        runOnce = true;
+        callJava();
+    }
 
 }
 
 
-function callJava(isRun) {
+function callJava() {
 
     var ujson = new Object();
     ujson.currentGrid = [[0, 0, 0, 0, 0], [0, 0, 0, 1, 1], [0, 1, 0, 1, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
-    ujson.isRunning = isRun;
     ujson.steps = 0;
     ujson.time = 0.0;
     simLoaded = true;
@@ -88,7 +93,11 @@ function callJava(isRun) {
             runSim(ujson.currentGrid);
             document.getElementById("steps").innerHTML = ujson.steps;
             document.getElementById("time").innerHTML = ujson.time;
-            callJava();
+            if(runOnce === false){
+                setTimeout(function(){
+                callJava();
+                },delay); 
+            }
                 
         },
         error: function() {
@@ -97,5 +106,7 @@ function callJava(isRun) {
     });
         
     }
+    
+    
 
 }

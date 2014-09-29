@@ -23,9 +23,10 @@
                 <button class="btn btn-default" id="stopBtn"  onclick="controlSimulation('stop')">
                     <img src="resources/images/icons/appbar.control.stop.png" class="button_icon">
                 </button>
-                <button class="btn btn-default" id="resumeBtn" onclick="simStatus">
+                <button class="btn btn-default" id="resumeBtn" onclick="controlSimulation('step')">
                     <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
                 </button>
+                
             </div>
             <div class="panel-footer">
                 <span>No. of Evolutions: </span>
@@ -33,6 +34,9 @@
                 <div style="width: 30px; display: inline-block"></div>
                 <span>Time passed: </span>
                 <span id="time">0.0</span>
+                <div style="width: 70px; display: inline-block"></div>
+                <span>Set Delay: </span>
+                <input type="range" min="0" max="9" value="0" step="0.5" onchange="setSpeed(this.value)" style="display: inline-block; width: 330px; position: relative; top: 6px"/>
             </div>
         </div>
 	
