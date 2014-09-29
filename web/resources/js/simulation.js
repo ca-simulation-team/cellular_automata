@@ -40,14 +40,14 @@ function runSim(array){
 
 
 
-function callJava(){
+function callJava(run){
     
     var ujson = new Object();
     ujson.currentGrid = [[0,0,0,0,0],[0,0,0,1,1],[0,1,0,1,0],[0,0,0,0,0],[0,0,0,0,0]];
     ujson.isRunning = false;
     ujson.steps = 0;
-    ujson.time = 0;
-    
+    ujson.time = 0.0;
+    var isRunning = run;
 
    
     $.ajax({
@@ -62,7 +62,11 @@ function callJava(){
 	    ujson.steps = data["steps"];
 	    ujson.time = data["time"];
             runSim(ujson.currentGrid);
-            callJava();
+            document.getElementById("steps").innerHTML = ujson.steps;
+            document.getElementById("time").innerHTML = ujson.time;
+            if(isRunning){
+                callJava(true);
+            }
 	},
 	error: function(){
 	    alert("error error error");

@@ -8,9 +8,12 @@
 	<link rel="stylesheet" href="resources/css/style.css">
     </head>
     <body>
-        <div id="simDetails">
-            <div id="controlButtons" class="btn-group">
-                <button class="btn btn-default" id="playBtn" onclick="callJava()">
+        <div class="navbar">
+            
+        </div>
+        <div id="simDetails" class="panel panel-default">
+            <div id="controlButtons" class="btn-group panel-body">
+                <button class="btn btn-default" id="playBtn" onclick="callJava(true)">
                     <img src="resources/images/icons/appbar.control.play.png" class="button_icon">
                 </button>
                 <button class="btn btn-default" id="pauseBtn">
@@ -19,6 +22,16 @@
                 <button class="btn btn-default" id="stopBtn">
                     <img src="resources/images/icons/appbar.control.stop.png" class="button_icon">
                 </button>
+                <button class="btn btn-default" id="resumeBtn" onclick="callJava(false)">
+                    <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
+                </button>
+            </div>
+            <div class="panel-footer">
+                <span>No. of Evolutions: </span>
+                <span id="steps">0</span>
+                <div style="width: 30px; display: inline-block"></div>
+                <span>Time passed: </span>
+                <span id="time">0.0</span>
             </div>
         </div>
 	
