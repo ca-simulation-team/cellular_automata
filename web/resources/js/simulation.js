@@ -72,11 +72,20 @@ function controlSimulation(status) {
 function callJava() {
 
     var ujson = new Object();
-    ujson.currentGrid = [[0, 0, 0, 0, 0], [0, 0, 0, 1, 1], [0, 1, 0, 1, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
+    ujson.currentGrid = [[0,0,0,0,0,0,0,0,0,0], 
+                         [0,0,0,0,0,0,0,0,0,0], 
+                         [0,0,0,0,0,0,0,0,0,0], 
+                         [0,0,0,0,0,0,0,0,0,0], 
+                         [0,0,0,0,1,1,0,0,0,0], 
+                         [0,0,0,0,1,1,0,0,0,0], 
+                         [0,0,0,0,0,0,0,0,0,0], 
+                         [0,0,0,0,0,0,0,0,0,0],
+                         [0,0,0,0,0,0,0,0,0,0], 
+                         [0,0,0,0,0,0,0,0,0,0]];
     ujson.steps = 0;
     ujson.time = 0.0;
     simLoaded = true;
-    if(simStatus ==='playing') {
+    if(simStatus === 'playing') {
     $.ajax({
         url: 'MasonRequest',
         type: 'POST',

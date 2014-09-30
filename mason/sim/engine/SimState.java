@@ -636,4 +636,9 @@ public class SimState implements java.io.Serializable
     public void stepMethod(){
         
     }
+    
+    public void setSeededGrid(int[][] seed)
+    {
+    
+    }
     }

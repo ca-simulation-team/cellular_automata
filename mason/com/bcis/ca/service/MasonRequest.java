@@ -22,6 +22,7 @@ import sim.engine.UniformJSON;
 public class MasonRequest extends HttpServlet {
 
     public boolean firstRequest = true;
+    public boolean seeded = true;
     @EJB
     Simulation sim;
 
@@ -55,6 +56,12 @@ public class MasonRequest extends HttpServlet {
                 //if(ujObj.isRunning = false)
                     //sim.stopSimulation();
                 //else
+                    if(seeded == true){
+                        sim.setSeed(ujObj.currentGrid);
+                        seeded = false;
+                    }
+                    
+                    sim.setSeed(ujObj.currentGrid);
                     ujObj = sim.stepThrough();
 
 

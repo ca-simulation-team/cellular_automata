@@ -19,9 +19,10 @@ public class Tutorial1 extends SimState
     public static final long serialVersionUID = 1;
     
     public IntGrid2D grid;
-    public int gridWidth = 40;
-    public int gridHeight = 40;
+    public int gridWidth = 10;
+    public int gridHeight = 10;
     int[][] currentGrid;
+    
     
     public static final int[][] b_heptomino = new int[][]
             {{0,1,1},
@@ -33,18 +34,38 @@ public class Tutorial1 extends SimState
         super(seed);
     }
     
-    void seedGrid(){
-        for(int x = 0; x < b_heptomino.length; x++){
-            for(int y = 0; y < b_heptomino[x].length; y++){
-                grid.field[x + grid.field.length/2 - b_heptomino.length/2][y + grid.field[x].length/2 - b_heptomino.length/2] = b_heptomino[x][y];
+//    void seedGrid(){
+//        for(int x = 0; x < grid.field.length; x++)
+//        {
+//            for(int y = 0; y < grid.field.length; y ++)
+//            {
+//                grid.field[x][y] = seededGrid[x][y];
+//            }
+//        }
+//    }
+    
+//    public int[][] getSeededGrid()
+//    {
+//        return seededGrid;
+//    }
+    
+    @Override
+    public void setSeededGrid(int[][] newSeededGrid)
+    {
+        grid = new IntGrid2D(gridWidth, gridHeight);
+        
+        for(int x = 0; x < 10; x++)
+        {
+            for(int y = 0; y < 10; y ++)
+            {
+                grid.field[x][y] = newSeededGrid[x][y];
             }
         }
     }
     
     public void start(){
         super.start();
-        grid = new IntGrid2D(gridWidth, gridHeight);
-        seedGrid();
+        //seedGrid();
         schedule.scheduleRepeating(new CA());
     }
     
