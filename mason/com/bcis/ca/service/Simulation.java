@@ -37,7 +37,6 @@ public class Simulation implements Serializable{
     boolean started = false;
     
     public Simulation() {
-        seed = new int[10][10];
     }
 
     
@@ -50,13 +49,7 @@ public class Simulation implements Serializable{
     }
 
     public void setSeed(int[][] newSeed){
-        for(int x = 0; x < 10; x++)
-        {
-            for(int y = 0; y < 10; y ++)
-            {
-                seed[x][y] = newSeed[x][y];
-            }
-        }
+        seed = newSeed;
     }
     
     public UniformJSON stepThrough(){
