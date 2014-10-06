@@ -4,3 +4,4 @@
 nbproject/private/private.xml
 *.properties
 nbproject/private/private.properties
+web/resources/js/ocanvas-2.7.3.min.js

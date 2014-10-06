@@ -10,8 +10,15 @@ ujson.currentGrid = [[0, 0, 0, 0, 0], [0, 0, 0, 1, 1], [0, 1, 0, 1, 0], [0, 0, 0
 ujson.steps = 0;
 ujson.time = 0.0;
 
+
 function setSpeed(value) {
     delay = value * 100;
+}
+
+function rgbToHex(r, g, b) {
+    if (r > 255 || g > 255 || b > 255)
+        throw "Invalid color component";
+    return ((r << 16) | (g << 8) | b).toString(16);
 }
 
 function setCanvasLst() {
@@ -28,12 +35,32 @@ function setCanvasLst() {
 
     canvas.addEventListener('click', function(evt) {
 
+
         var mousePos = getMousePos(canvas, evt);
+        
         var posX = (Math.floor(mousePos.x / cellSize)) * cellSize;
         var posY = (Math.floor(mousePos.y / cellSize)) * cellSize;
+        var row = (Math.floor(mousePos.x / cellSize));
+        var col = (Math.floor(mousePos.x / cellSize));
+
+
+
         var ctx = canvas.getContext("2d");
-        ctx.fillStyle = 'black';
+        var p = ctx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
+        var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+        if (hex === "#000000") {
+            ctx.fillStyle = 'white';
+            ujson.currentGrid[row][col]=1;
+        }
+        else {
+            ctx.fillStyle = 'black';
+            ujson.currentGrid[row][col]=0;
+        }
         ctx.fillRect(posX, posY, cellSize, cellSize);
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(posX, posY, cellSize, cellSize);
+        
     }, false);
 }
 
