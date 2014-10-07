@@ -6,11 +6,7 @@
 
 package sim.app.tutorial1and2;
 
-import com.bcis.ca.service.Simulation;
 import sim.engine.UniformJSON;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import javax.ejb.EJB;
 import sim.engine.*;
 import sim.field.grid.*;
 
@@ -19,39 +15,39 @@ public class Tutorial1 extends SimState
     public static final long serialVersionUID = 1;
     
     public IntGrid2D grid;
-    public int gridWidth = 40;
-    public int gridHeight = 40;
+    public int gridSize;
     int[][] currentGrid;
-    
-    public static final int[][] b_heptomino = new int[][]
-            {{0,1,1},
-            {1,1,0},
-            {0,1,1},
-            {0,0,1}};
     
     public Tutorial1(long seed){
         super(seed);
     }
     
-    void seedGrid(){
-        for(int x = 0; x < b_heptomino.length; x++){
-            for(int y = 0; y < b_heptomino[x].length; y++){
-                grid.field[x + grid.field.length/2 - b_heptomino.length/2][y + grid.field[x].length/2 - b_heptomino.length/2] = b_heptomino[x][y];
-            }
-        }
+    @Override
+    public void setSeededGrid(int[][] newSeededGrid)
+    {
+        gridSize = newSeededGrid.length;
+        
+        currentGrid = new int[gridSize][gridSize];
+        
+        currentGrid = newSeededGrid;
+    }
+    
+    public void seedGrid()
+    {
+        grid.field = currentGrid;
     }
     
     public void start(){
         super.start();
-        grid = new IntGrid2D(gridWidth, gridHeight);
+        grid = new IntGrid2D(gridSize, gridSize);
         seedGrid();
         schedule.scheduleRepeating(new CA());
     }
     
     public int[][] getGrid(){
-        currentGrid = new int[gridHeight][gridWidth];
-            for(int i = 0; i < gridHeight; i++){
-                for(int j = 0; j < gridWidth; j++){
+        currentGrid = new int[gridSize][gridSize];
+            for(int i = 0; i < gridSize; i++){
+                for(int j = 0; j < gridSize; j++){
                     currentGrid[i][j] = (grid.get(i, j));
                     
                }
@@ -82,24 +78,6 @@ public class Tutorial1 extends SimState
         ujson.isRunning = true;
         return ujson;
     }
-//    public static void main(String[] args)
-//        {
-//        Tutorial1 tutorial1 = new Tutorial1(System.currentTimeMillis());
-//        tutorial1.start();
-//        long steps = 0;
-//        while(steps < 5000)
-//            {
-//            if (!tutorial1.schedule.step(tutorial1))
-//                break;
-//            steps = tutorial1.schedule.getSteps();
-//            if (steps % 500 == 0)
-//                System.out.println("Steps: " + steps + " Time: " + tutorial1.schedule.getTime());
-//            
-//        tutorial1.finish();
-//        System.exit(0);
-//            }
-//        }
-//   
     
     public boolean isIsRunning() {
         return isRunning;

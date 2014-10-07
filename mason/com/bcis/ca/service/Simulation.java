@@ -33,24 +33,31 @@ public class Simulation implements Serializable{
     private Object[] objects;
     private Rule[] rules;
     private Agent[] agents;
+    private int[][] seed;
+    boolean started = false;
     
     public Simulation() {
-        
     }
 
     
     public void startSimulation() {
         
         this.simulationState = new Tutorial1(System.currentTimeMillis());
+        this.simulationState.setSeededGrid(seed);
         simulationState.start();
         
     }
 
+    public void setSeed(int[][] newSeed){
+        seed = newSeed;
+    }
+    
     public UniformJSON stepThrough(){
         UniformJSON ujson;
         if(simulationState == null){
             startSimulation();
         }
+        
         ujson = simulationState.getCurrentState();
         return ujson;
     }
