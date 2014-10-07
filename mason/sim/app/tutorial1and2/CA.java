@@ -53,7 +53,7 @@ public class CA implements Steppable
                             if(neighbourhood[dx][dy] == 1 && tempGrid.field[x + x2][y + y2] == 1)
                                 {
                                     count += 1;
-                                    System.out.println(count);
+                                    //System.out.println(count);
                                 }
                         }
                         
