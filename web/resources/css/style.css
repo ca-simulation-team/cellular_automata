@@ -1,6 +1,5 @@
 #drawArea{
-    display: block;
-    margin: 0 auto;
+    margin: 0;
     border:1px solid #000000
 }
 
@@ -11,4 +10,11 @@ img.button_icon{
 
 #controlButtons{
     margin: 5px;
+}
+
+#speedAdjuster{
+    display: inline-block;
+    width: 330px; 
+    position: relative;
+    top: 6px
 }

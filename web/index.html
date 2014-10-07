@@ -11,7 +11,7 @@
     <body>
         <nav class="navbar navbar-default" role="navigation">
             <div class="navbar-header">
-               <a class="navbar-brand" href="#">CAMAS Team</a>
+               <a class="navbar-brand" href="#">CAMAS Simulator</a>
             </div>
             <div>
                <ul class="nav navbar-nav">
@@ -32,37 +32,39 @@
                </ul>
             </div>
          </nav>
-        <div id="simDetails" class="panel panel-default">
-            <div id="controlButtons" class="btn-group panel-body">
-                <button class="btn btn-default" id="playBtn" onclick="controlSimulation('play')">
-                    <img src="resources/images/icons/appbar.control.play.png" class="button_icon">
-                </button>
-                <button class="btn btn-default" id="pauseBtn" onclick="controlSimulation('pause')">
-                    <img src="resources/images/icons/appbar.control.pause.png" class="button_icon">
-                </button>
-                <button class="btn btn-default" id="stopBtn"  onclick="controlSimulation('stop')">
-                    <img src="resources/images/icons/appbar.control.stop.png" class="button_icon">
-                </button>
-                <button class="btn btn-default" id="resumeBtn" onclick="controlSimulation('step')">
-                    <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
-                </button>
-                
-            </div>
-            <div class="panel-footer">
-                <span>No. of Evolutions: </span>
-                <span id="steps">0</span>
-                <div style="width: 30px; display: inline-block"></div>
-                <span>Time passed: </span>
-                <span id="time">0.0</span>
-                <div style="width: 70px; display: inline-block"></div>
-                <span>Set Delay: </span>
-                <input type="range" min="0" max="50" value="0" step="0.5" onchange="setSpeed(this.value)" style="display: inline-block; width: 330px; position: relative; top: 6px"/>
-            </div>
+        
+        <div class="well well-sm" style="margin-top: -10px">
+            <span>No. of Evolutions: </span>
+            <span id="steps">0</span>
+            <div style="width: 70px; display: inline-block"></div>
+            <span>Time passed: </span>
+            <span id="time">0.0</span>
+            <div style="width: 70px; display: inline-block"></div>
+            <span>Set Delay: </span>
+            <input id="speedAdjuster" type="range" min="0" max="50" value="0" step="0.5" onchange="setSpeed(this.value)" style=""/>
         </div>
+        <div id="controlPanel" class="panel panel-default col-md-3">
+            <div class="panel-body">
+                        <div id="controlButtons" class="btn-group btn-group-sm" style="margin: 0 auto">
+                            <button class="btn btn-default" id="playBtn" onclick="controlSimulation('play')">
+                                <img src="resources/images/icons/appbar.control.play.png" class="button_icon">
+                            </button>
+                            <button class="btn btn-default" id="pauseBtn" onclick="controlSimulation('pause')">
+                                <img src="resources/images/icons/appbar.control.pause.png" class="button_icon">
+                            </button>
+                            <button class="btn btn-default" id="stopBtn"  onclick="controlSimulation('stop')">
+                                <img src="resources/images/icons/appbar.control.stop.png" class="button_icon">
+                            </button>
+                            <button class="btn btn-default" id="resumeBtn" onclick="controlSimulation('step')">
+                                <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
+                            </button>
+                        </div> <!--button group end -->
+            </div> <!--main panel body end -->
+        </div> <!--main panel end -->
 	
-
-        <canvas id="drawArea" width="400" height="400">
-		
-	</canvas>
+        <div class="col-md-9">
+             <canvas id="drawArea" width="400" height="400"></canvas>
+        </div>
+       
     </body>
 </html>

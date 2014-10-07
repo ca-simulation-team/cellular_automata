@@ -6,7 +6,7 @@ var delay = 0;
 var cellSize = 15;
 var cnvLstSet = false;
 var ujson = new Object();
-ujson.currentGrid = [[0, 0, 0, 0, 0], [0, 0, 0, 1, 1], [0, 1, 0, 1, 0], [0, 0, 0, 0, 0], [0, 0, 0, 0, 0]];
+ujson.currentGrid = [[0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1]];
 ujson.steps = 0;
 ujson.time = 0.0;
 
@@ -134,7 +134,7 @@ function controlSimulation(status) {
 
 function callJava() {
 //part1
-    var ujson = new Object();
+    //var ujson = new Object();
     ujson.currentGrid = [[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
                          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
                          [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0], 
