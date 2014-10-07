@@ -45,8 +45,8 @@ public class CA implements Steppable {
                 // and for good measure include the cell itself
                 for (int dx = 0; dx < 5; dx++) {
                     for (int dy = 0; dy < 5; dy++) {
-                        if (x + x2 >= 0 && x + x2 < width && y + y2 >= 0 && y + y2 < height && dx != 2 && dy !=2) {
-                            if (tempGrid.field[x + x2][y + y2] != 0 && neighbourhood[dx][dy] == tempGrid.field[x + x2][y + y2]) {
+                        if (x + x2 >= 0 && x + x2 < width && y + y2 >= 0 && y + y2 < height) {
+                            if (neighbourhood[dx][dy] == 1 && tempGrid.field[x + x2][y + y2] == 1) {
                                 count += 1;
                             }
                         }
