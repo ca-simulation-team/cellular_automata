@@ -119,8 +119,8 @@ function controlSimulation(status) {
     if (status === 'pause')
         simStatus = 'paused';
     if (status === 'stop') {
+          simStatus = 'stopped';
         callJava();
-        simStatus = 'stopped';
     }
 
     if (status === 'step') {
@@ -196,7 +196,10 @@ function callJava() {
     });
 
     }
-
+       if (simStatus === 'stopped') {
+      
+        runSim(ujson.currentGrid);
+    }
 
 
 }
