@@ -44,12 +44,14 @@ public class Simulation implements Serializable{
         
         this.simulationState = new CellularAutomata(System.currentTimeMillis());
         this.simulationState.setSeededGrid(seed);
+        
         simulationState.start();
         
     }
 
     public void setSeed(int[][] newSeed){
         seed = newSeed;
+        
     }
     
     public UniformJSON stepThrough(){
@@ -84,7 +86,7 @@ public class Simulation implements Serializable{
     }
 
     public void addRule(Rule rule) {
-
+        
     }
 
     public boolean removeRule(int arrayIndex) {
