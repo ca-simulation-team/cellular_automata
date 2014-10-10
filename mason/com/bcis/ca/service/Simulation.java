@@ -73,7 +73,8 @@ public class Simulation implements Serializable{
     }
 
     public void resetSimulation() {
-        simulationState.kill();
+        simulationState.finish();
+         simulationState = null;
     }
 
     public boolean updateSimulation() {
