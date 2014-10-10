@@ -6,7 +6,7 @@ import java.io.Serializable;
 import javax.ejb.EJB;
 import javax.ejb.Stateful;
 import javax.ejb.Stateless;
-import sim.app.tutorial1and2.Tutorial1;
+import sim.app.сellularautomata.CellularAutomata;
 import sim.engine.SimState;
 import sim.engine.UniformJSON;
 
@@ -42,7 +42,7 @@ public class Simulation implements Serializable{
     
     public void startSimulation() {
         
-        this.simulationState = new Tutorial1(System.currentTimeMillis());
+        this.simulationState = new CellularAutomata(System.currentTimeMillis());
         this.simulationState.setSeededGrid(seed);
         simulationState.start();
         
