@@ -119,6 +119,7 @@ function controlSimulation(status) {
     if (status === 'pause')
         simStatus = 'paused';
     if (status === 'stop') {
+         ujson.isRunning = false;
           simStatus = 'stopped';
         callJava();
     }
@@ -196,9 +197,29 @@ function callJava() {
     });
 
     }
-       if (simStatus === 'stopped') {
-      
-        runSim(ujson.currentGrid);
+       if (simStatus == 'stopped')
+    {
+        $.ajax({
+            url: 'MasonRequest',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(ujson),
+            contentType: 'application/json',
+            success: function(data) {
+                ujson.currentGrid = data["currentGrid"];
+                ujson.isRunning = data["isRunning"];
+                ujson.steps = data["steps"];
+                ujson.time = data["time"];
+                runSim(ujson.currentGrid);
+                document.getElementById("steps").innerHTML = ujson.steps;
+                document.getElementById("time").innerHTML = ujson.time;
+               
+              
+            },
+            error: function() {
+                alert("error occured");
+            }
+        });
     }
 
 
