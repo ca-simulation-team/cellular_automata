@@ -9,7 +9,7 @@ var ujson = new Object();
 ujson.currentGrid = [[0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1]];
 ujson.steps = 0;
 ujson.time = 0.0;
-
+ ujson.isRunning = true;
 
 function setSpeed(value) {
     delay = value * 100;
