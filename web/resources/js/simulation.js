@@ -9,7 +9,7 @@ var ujson = new Object();
 ujson.currentGrid = [[0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1]];
 ujson.steps = 0;
 ujson.time = 0.0;
-
+ ujson.isRunning = true;
 
 function setSpeed(value) {
     delay = value * 100;
@@ -119,8 +119,9 @@ function controlSimulation(status) {
     if (status === 'pause')
         simStatus = 'paused';
     if (status === 'stop') {
+         ujson.isRunning = false;
+          simStatus = 'stopped';
         callJava();
-        simStatus = 'stopped';
     }
 
     if (status === 'step') {
@@ -196,7 +197,30 @@ function callJava() {
     });
 
     }
-
+       if (simStatus == 'stopped')
+    {
+        $.ajax({
+            url: 'MasonRequest',
+            type: 'POST',
+            dataType: 'json',
+            data: JSON.stringify(ujson),
+            contentType: 'application/json',
+            success: function(data) {
+                ujson.currentGrid = data["currentGrid"];
+                ujson.isRunning = data["isRunning"];
+                ujson.steps = data["steps"];
+                ujson.time = data["time"];
+                runSim(ujson.currentGrid);
+                document.getElementById("steps").innerHTML = ujson.steps;
+                document.getElementById("time").innerHTML = ujson.time;
+               
+              
+            },
+            error: function() {
+                alert("error occured");
+            }
+        });
+    }
 
 
 }

@@ -63,6 +63,10 @@ public class MasonRequest extends HttpServlet {
 
                     
                     sim.setSeed(ujObj.currentGrid);
+     if (!ujObj.isRunning) {
+            sim.resetSimulation();
+
+        }
                     ujObj = sim.stepThrough();
 
 
