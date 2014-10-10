@@ -37,29 +37,30 @@ public class MasonRequest extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-                String req = "";
+        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+        String req = "";
 
-                if (br != null) {
-                    req = br.readLine();
-                }
+        if (br != null) {
+            req = br.readLine();
+        }
 
-                if (firstRequest) {
-                    firstRequest = false;
+        if (firstRequest) {
+            firstRequest = false;
 
-                    System.err.println(req);
-                }
-                Gson gson = new Gson();
-                UniformJSON ujObj = gson.fromJson(req, UniformJSON.class);
+            System.err.println(req);
+        }
+        Gson gson = new Gson();
+        UniformJSON ujObj = gson.fromJson(req, UniformJSON.class);
 
                 //Need to wokr on that later on!
-                //if(ujObj.isRunning = false)
-                    //sim.stopSimulation();
-                //else
-                    if(seeded == true){
+        //if(ujObj.isRunning = false)
+        //sim.stopSimulation();
+        //else
+                           if(seeded == true){
                         sim.setSeed(ujObj.currentGrid);
                         seeded = false;
                     }
+
                     
                     sim.setSeed(ujObj.currentGrid);
                     ujObj = sim.stepThrough();
@@ -67,15 +68,15 @@ public class MasonRequest extends HttpServlet {
 
 
 
-                response.setContentType("application/json");
+        response.setContentType("application/json");
 
-                GsonBuilder builder = new GsonBuilder();
-                gson = builder.create();
-                String jsonContent = gson.toJson(ujObj);
-                PrintWriter out = response.getWriter();
-                out.print(jsonContent);
-                out.close();
-                //response.getOutputStream().print(jsonContent);
+        GsonBuilder builder = new GsonBuilder();
+        gson = builder.create();
+        String jsonContent = gson.toJson(ujObj);
+        PrintWriter out = response.getWriter();
+        out.print(jsonContent);
+        out.close();
+        //response.getOutputStream().print(jsonContent);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
