@@ -3,6 +3,18 @@
     border:1px solid #000000
 }
 
+#drawNeighbourhood{
+    position: relative;
+    margin: 0;
+    border:1px solid #000000
+}
+
+#neighbourhoodButton{
+    margin-left: 23px;
+    margin-top: 10px;
+    border:1px solid #000000
+}
+
 img.button_icon{
     height: 30px;
     width: 30px;

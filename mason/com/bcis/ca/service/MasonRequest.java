@@ -61,6 +61,7 @@ public class MasonRequest extends HttpServlet {
                         seeded = false;
                     }
                     
+                    sim.setNeighbourhood(ujObj.neighbourhoodGrid);
                     sim.setSeed(ujObj.currentGrid);
                     ujObj = sim.stepThrough();
 

@@ -33,7 +33,7 @@ public class Simulation implements Serializable{
     private Object[] objects;
     private Rule[] rules;
     private Agent[] agents;
-    private int[][] seed;
+    private int[][] seed, newNeighbourhood;
     boolean started = false;
     
     public Simulation() {
@@ -43,7 +43,8 @@ public class Simulation implements Serializable{
     public void startSimulation() {
         
         this.simulationState = new Tutorial1(System.currentTimeMillis());
-        this.simulationState.setSeededGrid(seed);
+        this.simulationState.setSeededGrid(seed); 
+        this.simulationState.setNeighbourhood(newNeighbourhood);
         simulationState.start();
         
     }
@@ -52,6 +53,10 @@ public class Simulation implements Serializable{
         seed = newSeed;
     }
     
+    public void setNeighbourhood(int[][] neighbourhood)
+    {
+        newNeighbourhood = neighbourhood;
+    }
     public UniformJSON stepThrough(){
         UniformJSON ujson;
         if(simulationState == null){

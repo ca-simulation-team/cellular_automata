@@ -16,14 +16,15 @@ public class CA implements Steppable
     // the width and height will change later
     public IntGrid2D tempGrid = new IntGrid2D(0,0);
     public int x2, y2;
+    public int[][] neighbourhood;
 
     public void step(SimState state)
         {
-        int neighbourhood[][] = {{0,0,1,0,0},
-                                 {0,1,1,1,0},
-                                 {1,1,0,1,1},
-                                 {0,1,1,1,0},
-                                 {0,0,1,0,0}};    
+//        int neighbourhood[][] = {{0,0,1,0,0},
+//                                 {0,1,1,1,0},
+//                                 {1,1,0,1,1},
+//                                 {0,1,1,1,0},
+//                                 {0,0,1,0,0}};    
             
         Tutorial1 tut = (Tutorial1)state;
         // first copy the grid into tempGrid
@@ -75,4 +76,9 @@ public class CA implements Steppable
                     tut.grid.field[x][y] = 1;
                 }
         }
+    
+    public void setNewNeighbourhood(int[][] newNeighbourhood)
+    {
+        neighbourhood = newNeighbourhood;
+    }
     }

@@ -641,4 +641,9 @@ public class SimState implements java.io.Serializable
     {
     
     }
+    
+    public void setNeighbourhood(int[][] neighbourhood)
+    {
+    
+    }
     }
