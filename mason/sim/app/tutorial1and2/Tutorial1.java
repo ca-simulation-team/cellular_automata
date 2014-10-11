@@ -16,6 +16,7 @@ public class Tutorial1 extends SimState
     
     public IntGrid2D grid;
     public int gridSize;
+    public CA ca;
     int[][] currentGrid;
     
     public Tutorial1(long seed){
@@ -41,7 +42,14 @@ public class Tutorial1 extends SimState
         super.start();
         grid = new IntGrid2D(gridSize, gridSize);
         seedGrid();
-        schedule.scheduleRepeating(new CA());
+        schedule.scheduleRepeating(ca);
+    }
+    
+    @Override
+    public void setNeighbourhood(int[][] neighbourhood)
+    {
+        ca = new CA();
+        ca.setNewNeighbourhood(neighbourhood);
     }
     
     public int[][] getGrid(){

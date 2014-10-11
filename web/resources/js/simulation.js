@@ -7,6 +7,12 @@ var cellSize = 15;
 var cnvLstSet = false;
 var ujson = new Object();
 ujson.currentGrid = [[0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1], [0, 0, 0, 0, 0, 1]];
+
+ujson.neighbourhoodGrid = [[0,0,1,0,0],
+                           [0,1,1,1,0],
+                           [1,1,0,1,1],
+                           [0,1,1,1,0],
+                           [0,0,1,0,0]];
 ujson.steps = 0;
 ujson.time = 0.0;
 
@@ -64,7 +70,20 @@ function setCanvasLst() {
     }, false);
 }
 
-
+function drawNeighbourhoodGrid()
+{
+    var canvas = $('#drawNeighbourhood')[0];
+    var ctx = canvas.getContext("2d");
+    
+    for(var x = 0; x < 5; x++)
+    {
+        for(var y = 0; y < 5; y++)
+        {
+            ctx.fillStyle = "black";
+            ctx.fillRect(x*40, y*40, 40, 40);
+        }
+    }
+}
 
 function runSim(array) {
     if (!cnvLstSet) {
@@ -131,6 +150,19 @@ function controlSimulation(status) {
 
 }
 
+function createNeighbourhood()
+{
+    document.getElementById("drawArea").style.display = "none";
+    document.getElementById("neighbourhoodButton").style.display = "block";
+    document.getElementById("drawNeighbourhood").style.display = "block";
+    drawNeighbourhoodGrid();
+    
+}
+
+function setNeighbourhood()
+{
+    ujson.neighbourhoodGrid = data["neighbourhoodGrid"];
+}
 
 function callJava() {
 //part1

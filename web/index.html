@@ -27,8 +27,9 @@
                         <li><a href="#">Load pre-existing example</a></li>
                      </ul>
                   </li>
-                  <li><a href="#">About</a></li>
+                  <li><a href="#">About</a></li> 
                   <li><a href="#">Help</a></li>  
+                  <li><a href="#" onclick="createNeighbourhood()">create neighbourhood</a></li> 
                </ul>
             </div>
          </nav>
@@ -63,7 +64,9 @@
         </div> <!--main panel end -->
 	
         <div class="col-md-9">
-             <canvas id="drawArea" width="400" height="400"></canvas>
+             <canvas id="drawArea" width="400" height="400" style="display: block"></canvas>
+             <canvas id="drawNeighbourhood" width="200" height="200" style="display: none"></canvas>
+             <Button id="neighbourhoodButton" style="display: none"> create neighbourhood </Button>
         </div>
        
     </body>
