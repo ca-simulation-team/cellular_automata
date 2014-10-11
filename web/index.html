@@ -15,18 +15,16 @@
             </div>
             <div>
                <ul class="nav navbar-nav">
-                  <li class="active"><a href="#">simulation</a></li>
                   <li class="dropdown">
-                     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-                        Options 
-                        <b class="caret"></b>
-                     </a>
-                     <ul class="dropdown-menu">
-                        <li><a href="#">Save local</a></li>
-                        <li><a href="#">Load from file</a></li>
-                        <li><a href="#">Load pre-existing example</a></li>
-                     </ul>
-                  </li>
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Simulation<span class="caret"></span></a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li><a href="#">Create new CA simulation</a></li>
+                            <li><a href="#">Create new MA simulation</a></li>
+                            <li><a href="#">Download</a></li>
+                            <li><a href="#">Load from file</a></li>
+                            <li><a href="#">Load Example</a></li>
+                        </ul>
+                    </li>
                   <li><a href="#">About</a></li>
                   <li><a href="#">Help</a></li>  
                </ul>
@@ -40,31 +38,63 @@
             <span>Time passed: </span>
             <span id="time">0.0</span>
             <div style="width: 70px; display: inline-block"></div>
-            <span>Set Delay: </span>
-            <input id="speedAdjuster" type="range" min="0" max="50" value="0" step="0.5" onchange="setSpeed(this.value)" style=""/>
         </div>
         <div id="controlPanel" class="panel panel-default col-md-3">
             <div class="panel-body">
-                        <div id="controlButtons" class="btn-group btn-group-sm" style="margin: 0 auto">
-                            <button class="btn btn-default" id="playBtn" onclick="controlSimulation('play')">
-                                <img src="resources/images/icons/appbar.control.play.png" class="button_icon">
-                            </button>
-                            <button class="btn btn-default" id="pauseBtn" onclick="controlSimulation('pause')">
-                                <img src="resources/images/icons/appbar.control.pause.png" class="button_icon">
-                            </button>
-                            <button class="btn btn-default" id="stopBtn"  onclick="controlSimulation('stop')">
-                                <img src="resources/images/icons/appbar.control.stop.png" class="button_icon">
-                            </button>
-                            <button class="btn btn-default" id="resumeBtn" onclick="controlSimulation('step')">
-                                <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
-                            </button>
-                        </div> <!--button group end -->
+                <div id="controlButtons" class="btn-group btn-group-sm" style="margin: 0 auto">
+                    <button class="btn btn-default" id="playBtn" onclick="controlSimulation('play')">
+                        <img src="resources/images/icons/appbar.control.play.png" class="button_icon">
+                    </button>
+                    <button class="btn btn-default" id="pauseBtn" onclick="controlSimulation('pause')">
+                        <img src="resources/images/icons/appbar.control.pause.png" class="button_icon">
+                    </button>
+                    <button class="btn btn-default" id="stopBtn"  onclick="controlSimulation('stop')">
+                        <img src="resources/images/icons/appbar.control.stop.png" class="button_icon">
+                    </button>
+                    <button class="btn btn-default" id="resumeBtn" onclick="controlSimulation('step')">
+                        <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
+                    </button>
+                </div> <!--button group end -->
+                
+                <hr/>
+                <ul class="nav nav-tabs" role="tablist" id="myTab">
+                    <li><a href="#model" role="tab" data-toggle="tab">Model</a></li>
+                    <li class="active"><a href="#parameters" role="tab" data-toggle="tab">Parameters</a></li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane" id="model">
+                        <div class="sidemenuitem">
+                            <span>Grid Size:</span><br/>
+                            <input type="number" id="xVal" style="width:50px; display: inline"/>x<input type="number" id="yVal" style="width:50px; display: inline"/>
+                        </div>
+                        <div class="sidemenuitem">
+                            <span>States:</span><br/>
+                            <button type="button" class="btn btn-default">Add state</button><br/>
+                            <span>Dead - color: white</span><br/>
+                            <span>Alive - color: black</span><br/>
+                        </div>
+                        <div class="sidemenuitem_bottom">
+                            <span>Rules:</span><br/>
+                            <button type="button" class="btn btn-default">Add Rule</button><br/>
+                            <span>if cell is alive and there are 3 or more neighbours cell dies</span><br/>
+                            <span>if cell is dead and there are 3 neighbours cell lives</span><br/>
+                            <span>if cell is alive and there are 2 or less neighbours cell dies</span><br/>
+                        </div>
+                    </div>
+                    <div class="tab-pane active" id="parameters">
+                        <div class="sidemenuitem_bottom">
+                            <span>Set delay:</span><br/>
+                            <input id="speedAdjuster" type="range" min="0" max="40" value="0" step="0.1" onchange="setSpeed(this.value)"/>
+                        </div>
+                        
+                    </div>
+                </div>
             </div> <!--main panel body end -->
         </div> <!--main panel end -->
 	
         <div class="col-md-9">
              <canvas id="drawArea" width="400" height="400"></canvas>
         </div>
-       
+      
     </body>
 </html>

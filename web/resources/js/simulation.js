@@ -12,7 +12,7 @@ ujson.time = 0.0;
 
 
 function setSpeed(value) {
-    delay = value * 100;
+    delay = value * 10;
 }
 
 function rgbToHex(r, g, b) {
@@ -33,7 +33,7 @@ function setCanvasLst() {
     var canvas = $('#drawArea')[0];
     var context = canvas.getContext('2d');
 
-    canvas.addEventListener('click', function(evt) {
+    canvas.addEventListener('drag', function(evt) {
 
 
         var mousePos = getMousePos(canvas, evt);

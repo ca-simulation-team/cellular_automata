@@ -18,3 +18,19 @@ img.button_icon{
     position: relative;
     top: 6px
 }
+
+div.sidemenuitem {
+    padding-top: 10px;
+    padding-bottom: 15px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+    border-bottom:1px solid grey;
+    
+}
+
+div.sidemenuitem_bottom {
+    padding-top: 10px;
+    padding-bottom: 15px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
