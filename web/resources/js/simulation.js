@@ -52,7 +52,7 @@ ujson.time = 0.0;
 ujson.isRunning = true;
 ujson.gridUpdated = false;
 function setSpeed(value) {
-    delay = value * 10;
+    delay = value * 100;
 }
 
 function rgbToHex(r, g, b) {
