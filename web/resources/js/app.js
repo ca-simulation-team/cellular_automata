@@ -1,4 +1,4 @@
-var ca_app = angular.module('ca_app', []);
+var ca_app = angular.module('ca_app', ['simController']);
 
 ca_app.directive('navigationBar', function(){
     return {

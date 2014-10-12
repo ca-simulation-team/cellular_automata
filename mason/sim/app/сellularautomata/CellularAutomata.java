@@ -1,8 +1,3 @@
-/*
- Copyright 2006 by Sean Luke and George Mason University
- Licensed under the Academic Free License version 3.0
- See the file "LICENSE" for more information
- */
 package sim.app.сellularautomata;
 
 import sim.engine.UniformJSON;
@@ -15,10 +10,9 @@ public class CellularAutomata extends SimState {
 
     public IntGrid2D grid;
     public int gridSize;
-    public CA ca;
     int[][] currentGrid;
-    private CA cellAuto;
-
+    public stepper stepper;
+    
     public CellularAutomata(long seed) {
         super(seed);
     }
@@ -41,20 +35,9 @@ public class CellularAutomata extends SimState {
         grid = new IntGrid2D(gridSize, gridSize);
         seedGrid();
 
-        schedule.scheduleRepeating(ca);
+        schedule.scheduleRepeating(stepper);
     }
     
-    @Override
-    public void setNeighbourhood(int[][] neighbourhood)
-    {
-        ca = new CA();
-        ca.setNewNeighbourhood(neighbourhood);
-
-        cellAuto = new CA();
-        setConditionalParams(5, 2, 3);//default values are 5 2 3
-        schedule.scheduleRepeating(cellAuto);
-
-    }
 
     public int[][] getGrid() {
         currentGrid = new int[gridSize][gridSize];
@@ -95,13 +78,7 @@ public class CellularAutomata extends SimState {
         return isRunning;
     }
 
-    public void setConditionalParams(int deadCondMax, int deadCondMin,int liveCond) {
-        cellAuto.setDeadCondCountMax(deadCondMax);//default 5
-        cellAuto.setDeadCondCountMin(deadCondMin);//default 2
-        cellAuto.setLiveCondCount(liveCond);//default 3
-
-    }
-
+    
     public void setIsRunning(boolean isRunning) {
         this.isRunning = isRunning;
     }
