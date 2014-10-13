@@ -1,40 +1,48 @@
 <div id="controlPanel" class="panel panel-default col-md-3">
     <div class="panel-body">
         <div id="controlButtons" class="btn-group btn-group-sm" style="margin: 0 auto">
-            <button class="btn btn-default" id="playBtn" onclick="controlSimulation('play')">
+            <button class="btn btn-default" id="playBtn" onclick="controlSimulation('play')" ng-disabled="!simLoaded">
                 <img src="resources/images/icons/appbar.control.play.png" class="button_icon">
             </button>
-            <button class="btn btn-default" id="pauseBtn" onclick="controlSimulation('pause')">
+            <button class="btn btn-default" id="pauseBtn" onclick="controlSimulation('pause')" ng-disabled="!simLoaded">
                 <img src="resources/images/icons/appbar.control.pause.png" class="button_icon">
             </button>
-            <button class="btn btn-default" id="stopBtn"  onclick="controlSimulation('stop')">
+            <button class="btn btn-default" id="stopBtn"  onclick="controlSimulation('stop')" ng-disabled="!simLoaded">
                 <img src="resources/images/icons/appbar.control.stop.png" class="button_icon">
             </button>
-            <button class="btn btn-default" id="resumeBtn" onclick="controlSimulation('step')">
+            <button class="btn btn-default" id="resumeBtn" onclick="controlSimulation('step')" ng-disabled="!simLoaded">
                 <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
             </button>
         </div> <!--button group end -->
 
         <hr/>
         <ul class="nav nav-tabs" role="tablist" id="myTab">
-            <li><a href="#model" role="tab" data-toggle="tab">Model</a></li>
-            <li class="active"><a href="#parameters" role="tab" data-toggle="tab">Parameters</a></li>
+            <li class="active"><a href="#model" role="tab" data-toggle="tab">Model</a></li>
+            <li><a href="#parameters" role="tab" data-toggle="tab">Parameters</a></li>
         </ul>
         <div class="tab-content">
             <div class="tab-pane" id="model">
-                <div class="sidemenuitem">
-                    <span>States:</span><br/>
-                    <button type="button" class="btn btn-default">Add state</button><br/>
-                    <span>Dead - color: white</span><br/>
-                    <span>Alive - color: black</span><br/>
+                <div ng-show="!simLoaded">
+                    <button class="btn btn-default" type="button" ng-click="createNewSim()">Create New CA Simulation</button>
                 </div>
-                <div class="sidemenuitem_bottom">
-                    <span>Rules:</span><br/>
-                    <button type="button" class="btn btn-default">Add Rule</button><br/>
-                    <span>if cell is alive and there are 3 or more neighbours cell dies</span><br/>
-                    <span>if cell is dead and there are 3 neighbours cell lives</span><br/>
-                    <span>if cell is alive and there are 2 or less neighbours cell dies</span><br/>
+                <div ng-show="simLoaded">
+                    <div class="sidemenuitem">
+                        <span>States:</span><br/>
+                        <button type="button" class="btn btn-default">Add state</button><br/>
+
+                    </div>
+                    <div class="sidemenuitem">
+                        <span>States:</span><br/>
+                        <button type="button" class="btn btn-default">Add state</button><br/>
+
+                    </div>
+                        <div class="sidemenuitem_bottom">
+                        <span>Rules:</span><br/>
+                        <button type="button" class="btn btn-default">Add Rule</button><br/>
+
+                    </div>
                 </div>
+                
             </div>
             <div class="tab-pane active" id="parameters">
                 <div class="sidemenuitem_bottom">

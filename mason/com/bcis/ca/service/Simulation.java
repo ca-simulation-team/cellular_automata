@@ -1,12 +1,8 @@
 package com.bcis.ca.service;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import java.io.Serializable;
-import javax.ejb.EJB;
-import javax.ejb.Stateful;
 import javax.ejb.Stateless;
-import sim.app.tutorial1and2.Tutorial1;
+import sim.app.Bellularautomata.CellularAutomata;
 import sim.engine.SimState;
 import sim.engine.UniformJSON;
 
@@ -35,16 +31,26 @@ public class Simulation implements Serializable{
     private Agent[] agents;
     private int[][] seed, newNeighbourhood;
     boolean started = false;
-    
+    int[][] initial = {{0,0,0,0,0,0,0},
+                           {0,0,1,0,1,0,0},
+                           {0,0,1,0,1,1,0},
+                           {0,0,1,1,1,0,0},
+                           {0,0,0,1,0,0,0},
+                           {0,0,0,0,0,0,0},
+                           {0,0,0,0,0,0,0}};
     public Simulation() {
     }
 
     
     public void startSimulation() {
         
-        this.simulationState = new Tutorial1(System.currentTimeMillis());
-        this.simulationState.setSeededGrid(seed); 
-        this.simulationState.setNeighbourhood(newNeighbourhood);
+        this.simulationState = new CellularAutomata(System.currentTimeMillis());
+        this.simulationState.setSeededGrid(initial); 
+        this.simulationState.addRule(1, 1, 3, 1, 0);
+        this.simulationState.addRule(1, 1, 3, 0, 1);
+        this.simulationState.addRule(1, 1, 3, 2, 0);
+        this.simulationState.addRule(0, 1, 3, 0, 1);
+        //this.simulationState.setNeighbourhood(newNeighbourhood);
         simulationState.start();
         
     }

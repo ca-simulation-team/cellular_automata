@@ -1,4 +1,4 @@
-package sim.app.сellularautomata;
+package sim.app.Bellularautomata;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,14 +13,13 @@ public class CellularAutomata extends SimState {
     public IntGrid2D grid;
     public int gridSize;
     int[][] currentGrid;
-    public stepper stepper;
     public List<Rule> rules = new ArrayList<>();
     
     public CellularAutomata(long seed) {
         super(seed);
     }
 
-    @Override
+    
     public void setSeededGrid(int[][] newSeededGrid) {
         gridSize = newSeededGrid.length;
 
@@ -38,7 +37,7 @@ public class CellularAutomata extends SimState {
         grid = new IntGrid2D(gridSize, gridSize);
         seedGrid();
 
-        schedule.scheduleRepeating(stepper);
+        schedule.scheduleRepeating(new Stepper());
     }
     
 
@@ -53,14 +52,14 @@ public class CellularAutomata extends SimState {
         return currentGrid;
     }
 
-    @Override
+    
     public UniformJSON getCurrentState() {
         UniformJSON ujson = new UniformJSON();
         //initialize
         int[][] thisgrid;
         long steps = 0;
         double time = 0;
-        
+        System.out.println("getting step");
         //step
         schedule.step(this);
 
@@ -77,15 +76,6 @@ public class CellularAutomata extends SimState {
         return ujson;
     }
 
-    public boolean isIsRunning() {
-        return isRunning;
-    }
-
-    
-    public void setIsRunning(boolean isRunning) {
-        this.isRunning = isRunning;
-    }
-
     public void addRule(int currentState, int neighbourState, int noOfNeighbours, int equalityModifier, int nextStep){
         Rule rule = new Rule();
         rule.setCurrentCellState(currentState);
@@ -95,4 +85,6 @@ public class CellularAutomata extends SimState {
         rule.setNextState(nextStep);
         rules.add(rule);
     }
+    
+    
 }

@@ -44,11 +44,11 @@ public class MasonRequest extends HttpServlet {
                     req = br.readLine();
                 }
 
-                if (firstRequest) {
-                    firstRequest = false;
-
-                    System.err.println(req);
-                }
+//                if (firstRequest) {
+//                    firstRequest = false;
+//
+//                    System.err.println(req);
+//                }
                 Gson gson = new Gson();
                 UniformJSON ujObj = gson.fromJson(req, UniformJSON.class);
 
@@ -56,13 +56,13 @@ public class MasonRequest extends HttpServlet {
                 //if(ujObj.isRunning = false)
                     //sim.stopSimulation();
                 //else
-                    if(seeded == true){
-                        sim.setSeed(ujObj.currentGrid);
-                        seeded = false;
-                    }
-                    
-                    sim.setNeighbourhood(ujObj.neighbourhoodGrid);
-                    sim.setSeed(ujObj.currentGrid);
+//                    if(seeded == true){
+//                        sim.setSeed(ujObj.currentGrid);
+//                        seeded = false;
+//                    }
+//                    
+//                    sim.setNeighbourhood(ujObj.neighbourhoodGrid);
+//                    sim.setSeed(ujObj.currentGrid);
                     ujObj = sim.stepThrough();
 
 

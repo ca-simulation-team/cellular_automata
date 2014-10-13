@@ -1,4 +1,4 @@
-var ca_app = angular.module('ca_app', ['simController']);
+var ca_app = angular.module('ca_app',['ca_app.simController']);
 
 ca_app.directive('navigationBar', function(){
     return {
@@ -20,4 +20,3 @@ ca_app.directive('controlPanel', function(){
         templateUrl: 'resources/templates/control-panel.html'
     };
 });
-
