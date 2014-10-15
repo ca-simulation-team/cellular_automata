@@ -43,10 +43,16 @@ simCtrl.controller('simulationControl', function($scope){
         if(defaultStateRemoved === false){
             $scope.simObject.states.pop();
             defaultStateRemoved = true;
+            var stateIndex = $scope.simObject.states.length;
+            var state = {stateIndex: stateIndex, stateName : $scope.stateName, stateColor : $scope.stateColor};
+            $scope.simObject.states.push(state);
+            $scope.stateSelected = state;
+            runSim($scope.simObject.currentGrid);
+        } else {
+            var stateIndex = $scope.simObject.states.length;
+            var state = {stateIndex: stateIndex, stateName : $scope.stateName, stateColor : $scope.stateColor};
+            $scope.simObject.states.push(state);
         }
-        var stateIndex = $scope.simObject.states.length;
-        var state = {stateIndex: stateIndex, stateName : $scope.stateName, stateColor : $scope.stateColor};
-        $scope.simObject.states.push(state);
     }
     
     $scope.addRule = function(){
