@@ -21,30 +21,61 @@
             <li><a href="#parameters" role="tab" data-toggle="tab">Parameters</a></li>
         </ul>
         <div class="tab-content">
-            <div class="tab-pane" id="model">
+            <div class="tab-pane active" id="model">
                 <div ng-show="!simLoaded">
-                    <button class="btn btn-default" type="button" ng-click="createNewSim()">Create New CA Simulation</button>
+                    <div class="sidemenuitem">
+                        <button class="btn btn-default" type="button" ng-click="createNewSim()">Create New CA Simulation</button>
+                    </div>
+                    
                 </div>
                 <div ng-show="simLoaded">
                     <div class="sidemenuitem">
-                        <span>States:</span><br/>
-                        <button type="button" class="btn btn-default">Add state</button><br/>
-
+                        <span>States</span><br/>
+                        <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#createState">Create New State</button>
+                        <div id="createState" class="collapse">
+                            <input type="text" class="form-control" placeholder="State Name" ng-model="stateName" style="margin-top: 10px"/>
+                            <span>Color: </span><input type="color" class="form-control" ng-model="stateColor" style="margin-top: 10px; width: 120px; display: inline"/>
+                            <button type="button" class="btn btn-default" ng-click="addState()" style="margin-top: 10px; float: right">Add</button>
+                        </div>
+                        <div class="radio" ng-repeat="state in simObject.states">
+                            <label>
+                                <input type="radio" name="states" id="states" ng-model="$parent.stateSelected" ng-value="state"/>
+                                {{state.stateIndex}} - {{state.stateName}} 
+                            </label>
+                        </div>
                     </div>
-                    <div class="sidemenuitem">
-                        <span>States:</span><br/>
-                        <button type="button" class="btn btn-default">Add state</button><br/>
-
-                    </div>
-                        <div class="sidemenuitem_bottom">
-                        <span>Rules:</span><br/>
-                        <button type="button" class="btn btn-default">Add Rule</button><br/>
-
+                    <div class="sidemenuitem_bottom">
+                        <span>Rules</span><br/>
+                        <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#createRule">Create New Rule</button>
+                        <div id="createRule" class="collapse">
+                            <span>If cell state is: </span>
+                            <select class="form-control" ng-model="ruleCurrentState" ng-options="state.stateIndex for state in simObject.states"></select>
+                            <span>and the state of the neighbors are:</span>
+                            <select class="form-control" ng-model="ruleNeighborState" ng-options="state.stateIndex for state in simObject.states"></select>
+                            <span>and the number of neighbors the cell has is:</span>
+                           <select class="form-control" ng-model="ruleNeighborCount" ng-options="possible for possible in possibleNeighbors"></select>
+                            <span>and the neighbor count should be:</span>
+                            <select class="form-control" ng-model="ruleEqualityModifier">
+                                <option ng-value="0">Equal to value</option>
+                                <option ng-value="1">Less than value</option>
+                                <option ng-value="2">Greater than value</option>
+                            </select>
+                            <span>The state of cell must change into</span>
+                            <select class="form-control" ng-model="ruleNextState" ng-options="state.stateIndex for state in simObject.states"></select>
+                            
+                            <button type="button" class="btn btn-default" ng-click="addRule()" style="margin-top: 10px">Add</button>
+                        </div>
+                        <ul class="list-group">
+                            <li class="list-group-item" ng-repeat="rule in simObject.rules">
+                                Current state: {{rule.currentState}}, Neighbor state: {{rule.neighborState}},
+                                Neighbor Count: {{rule.neighborCount}}, Equality Modifier: {{rule.equalityModifier}},
+                                Next State: {{rule.nextState}}
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                
             </div>
-            <div class="tab-pane active" id="parameters">
+            <div class="tab-pane" id="parameters">
                 <div class="sidemenuitem_bottom">
                     <span>Set delay:</span><br/>
                     <input id="speedAdjuster" type="range" min="0" max="40" value="0" step="0.1" onchange="setSpeed(this.value)"/>

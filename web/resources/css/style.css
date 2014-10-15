@@ -36,7 +36,7 @@ div.sidemenuitem {
     padding-bottom: 15px;
     margin-top: 4px;
     margin-bottom: 4px;
-    border-bottom:1px solid grey;
+    border-bottom:1px solid lightgrey;
     
 }
 
@@ -45,4 +45,14 @@ div.sidemenuitem_bottom {
     padding-bottom: 15px;
     margin-top: 4px;
     margin-bottom: 4px;
+}
+
+#createState {
+    padding: 10px;
+    border:1px solid lightgrey;
+}
+
+#createRule {
+    padding: 10px;
+    border:1px solid lightgrey;
 }

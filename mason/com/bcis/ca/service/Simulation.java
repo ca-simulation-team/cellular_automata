@@ -47,8 +47,7 @@ public class Simulation implements Serializable{
         this.simulationState = new CellularAutomata(System.currentTimeMillis());
         this.simulationState.setSeededGrid(initial); 
         this.simulationState.addRule(1, 1, 3, 1, 0);
-        this.simulationState.addRule(1, 1, 3, 0, 1);
-        this.simulationState.addRule(1, 1, 3, 2, 0);
+        this.simulationState.addRule(1, 1, 4, 2, 0);
         this.simulationState.addRule(0, 1, 3, 0, 1);
         //this.simulationState.setNeighbourhood(newNeighbourhood);
         simulationState.start();

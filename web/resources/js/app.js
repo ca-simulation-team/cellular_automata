@@ -20,3 +20,4 @@ ca_app.directive('controlPanel', function(){
         templateUrl: 'resources/templates/control-panel.html'
     };
 });
+
