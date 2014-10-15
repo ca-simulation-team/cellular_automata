@@ -61,66 +61,66 @@ function rgbToHex(r, g, b) {
     return ((r << 16) | (g << 8) | b).toString(16);
 }
 
-function setCanvasLst() {
-
-    function getMousePos(canvas, evt) {
-        var rect = canvas.getBoundingClientRect();
-        return {
-            x: evt.clientX - rect.left,
-            y: evt.clientY - rect.top
-        };
-    }
-    
-    var canvas = $('#drawArea')[0];
-    
-    var context = canvas.getContext('2d');
-
-
-    //not sure how to do that! - Vadim
-    canvas.addEventListener('mousedown', function(evt) {
-
-
-        canvas.addEventListener('mousemove',drawOnCanvas(evt), false);
-    }, false);
-
-
-
-
-    
-    
-    function drawOnCanvas(evt) {
-
-        var mousePos = getMousePos(canvas, evt);
-
-        var posX = (Math.floor(mousePos.x / cellSize)) * cellSize;
-        var posY = (Math.floor(mousePos.y / cellSize)) * cellSize;
-        var row = (Math.floor(mousePos.x / cellSize));
-        var col = (Math.floor(mousePos.x / cellSize));
-
-
-
-        var ctx = canvas.getContext("2d");
-        var p = ctx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
-        var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
-        if (hex === "#000000") {
-            ctx.fillStyle = 'white';
-            ujson.currentGrid[row][col] = 0;
-        }
-        else {
-            ctx.fillStyle = 'black';
-            ujson.currentGrid[row][col] = 1;
-        }
-        ctx.fillRect(posX, posY, cellSize, cellSize);
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 1;
-        ctx.strokeRect(posX, posY, cellSize, cellSize);
-        ujson.gridUpdated = true;
-
-
-    }
-
-
-}
+//function setCanvasLst() {
+//
+//    function getMousePos(canvas, evt) {
+//        var rect = canvas.getBoundingClientRect();
+//        return {
+//            x: evt.clientX - rect.left,
+//            y: evt.clientY - rect.top
+//        };
+//    }
+//    
+//    var canvas = $('#drawArea')[0];
+//    
+//    var context = canvas.getContext('2d');
+//
+//
+//    //not sure how to do that! - Vadim
+//    canvas.addEventListener('mousedown', function(evt) {
+//
+//
+//        canvas.addEventListener('mousemove',drawOnCanvas(evt), false);
+//    }, false);
+//
+//
+//
+//
+//    
+//    
+//    function drawOnCanvas(evt) {
+//
+//        var mousePos = getMousePos(canvas, evt);
+//
+//        var posX = (Math.floor(mousePos.x / cellSize)) * cellSize;
+//        var posY = (Math.floor(mousePos.y / cellSize)) * cellSize;
+//        var row = (Math.floor(mousePos.x / cellSize));
+//        var col = (Math.floor(mousePos.x / cellSize));
+//
+//
+//
+//        var ctx = canvas.getContext("2d");
+//        var p = ctx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
+//        var hex = "#" + ("000000" + rgbToHex(p[0], p[1], p[2])).slice(-6);
+//        if (hex === "#000000") {
+//            ctx.fillStyle = 'white';
+//            ujson.currentGrid[row][col] = 0;
+//        }
+//        else {
+//            ctx.fillStyle = 'black';
+//            ujson.currentGrid[row][col] = 1;
+//        }
+//        ctx.fillRect(posX, posY, cellSize, cellSize);
+//        ctx.strokeStyle = 'black';
+//        ctx.lineWidth = 1;
+//        ctx.strokeRect(posX, posY, cellSize, cellSize);
+//        ujson.gridUpdated = true;
+//
+//
+//    }
+//
+//
+//}
 
 function createNeighbourhood()
 {
@@ -242,46 +242,46 @@ function doMouseDown(event)
     
 }
 
-function runSim(array) {
-    if (!cnvLstSet) {
-        setCanvasLst();
-        cnvLstSet = true;
-    }
-    var canvas = $('#drawArea')[0];
-    var ctx = canvas.getContext("2d");
-    var values = array;
-    //var values = [[0,0,0,0,0],[0,0,0,1,1],[0,1,0,1,0],[0,0,0,0,0],[0,0,0,0,0]];
-    var posX = 0;
-    var posY = 0;
-
-    var width = values.length * cellSize;
-    var height = values.length * cellSize;
-    var isRunning = true;
-    canvas.width = width;
-    canvas.height = height;
-
-    function drawca() {
-        for (var i = 0; i < values.length; i++) {
-            var row = values[i];
-            for (var j = 0; j < row.length; j++) {
-                if (row[j] === 1) {
-                    ctx.fillStyle = 'black';
-                } else {
-                    ctx.fillStyle = 'white';
-                }
-
-                ctx.fillRect(posX, posY, cellSize, cellSize);
-                ctx.strokeStyle = 'black';
-                ctx.lineWidth = 1;
-                ctx.strokeRect(posX, posY, cellSize, cellSize);
-                posX = posX + cellSize;
-            }
-            posX = 0;
-            posY = posY + cellSize;
-        }
-    }
-    drawca();
-}
+//function runSim(array) {
+//    if (!cnvLstSet) {
+//        setCanvasLst();
+//        cnvLstSet = true;
+//    }
+//    var canvas = $('#drawArea')[0];
+//    var ctx = canvas.getContext("2d");
+//    var values = array;
+//    //var values = [[0,0,0,0,0],[0,0,0,1,1],[0,1,0,1,0],[0,0,0,0,0],[0,0,0,0,0]];
+//    var posX = 0;
+//    var posY = 0;
+//
+//    var width = values.length * cellSize;
+//    var height = values.length * cellSize;
+//    var isRunning = true;
+//    canvas.width = width;
+//    canvas.height = height;
+//
+//    function drawca() {
+//        for (var i = 0; i < values.length; i++) {
+//            var row = values[i];
+//            for (var j = 0; j < row.length; j++) {
+//                if (row[j] === 1) {
+//                    ctx.fillStyle = 'black';
+//                } else {
+//                    ctx.fillStyle = 'white';
+//                }
+//
+//                ctx.fillRect(posX, posY, cellSize, cellSize);
+//                ctx.strokeStyle = 'black';
+//                ctx.lineWidth = 1;
+//                ctx.strokeRect(posX, posY, cellSize, cellSize);
+//                posX = posX + cellSize;
+//            }
+//            posX = 0;
+//            posY = posY + cellSize;
+//        }
+//    }
+//    drawca();
+//}
 
 
 
