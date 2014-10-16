@@ -37,9 +37,9 @@
                             <span>Color: </span><input type="color" class="form-control" ng-model="stateColor" style="margin-top: 10px; width: 120px; display: inline"/>
                             <button type="button" class="btn btn-default" ng-click="addState()" style="margin-top: 10px; float: right">Add</button>
                         </div>
-                        <div class="radio" ng-repeat="state in draw_service.simObject.states">
+                        <div class="radio" ng-repeat="state in simObject.states">
                             <label>
-                                <input type="radio" name="states" id="states" ng-model="$parent.draw_service.stateSelected" ng-value="state"/>
+                                <input type="radio" name="states" id="states" ng-model="$parent.stateSelected" ng-value="state"/>
                                 {{state.stateIndex}} - {{state.stateName}} 
                             </label>
                         </div>
@@ -49,9 +49,9 @@
                         <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#createRule">Create New Rule</button>
                         <div id="createRule" class="collapse">
                             <span>If cell state is: </span>
-                            <select class="form-control" ng-model="ruleCurrentState" ng-options="state.stateIndex for state in draw_service.simObject.states"></select>
+                            <select class="form-control" ng-model="ruleCurrentState" ng-options="state.stateIndex for state in simObject.states"></select>
                             <span>and the state of the neighbors are:</span>
-                            <select class="form-control" ng-model="ruleNeighborState" ng-options="state.stateIndex for state in draw_service.simObject.states"></select>
+                            <select class="form-control" ng-model="ruleNeighborState" ng-options="state.stateIndex for state in simObject.states"></select>
                             <span>and the number of neighbors the cell has is:</span>
                            <select class="form-control" ng-model="ruleNeighborCount" ng-options="possible for possible in possibleNeighbors"></select>
                             <span>and the neighbor count should be:</span>
@@ -61,12 +61,12 @@
                                 <option ng-value="2">Greater than value</option>
                             </select>
                             <span>The state of cell must change into</span>
-                            <select class="form-control" ng-model="ruleNextState" ng-options="state.stateIndex for state in draw_service.simObject.states"></select>
+                            <select class="form-control" ng-model="ruleNextState" ng-options="state.stateIndex for state in simObject.states"></select>
                             
                             <button type="button" class="btn btn-default" ng-click="addRule()" style="margin-top: 10px">Add</button>
                         </div>
                         <ul class="list-group" style="margin-top: 10px;">
-                            <li class="list-group-item" ng-repeat="rule in draw_service.simObject.rules">
+                            <li class="list-group-item" ng-repeat="rule in simObject.rules">
                                 Current state: {{rule.currentState}}, Neighbor state: {{rule.neighborState}},
                                 Neighbor Count: {{rule.neighborCount}}, Equality Modifier: {{rule.equalityModifier}},
                                 Next State: {{rule.nextState}}
