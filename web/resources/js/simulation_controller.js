@@ -21,7 +21,7 @@ simCtrl.controller('simulationControl', function($scope){
     $scope.possibleNeighbors = [1,2,3,4,5,6,7,8];
     var cnvLstSet = false;
     var defaultStateRemoved = false;
-    
+    var cellSize = 20;
     $scope.createNewSim = function(){
         $scope.simLoaded = true;
         
@@ -60,12 +60,9 @@ simCtrl.controller('simulationControl', function($scope){
        $scope.simObject.rules.push(rule); 
     }
     
-    $scope.setStateSelected = function(){
-        $scope.stateSelected = true;
-    }
     
     function setCanvasLst() {
-
+       
     function getMousePos(canvas, evt) {
         var rect = canvas.getBoundingClientRect();
         return {
@@ -75,9 +72,9 @@ simCtrl.controller('simulationControl', function($scope){
     }
     var canvas = $('#drawArea')[0];
     var context = canvas.getContext('2d');
-    canvas.addEventListener('mousedown', function(evt) {
-    canvas.addEventListener('mousemove',drawOnCanvas(evt), false);
-    }, false);
+    canvas.addEventListener('mousedown', function(evt){
+    canvas.addEventListener('mousedown',drawOnCanvas(evt), true);
+    }, true);
 
     function drawOnCanvas(evt) {
 
@@ -86,7 +83,7 @@ simCtrl.controller('simulationControl', function($scope){
         var posX = (Math.floor(mousePos.x / cellSize)) * cellSize;
         var posY = (Math.floor(mousePos.y / cellSize)) * cellSize;
         var row = (Math.floor(mousePos.x / cellSize));
-        var col = (Math.floor(mousePos.x / cellSize));
+        var col = (Math.floor(mousePos.y / cellSize));
 
 
 
@@ -96,15 +93,16 @@ simCtrl.controller('simulationControl', function($scope){
        
             ctx.fillStyle = hex;
             $scope.simObject.currentGrid[row][col] = $scope.stateSelected.stateIndex;
-       
+            
         ctx.fillRect(posX, posY, cellSize, cellSize);
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 1;
         ctx.strokeRect(posX, posY, cellSize, cellSize);
 
-
+            
+            
     }
-
+    
 
 }
 function runSim(array) {
@@ -143,5 +141,5 @@ function runSim(array) {
     }
     drawca();
 }
-});
 
+});
