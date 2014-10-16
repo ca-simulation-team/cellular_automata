@@ -1,5 +1,5 @@
 
-    
+
 var simCtrl = angular.module('ca_app.simController', [])
 
 simCtrl.controller('simulationControl', function($scope) {
@@ -23,19 +23,8 @@ simCtrl.controller('simulationControl', function($scope) {
     $scope.possibleNeighbors = [1, 2, 3, 4, 5, 6, 7, 8];
     var cnvLstSet = false;
     var defaultStateRemoved = false;
-    
-        var canvas = new zebra.ui.zCanvas("drawArea");
-    
-
-    
-    // fill canvas root panel with UI components
-    
-    canvas.root.setLayout(new zebra.layout.BorderLayout(8));
-    
-    canvas.root.add(zebra.layout.BOTTOM, new zebra.ui.Slider());
-    var txt = new zebra.ui.TextArea("test");
-    canvas.root.add(zebra.layout.CENTER, txt);
-    
+    //for mouse events
+    var mousePressed;
 
 
     $scope.createNewSim = function() {
@@ -84,47 +73,97 @@ simCtrl.controller('simulationControl', function($scope) {
 
     function setCanvasLst() {
 
-        function getMousePos(canvas, evt) {
-            var rect = canvas.getBoundingClientRect();
-            return {
-                x: evt.clientX - rect.left,
-                y: evt.clientY - rect.top
-            };
-        }
+
         var canvas = $('#drawArea')[0];
         var context = canvas.getContext('2d');
+
         canvas.addEventListener('mousedown', function(evt) {
-            canvas.addEventListener('mousemove', drawOnCanvas(evt), false);
+            mousePressed = true;
+            drawOnCanvas(evt);
         }, false);
 
-//    function drawOnCanvas(evt) {
-//
-//        var mousePos = getMousePos(canvas, evt);
-//
-//        var posX = (Math.floor(mousePos.x / cellSize)) * cellSize;
-//        var posY = (Math.floor(mousePos.y / cellSize)) * cellSize;
-//        var row = (Math.floor(mousePos.x / cellSize));
-//        var col = (Math.floor(mousePos.x / cellSize));
-//
-//
-//
-//        var ctx = canvas.getContext("2d");
-//        var p = ctx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
-//        var hex = $scope.stateSelected.stateColor;
-//       
-//            ctx.fillStyle = hex;
-//            $scope.simObject.currentGrid[row][col] = $scope.stateSelected.stateIndex;
-//       
-//        ctx.fillRect(posX, posY, cellSize, cellSize);
-//        ctx.strokeStyle = 'black';
-//        ctx.lineWidth = 1;
-//        ctx.strokeRect(posX, posY, cellSize, cellSize);
-//
-//
-//    }
+        canvas.addEventListener('mousemove', function(evt) {
+            if (mousePressed)
+                drawOnCanvas(evt);
+        }, false);
+
+        canvas.addEventListener('mouseup', function(evt) {
+            mousePressed = false;
+        }, false);
+
+        canvas.addEventListener('mouseleave', function(evt) {
+            mousePressed = false;
+        }, false);
 
 
     }
+    function getMousePos(canvas, evt) {
+        var rect = canvas.getBoundingClientRect();
+        return {
+            x: evt.clientX - rect.left,
+            y: evt.clientY - rect.top
+        };
+    }
+    function drawOnCanvas(evt) {
+        var canvas = $('#drawArea')[0];
+
+        var mousePos = getMousePos(canvas, evt);
+
+        var posX = (Math.floor(mousePos.x / cellSize)) * cellSize;
+        var posY = (Math.floor(mousePos.y / cellSize)) * cellSize;
+        var row = (Math.floor(mousePos.x / cellSize));
+        var col = (Math.floor(mousePos.x / cellSize));
+
+
+
+        var ctx = canvas.getContext("2d");
+        var p = ctx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
+        var hex = $scope.stateSelected.stateColor;
+
+        ctx.fillStyle = hex;
+        if ($scope.simObject.currentGrid[row] !== undefined)
+            $scope.simObject.currentGrid[row][col] = $scope.stateSelected.stateIndex;
+
+        ctx.fillRect(posX, posY, cellSize, cellSize);
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(posX, posY, cellSize, cellSize);
+
+//        drawCanvasFromSimobject();
+
+
+
+    }
+// we need to fix this
+//    function drawCanvasFromSimobject() {
+//        var posX = 0;
+//        var posY = 0;
+//        var canvas = $('#drawArea')[0];
+//        var ctx = canvas.getContext("2d");
+//
+//        for (var col = 0; col < $scope.simObject.gridSize; i++) {
+//            
+//            for (var row = 0; row < $scope.simObject.gridSize; j++) {
+//                
+//                
+//                var stateN = $scope.simObject.currentGrid[row][col];
+//                alert($scope.simObject.states);
+//                var state = $scope.simObject.states[stateN];
+//                
+//                var hex = state.stateColor;
+//                ctx.fillStyle = hex;
+//
+//                ctx.fillRect(posX, posY, cellSize, cellSize);
+//                ctx.strokeStyle = 'black';
+//                ctx.lineWidth = 1;
+//                ctx.strokeRect(posX, posY, cellSize, cellSize);
+//                posX = posX + cellSize;
+//            }
+//            posX = 0;
+//            posY = posY + cellSize;
+//        }
+    //   }
+
     function runSim(array) {
         if (!cnvLstSet) {
             setCanvasLst();
@@ -141,7 +180,7 @@ simCtrl.controller('simulationControl', function($scope) {
         var isRunning = true;
         canvas.width = width;
         canvas.height = height;
-        var hex = $scope.stateSelected.stateColor;
+        var hex = $scope.stateSelected.stateColor; //!fix this!!!
         function drawca() {
             for (var i = 0; i < values.length; i++) {
                 var row = values[i];
@@ -159,7 +198,7 @@ simCtrl.controller('simulationControl', function($scope) {
                 posY = posY + cellSize;
             }
         }
-        draw();
+        drawca();
     }
 });
 
