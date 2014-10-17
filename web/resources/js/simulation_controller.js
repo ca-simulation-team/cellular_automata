@@ -24,18 +24,15 @@ simCtrl.controller('simulationControl', function($scope) {
     var cnvLstSet = false;
     var defaultStateRemoved = false;
     
-        var canvas = new zebra.ui.zCanvas("drawArea");
-    
-
-    
-    // fill canvas root panel with UI components
+    var canvas = new zebra.ui.zCanvas("drawArea");
     
     canvas.root.setLayout(new zebra.layout.BorderLayout(8));
     
     canvas.root.add(zebra.layout.BOTTOM, new zebra.ui.Slider());
     var txt = new zebra.ui.TextArea("test");
     canvas.root.add(zebra.layout.CENTER, txt);
-    
+  
+        
 
 
     $scope.createNewSim = function() {
