@@ -13,12 +13,12 @@ package sim.app.Bellularautomata;
  */
 public class Rule {
     
-    private int currentCellState;
-    private int neighborState;
-    private int noOfNeighbors;
-    private int equalityModifier;
-    private int nextState;
-    private int probability;
+    int currentState;
+    int neighborState;
+    int noOfNeighbors;
+    int equalityModifier;
+    int nextState;
+//    private int probability;
     public Rule(){
         
     }
@@ -30,15 +30,17 @@ public class Rule {
     public void setEqualityModifier(int equalityModifier) {
         this.equalityModifier = equalityModifier;
     }
-    
-    
-    public int getCurrentCellState() {
-        return currentCellState;
+
+    public int getCurrentState() {
+        return currentState;
     }
 
-    public void setCurrentCellState(int currentCellState) {
-        this.currentCellState = currentCellState;
+    public void setCurrentState(int currentState) {
+        this.currentState = currentState;
     }
+    
+    
+    
 
     public int getNeighborState() {
         return neighborState;

@@ -83,7 +83,6 @@ public class Tutorial1 extends SimState
         ujson.currentGrid = thisgrid;
         ujson.steps = steps;
         ujson.time = time;
-        ujson.isRunning = true;
         return ujson;
     }
     

@@ -22,7 +22,6 @@ public class Stepper implements Steppable {
     }
     
     public void step(SimState simState){
-        System.out.println("step runs");
         CellularAutomata ca = (CellularAutomata)simState;
         rules = ca.rules;
         tempGrid.setTo(ca.grid);
@@ -45,7 +44,7 @@ public class Stepper implements Steppable {
                     }
                     if(rule.getEqualityModifier() == 0){
                         if(count == rule.getNoOfNeighbors()){ 
-                            if(rule.getCurrentCellState() == tempGrid.field[x][y]){
+                            if(rule.getCurrentState() == tempGrid.field[x][y]){
                                 int[] changeVal = {x,y,rule.getNextState()};
                                 changes.add(changeVal);
                                 //ca.grid.field[x][y] = rule.getNextState();
@@ -53,7 +52,7 @@ public class Stepper implements Steppable {
                         }
                     } else if (rule.getEqualityModifier() == 1) {
                         if(count < rule.getNoOfNeighbors()){
-                            if(rule.getCurrentCellState() == tempGrid.field[x][y]){
+                            if(rule.getCurrentState() == tempGrid.field[x][y]){
                                 int[] changeVal = {x,y,rule.getNextState()};
                                 changes.add(changeVal);
                                 //ca.grid.field[x][y] = rule.getNextState();
@@ -61,7 +60,7 @@ public class Stepper implements Steppable {
                         }
                     } else if(rule.getEqualityModifier() == 2){
                         if(count > rule.getNoOfNeighbors()){
-                            if(rule.getCurrentCellState() == tempGrid.field[x][y]){
+                            if(rule.getCurrentState() == tempGrid.field[x][y]){
                                 int[] changeVal = {x,y,rule.getNextState()};
                                 changes.add(changeVal);
                                 //ca.grid.field[x][y] = rule.getNextState();

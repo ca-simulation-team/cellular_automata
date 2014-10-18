@@ -73,7 +73,7 @@ public class CellularAutomata extends SimState {
         ujson.currentGrid = thisgrid;
         ujson.steps = steps;
         ujson.time = time;
-        ujson.isRunning = true;
+        ujson.rules = null;
         return ujson;
     }
 
@@ -94,5 +94,9 @@ public class CellularAutomata extends SimState {
         rule.setEqualityModifier(equalityModifier);
         rule.setNextState(nextStep);
         rules.add(rule);
+    }
+    
+    public void changeGrid(int[][] newGrid){
+        grid.field = newGrid;
     }
 }

@@ -1,11 +1,12 @@
 package com.bcis.ca.service;
 
 import java.io.Serializable;
+import java.util.List;
 import javax.ejb.Stateless;
 import sim.app.Bellularautomata.CellularAutomata;
 import sim.engine.SimState;
 import sim.engine.UniformJSON;
-
+import sim.app.Bellularautomata.Rule;
 /**
  * Acts as a middle layer between Mason and the presentation. It holds all the
  * simulation data and is able to create, edit and retrieve simulations and its
@@ -27,17 +28,12 @@ public class Simulation implements Serializable{
     private String backgroundColor;
     private String backgroundImage;
     private Object[] objects;
-    private Rule[] rules;
+    private List<Rule> rules;
     private Agent[] agents;
     private int[][] seed, newNeighbourhood;
-    boolean started = false;
-    int[][] initial = {{0,0,0,0,0,0,0},
-                           {0,0,1,0,1,0,0},
-                           {0,0,1,0,1,1,0},
-                           {0,0,1,1,1,0,0},
-                           {0,0,0,1,0,0,0},
-                           {0,0,0,0,0,0,0},
-                           {0,0,0,0,0,0,0}};
+    private boolean started = false;
+    private int[][] gridFromClient;
+    
     public Simulation() {
     }
 
@@ -45,13 +41,13 @@ public class Simulation implements Serializable{
     public void startSimulation() {
         
         this.simulationState = new CellularAutomata(System.currentTimeMillis());
-        this.simulationState.setSeededGrid(initial); 
-        this.simulationState.addRule(1, 1, 3, 1, 0);
-        this.simulationState.addRule(1, 1, 4, 2, 0);
-        this.simulationState.addRule(0, 1, 3, 0, 1);
+        this.simulationState.setSeededGrid(gridFromClient); 
+        for(Rule rule : rules){
+            this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
+        }
         //this.simulationState.setNeighbourhood(newNeighbourhood);
-        simulationState.start();
-        
+        this.simulationState.start();
+        started = true;
     }
 
     public void setSeed(int[][] newSeed){
@@ -67,8 +63,12 @@ public class Simulation implements Serializable{
         if(simulationState == null){
             startSimulation();
         }
-        
+//        simulationState.changeGrid(gridFromClient);
+//        for(Rule rule : rules){
+//            this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
+//        }
         ujson = simulationState.getCurrentState();
+        ujson.rules = rules;
         return ujson;
     }
     
@@ -80,6 +80,8 @@ public class Simulation implements Serializable{
  
     public void stopSimulation() {
         simulationState.finish();
+        simulationState.kill();
+        simulationState = null;
     }
 
     public void resetSimulation() {
@@ -122,7 +124,7 @@ public class Simulation implements Serializable{
     /**
      * @return the rules
      */
-    public Rule[] getRules() {
+    public List<Rule> getRules() {
         return rules;
     }
 
@@ -165,5 +167,18 @@ public class Simulation implements Serializable{
     public void setSimulationState(SimState state){
         
     }
+
+    public int[][] getGridFromClient() {
+        return gridFromClient;
+    }
+
+    public void setGridFromClient(int[][] gridFromClient) {
+        this.gridFromClient = gridFromClient;
+    }
+
+    public void setRules(List<Rule> rules) {
+        this.rules = rules;
+    }
+    
     
 }

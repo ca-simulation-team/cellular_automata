@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sim.engine.UniformJSON;
-
+import sim.app.Bellularautomata.Rule;
 /**
  *
  * @author Nawaz Gayoom
@@ -43,15 +43,20 @@ public class MasonRequest extends HttpServlet {
                 if (br != null) {
                     req = br.readLine();
                 }
-
-//                if (firstRequest) {
-//                    firstRequest = false;
-//
-//                    System.err.println(req);
-//                }
+                System.out.println("banana");
                 Gson gson = new Gson();
                 UniformJSON ujObj = gson.fromJson(req, UniformJSON.class);
-
+                UniformJSON toSend = new UniformJSON();
+               
+                if(ujObj.stop == false){
+                    sim.setGridFromClient(ujObj.currentGrid);
+                    sim.setRules(ujObj.rules);
+                    toSend = sim.stepThrough();
+                } else {
+                    sim.stopSimulation();
+                    toSend = sim.stepThrough();
+                }
+                
                 //Need to wokr on that later on!
                 //if(ujObj.isRunning = false)
                     //sim.stopSimulation();
@@ -63,16 +68,14 @@ public class MasonRequest extends HttpServlet {
 //                    
 //                    sim.setNeighbourhood(ujObj.neighbourhoodGrid);
 //                    sim.setSeed(ujObj.currentGrid);
-                    ujObj = sim.stepThrough();
-
-
-
-
+                //ujObj = sim.stepThrough();
+                
                 response.setContentType("application/json");
 
                 GsonBuilder builder = new GsonBuilder();
+                builder.serializeSpecialFloatingPointValues();
                 gson = builder.create();
-                String jsonContent = gson.toJson(ujObj);
+                String jsonContent = gson.toJson(toSend);
                 PrintWriter out = response.getWriter();
                 out.print(jsonContent);
                 out.close();

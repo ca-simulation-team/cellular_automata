@@ -59,7 +59,6 @@ public class CellularAutomata extends SimState {
         int[][] thisgrid;
         long steps = 0;
         double time = 0;
-        System.out.println("getting step");
         //step
         schedule.step(this);
 
@@ -72,13 +71,13 @@ public class CellularAutomata extends SimState {
         ujson.currentGrid = thisgrid;
         ujson.steps = steps;
         ujson.time = time;
-        ujson.isRunning = true;
+        ujson.rules = null;
         return ujson;
     }
 
     public void addRule(int currentState, int neighbourState, int noOfNeighbours, int equalityModifier, int nextStep){
         Rule rule = new Rule();
-        rule.setCurrentCellState(currentState);
+        rule.setCurrentState(currentState);
         rule.setNoOfNeighbors(noOfNeighbours);
         rule.setNeighborState(neighbourState);
         rule.setEqualityModifier(equalityModifier);
@@ -86,5 +85,7 @@ public class CellularAutomata extends SimState {
         rules.add(rule);
     }
     
-    
+    public void changeGrid(int[][] newGrid){
+        grid.field = newGrid;
+    }
 }

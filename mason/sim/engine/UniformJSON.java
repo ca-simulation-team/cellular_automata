@@ -1,7 +1,7 @@
 package sim.engine;
 
-import com.bcis.ca.service.*;
-
+import java.util.List;
+import sim.app.Bellularautomata.Rule;
 
 /**
  *
@@ -10,9 +10,10 @@ import com.bcis.ca.service.*;
 public class UniformJSON
 { 
     public int[][] currentGrid;
-    public int[][] neighbourhoodGrid;
-    public boolean isRunning;
+    public List<Rule> rules;
+    //public int[][] neighbourhoodGrid;
+    public boolean stop;
     public long steps;
     public double time;
-    public boolean gridUpdated;
+    //public boolean gridUpdated;
 }
