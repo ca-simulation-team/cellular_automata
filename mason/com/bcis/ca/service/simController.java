@@ -1,3 +1,9 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
 package com.bcis.ca.service;
 
 import com.google.gson.Gson;
@@ -13,20 +19,17 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import sim.engine.UniformJSON;
-import sim.app.Bellularautomata.Rule;
+
 /**
  *
- * @author Nawaz Gayoom
+ * @author Nawaz
  */
-@WebServlet(name = "MasonRequest", urlPatterns = {"/MasonRequest"})
-public class MasonRequest extends HttpServlet {
+@WebServlet(name = "simController", urlPatterns = {"/simController"})
+public class simController extends HttpServlet {
 
-    public boolean firstRequest = true;
-    public boolean seeded = true;
-    
     @EJB
     Simulation sim;
-
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -38,49 +41,36 @@ public class MasonRequest extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
-                String req = "";
+            BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
+                String requestString = "";
 
-                if (br != null) {
-                    req = br.readLine();
-                }
-                System.out.println("banana");
-                Gson gson = new Gson();
-                UniformJSON ujObj = gson.fromJson(req, UniformJSON.class);
-                UniformJSON toSend = new UniformJSON();
+                requestString = br.readLine();
                
-                if(ujObj.stop == false){
-                    sim.setGridFromClient(ujObj.currentGrid);
-                    sim.setRules(ujObj.rules);
-                    toSend = sim.stepThrough();
-                } else {
-                    sim.stopSimulation();
-                    toSend = sim.stepThrough();
-                }
+                Gson gson = new Gson();
+                UniformJSON requestObject = gson.fromJson(requestString, UniformJSON.class);
                 
-                //Need to wokr on that later on!
-                //if(ujObj.isRunning = false)
-                    //sim.stopSimulation();
-                //else
-//                    if(seeded == true){
-//                        sim.setSeed(ujObj.currentGrid);
-//                        seeded = false;
-//                    }
+                sim.setRules(requestObject.rules);
+                
+                requestObject = sim.stepThrough();
+                
+//                if(requestObject.stop == false){
+//                    sim.setGridFromClient(requestObject.currentGrid);
+//                    sim.setRules(requestObject.rules);
+//                    requestObject = sim.stepThrough();
 //                    
-//                    sim.setNeighbourhood(ujObj.neighbourhoodGrid);
-//                    sim.setSeed(ujObj.currentGrid);
-                //ujObj = sim.stepThrough();
+//                } else {
+//                    sim.stopSimulation();
+//                    requestObject = sim.stepThrough();
+//                }
                 
                 response.setContentType("application/json");
 
                 GsonBuilder builder = new GsonBuilder();
-                builder.serializeSpecialFloatingPointValues();
                 gson = builder.create();
-                String jsonContent = gson.toJson(toSend);
+                String jsonContent = gson.toJson(requestObject);
                 PrintWriter out = response.getWriter();
                 out.print(jsonContent);
                 out.close();
-                //response.getOutputStream().print(jsonContent);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

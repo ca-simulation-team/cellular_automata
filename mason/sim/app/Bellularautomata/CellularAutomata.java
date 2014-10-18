@@ -71,7 +71,7 @@ public class CellularAutomata extends SimState {
         ujson.currentGrid = thisgrid;
         ujson.steps = steps;
         ujson.time = time;
-        ujson.rules = null;
+        ujson.rules = rules;
         return ujson;
     }
 

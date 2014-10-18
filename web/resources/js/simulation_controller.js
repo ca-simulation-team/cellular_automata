@@ -232,11 +232,13 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         req.steps = 0;
         req.time = 0;
         var jsonReq = angular.toJson(req);
+
         $http({
-                url: 'MasonRequest',
+                url: 'simController',
                 method: "POST",
                 data: jsonReq
 }           ).success(function(data) {
+                
                 $scope.simObject.currentGrid = data["currentGrid"];
                 runSim($scope.simObject.currentGrid);
             if(keepRunning === true){

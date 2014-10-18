@@ -33,7 +33,14 @@ public class Simulation implements Serializable{
     private int[][] seed, newNeighbourhood;
     private boolean started = false;
     private int[][] gridFromClient;
-    
+    int[][] initial = {{0,0,0,0,0,0,0,0},
+                                      {0,0,0,0,0,0,0,0},
+                                      {0,0,0,0,0,0,0,0},
+                                      {0,0,1,0,1,0,0,0},
+                                      {0,0,1,0,1,1,0,0},
+                                      {0,0,1,1,1,0,0,0},
+                                      {0,0,0,1,0,0,0,0},
+                                      {0,0,0,0,0,0,0,0},};
     public Simulation() {
     }
 
@@ -41,7 +48,7 @@ public class Simulation implements Serializable{
     public void startSimulation() {
         
         this.simulationState = new CellularAutomata(System.currentTimeMillis());
-        this.simulationState.setSeededGrid(gridFromClient); 
+        this.simulationState.setSeededGrid(initial); 
         for(Rule rule : rules){
             this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
         }
@@ -58,6 +65,7 @@ public class Simulation implements Serializable{
     {
         newNeighbourhood = neighbourhood;
     }
+    
     public UniformJSON stepThrough(){
         UniformJSON ujson;
         if(simulationState == null){
@@ -68,7 +76,6 @@ public class Simulation implements Serializable{
 //            this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
 //        }
         ujson = simulationState.getCurrentState();
-        ujson.rules = rules;
         return ujson;
     }
     
@@ -80,8 +87,8 @@ public class Simulation implements Serializable{
  
     public void stopSimulation() {
         simulationState.finish();
-        simulationState.kill();
         simulationState = null;
+        
     }
 
     public void resetSimulation() {
