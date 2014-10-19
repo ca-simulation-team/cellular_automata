@@ -48,7 +48,7 @@ public class Simulation implements Serializable{
     public void startSimulation() {
         
         this.simulationState = new CellularAutomata(System.currentTimeMillis());
-        this.simulationState.setSeededGrid(initial); 
+        this.simulationState.setSeededGrid(gridFromClient); 
         for(Rule rule : rules){
             this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
         }

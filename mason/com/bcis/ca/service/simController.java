@@ -49,10 +49,17 @@ public class simController extends HttpServlet {
                 Gson gson = new Gson();
                 UniformJSON requestObject = gson.fromJson(requestString, UniformJSON.class);
                 
+                
                 sim.setRules(requestObject.rules);
+                sim.setGridFromClient(requestObject.currentGrid);
                 
-                requestObject = sim.stepThrough();
-                
+                if(requestObject.stop == false){
+                    
+                    requestObject = sim.stepThrough();
+                } else if (requestObject.stop == true){
+                    sim.stopSimulation();
+                    requestObject = sim.stepThrough();
+                }
 //                if(requestObject.stop == false){
 //                    sim.setGridFromClient(requestObject.currentGrid);
 //                    sim.setRules(requestObject.rules);

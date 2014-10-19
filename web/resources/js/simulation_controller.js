@@ -16,7 +16,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
     $scope.stateSelected = {};
     $scope.simObject = new Object();
-    $scope.simObject.gridSize = 20;
+    $scope.simObject.gridSize = 10;
     $scope.simObject.currentGrid = [];
     $scope.simObject.states = [];
     $scope.simObject.rules = [];
@@ -238,6 +238,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
                 method: "POST",
                 data: jsonReq
 }           ).success(function(data) {
+            
                 
                 $scope.simObject.currentGrid = data["currentGrid"];
                 runSim($scope.simObject.currentGrid);
