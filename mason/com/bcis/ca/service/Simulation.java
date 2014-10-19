@@ -80,7 +80,7 @@ public class Simulation implements Serializable{
         return simulationCreated;
     }
  
-    public void stopSimulation() {
+    public void stopSimulation() { 
         simulationState.finish();
         simulationState = null;
     }

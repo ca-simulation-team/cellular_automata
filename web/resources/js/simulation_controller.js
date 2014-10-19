@@ -17,7 +17,6 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.ruleNeighborCount = 0;
     $scope.ruleEqualityModifier = 0;
     $scope.ruleNextState = 0;
-
     $scope.stateSelected = {};
     $scope.simObject = new Object();
     $scope.simObject.gridSize = 10;
@@ -72,10 +71,13 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     }
 
     $scope.addRule = function() {
-        var rule = {currentState: $scope.ruleCurrentState.stateIndex, neighborState: $scope.ruleNeighborState.stateIndex, noOfNeighBors: $scope.ruleNeighborCount, equalityModifier: $scope.ruleEqualityModifier, nextState: $scope.ruleNextState.stateIndex};
+        var rule = {currentState: $scope.ruleCurrentState.stateIndex, neighborState: $scope.ruleNeighborState.stateIndex, noOfNeighbors: $scope.ruleNeighborCount, equalityModifier: $scope.ruleEqualityModifier, nextState: $scope.ruleNextState.stateIndex, collapsed: true};
         $scope.simObject.rules.push(rule);
     }
-
+    
+    $scope.removeRule = function(index) {
+        $scope.simObject.rules.splice(index, 1);
+    }
     $scope.controlSim = function(state){
         if(state === 'playing'){
             $scope.playEnabled = false;
@@ -280,12 +282,20 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         var state2 = {stateIndex: 1, stateName: "alive", stateColor: "black"};
         $scope.simObject.states.push(state2);
         
-        var rule1 = {currentState: 1, neighborState: 1, noOfNeighbors: 3, equalityModifier: 1, nextState: 0};
+        var rule1 = {currentState: 1, neighborState: 1, noOfNeighbors: 3, equalityModifier: 1, nextState: 0, collapsed: true};
         $scope.simObject.rules.push(rule1);
-        var rule2 = {currentState: 1, neighborState: 1, noOfNeighbors: 4, equalityModifier: 2, nextState: 0};
+        var rule2 = {currentState: 1, neighborState: 1, noOfNeighbors: 4, equalityModifier: 2, nextState: 0, collapsed: true};
         $scope.simObject.rules.push(rule2);
-        var rule3 = {currentState: 0, neighborState: 1, noOfNeighbors: 3, equalityModifier: 0, nextState: 1};
+        var rule3 = {currentState: 0, neighborState: 1, noOfNeighbors: 3, equalityModifier: 0, nextState: 1, collapsed: true};
         $scope.simObject.rules.push(rule3);
+    }
+    
+    $scope.setSelectedRule = function(index){
+        if($scope.simObject.rules[index].collapsed === true){
+            $scope.simObject.rules[index].collapsed = false;
+        } else if($scope.simObject.rules[index].collapsed === false) {
+            $scope.simObject.rules[index].collapsed = true;
+        }
     }
 });
 

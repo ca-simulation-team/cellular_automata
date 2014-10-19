@@ -69,13 +69,44 @@
                             
                             <button type="button" class="btn btn-default" ng-click="addRule()" style="margin-top: 10px">Add</button>
                         </div>
-                        <ul class="list-group" style="margin-top: 10px;">
-                            <li class="list-group-item" ng-repeat="rule in simObject.rules">
-                                Current state: {{rule.currentState}}, Neighbor state: {{rule.neighborState}},
-                                Neighbor Count: {{rule.neighborCount}}, Equality Modifier: {{rule.equalityModifier}},
-                                Next State: {{rule.nextState}}
-                            </li>
-                        </ul>
+                        <div style="margin-top: 10px;">
+                            <div ng-repeat="rule in simObject.rules" style="margin-top: 5px">
+                                <button type="button" class="btn btn-default" ng-click="setSelectedRule($index)">
+                                    <img src="resources/images/icons/appbar.draw.pixel.fill.grid.png" class="button_icon" style="display: inline"/>
+                                    <span>{{rule.currentState}} | </span>
+                                    <img src="resources/images/icons/appbar.calendar.future.png" class="button_icon" style="display: inline"/>
+                                    <span>{{rule.neighborState}} | </span>
+                                    <img src="resources/images/icons/appbar.box.unfolded.png" class="button_icon" style="display: inline"/>
+                                    <span>{{rule.noOfNeighbors}} | </span>
+                                    <img src="resources/images/icons/appbar.markup.png" class="button_icon" style="display: inline"/>
+                                    <span>{{rule.equalityModifier}} | </span>
+                                    <img src="resources/images/icons/appbar.arrow.corner.up.right.png" class="button_icon" style="display: inline"/>
+                                    <span>{{rule.nextState}}</span>
+                                </button>
+                                
+                                <div class="panel panel-default" ng-show="!rule.collapsed">
+                                    <div class="panel-body">
+                                        <span>If cell state is: </span>
+                                        <select class="form-control" ng-model="rule.currentState" ng-options="state.stateIndex as state.stateIndex for state in simObject.states"></select>
+                                        <span>and the state of the neighbors are:</span>
+                                        <select class="form-control" ng-model="rule.neighborState" ng-options="state.stateIndex as state.stateIndex for state in simObject.states"></select>
+                                        <span>and the number of neighbors the cell has is:</span>
+                                        <select class="form-control" ng-model="rule.noOfNeighbors" ng-options="possible for possible in possibleNeighbors"></select>
+                                        <span>and the neighbor count should be:</span>
+                                        <select class="form-control" ng-model="rule.equalityModifier">
+                                            <option ng-value="0">Equal to value</option>
+                                            <option ng-value="1">Less than value</option>
+                                            <option ng-value="2">Greater than value</option>
+                                        </select>
+                                        <span>The state of cell must change into</span>
+                                        <select class="form-control" ng-model="rule.nextState" ng-options="state.stateIndex as state.stateIndex for state in simObject.states"></select>
+
+                                        <button type="button" class="btn btn-default" ng-click="removeRule($index)" style="margin-top: 10px">Remove</button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
