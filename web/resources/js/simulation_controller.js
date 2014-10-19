@@ -151,8 +151,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
         var posX = (Math.floor(mousePos.x / cellSize)) * cellSize;
         var posY = (Math.floor(mousePos.y / cellSize)) * cellSize;
-        var row = (Math.floor(mousePos.x / cellSize));
-        var col = (Math.floor(mousePos.y / cellSize));
+        var row = (Math.floor(mousePos.y / cellSize));
+        var col = (Math.floor(mousePos.x / cellSize));
 
 
 
@@ -161,7 +161,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         var hex = $scope.stateSelected.stateColor;
 
         ctx.fillStyle = hex;
-        if ($scope.simObject.currentGrid[row] !== undefined)
+        
         $scope.simObject.currentGrid[row][col] = $scope.stateSelected.stateIndex;
 
         ctx.fillRect(posX, posY, cellSize, cellSize);
