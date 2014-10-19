@@ -2,6 +2,7 @@ package com.bcis.ca.service;
 
 import java.io.Serializable;
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import sim.app.Bellularautomata.CellularAutomata;
 import sim.engine.SimState;
@@ -25,7 +26,7 @@ import sim.app.Bellularautomata.Rule;
 @Stateless
 public class Simulation implements Serializable {
 
-    private SimState simulationState = null;
+    //private SimState simulationState = null;
     private String backgroundColor;
     private String backgroundImage;
     private Object[] objects;
@@ -34,19 +35,21 @@ public class Simulation implements Serializable {
     private int[][] seed, newNeighbourhood;
     private boolean started = false;
     private int[][] gridFromClient;
-
+    
+    @EJB
+    CellularAutomata simulationState;
+    
     public Simulation() {
     }
 
     public void startSimulation() {
 
-        this.simulationState = new CellularAutomata(System.currentTimeMillis());
-        this.simulationState.setSeededGrid(seed);
+        simulationState.setSeededGrid(seed);
         for (Rule rule : rules) {
-            this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
+            simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
         }
         //this.simulationState.setNeighbourhood(newNeighbourhood);
-        this.simulationState.start();
+        simulationState.start();
         started = true;
     }
 
@@ -60,23 +63,11 @@ public class Simulation implements Serializable {
 
     public UniformJSON stepThrough() {
         UniformJSON ujson;
-        if (simulationState == null) {
+        if (started == false) {
             startSimulation();
         } else {
-            System.err.print("START");
             this.simulationState.setSeededGrid(gridFromClient);
-            String line = "";
-            for (int x = 0; x < gridFromClient.length; x++) {
-                for (int y = 0; y < gridFromClient.length; y++) {
-                    line = line +
-                    gridFromClient[x][y];
-                    
-                }
-                System.err.print(line);
-                
-                line = "";
-            }
-            System.err.print("END");
+
         }
 
 //        for(Rule rule : rules){
@@ -95,7 +86,7 @@ public class Simulation implements Serializable {
  
     public void stopSimulation() { 
         simulationState.finish();
-        simulationState = null;
+        
     }
 
     public void resetSimulation() {

@@ -2,10 +2,12 @@ package sim.app.Bellularautomata;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
 import sim.engine.UniformJSON;
 import sim.engine.*;
 import sim.field.grid.*;
 
+@Stateless
 public class CellularAutomata extends SimState {
 
     public static final long serialVersionUID = 1;
@@ -15,6 +17,9 @@ public class CellularAutomata extends SimState {
     int[][] currentGrid;
     public List<Rule> rules = new ArrayList<>();
     
+    public CellularAutomata(){
+        
+    }
     public CellularAutomata(long seed) {
         super(seed);
     }

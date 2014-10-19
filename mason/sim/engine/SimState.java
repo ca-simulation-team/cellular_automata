@@ -58,6 +58,7 @@ public class SimState implements java.io.Serializable
         this(seed, new MersenneTwisterFast(seed), new Schedule());
         }
     
+    
     /** Creates a SimState with the given random number generator and schedule, and
         sets the seed to a bogus value (0).  This should only be used by SimState 
         subclasses which need to use an existing random number generator and schedule.
@@ -85,6 +86,14 @@ public class SimState implements java.io.Serializable
         this(0, random, new Schedule());  // 0 is a bogus value.  In fact, MT can't have 0 as its seed value.
         }
 
+    public SimState()
+        {
+        long theSeed = System.currentTimeMillis();
+        this.random = new MersenneTwisterFast(theSeed);
+        this.schedule = new Schedule();
+        this.seed = theSeed;
+        }
+    
     public void setSeed(long seed)
         {
         seed = (int) seed;  // force to 32 bits since that's what MTF will be using anyway
