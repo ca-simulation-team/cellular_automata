@@ -8,7 +8,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.pauseEnabled = false;
     $scope.stopEnabled = false;
     $scope.stepEnabled = false;
-
+    $scope.delay = 0;
 
     $scope.stateName = "";
     $scope.stateColor = "";
@@ -191,7 +191,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         ctx.lineWidth = 1;
         ctx.strokeRect(posX, posY, cellSize, cellSize);
         
-        //drawCanvasFromSimobject();
+        
 
 
 
@@ -212,57 +212,32 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         return  stateCount;
 
     }
-//    function drawCanvasFromSimobject() {
-//        var posX = 0;
-//        var posY = 0;
-//        var canvas = $('#drawArea')[0];
-//        var ctx = canvas.getContext("2d");
-//
-//        for (var col = 0; col < $scope.simObject.gridSize; col++) {
-//            
-//            for (var row = 0; row < $scope.simObject.gridSize; row++) {
-//                
-//                
-//                var hex = $scope.simObject.states[$scope.simObject.currentGrid[col][row]].stateColor;
-//                
-//                ctx.fillStyle = hex;
-//
-//                ctx.fillRect(posX, posY, cellSize, cellSize);
-//                ctx.strokeStyle = 'black';
-//                ctx.lineWidth = 1;
-//                ctx.strokeRect(posX, posY, cellSize, cellSize);
-//                posX = posX + cellSize;
-//            }
-//            posX = 0;
-//            posY = posY + cellSize;
-//        }
-//       }
+
 
     $scope.drawFromCurrent = function() {
         runSim($scope.simObject.currentGrid);
     }
 
-    $scope.getCol = function (col){
-       var column = [];
-       for(var i=0; i< $scope.simObject.currentGrid.length; i++){
-          column.push( $scope.simObject.currentGrid.length[i][col]);
-       }
-       return column;
-    }
+    
     $scope.updateGridSize = function(){
-        var changeType;
+        
         if($scope.simObject.gridSize > $scope.simObject.currentGrid.length){
-            var amountToAdd = $scope.simObject.gridSize - $scope.simObject.currentGrid.length;
-            var totalRows = amountToAdd + $scope.simObject.currentGrid.length;
-            for(var i = 0; i < totalRows; i++){
-                var col = [];
-                col = $scope.getCol(j);
-                for(var j = 0; j < amountToAdd; j++){
-                    
-                    col.push(0);
-                }
-                $scope.simObject.currentGrid.splice(0,0,col);
+            var tempArray = [];
+            for (var i = 0; i < $scope.simObject.gridSize; i++) {
+            var row = [];
+            for (var j = 0; j < $scope.simObject.gridSize; j++) {
+                row.push(0);
             }
+            tempArray.push(row);
+            }
+            for(var x = 0; x < $scope.simObject.currentGrid; x++){
+                for(var y = 0; y < $scope.simObject.currentGrid; y++){
+                     tempArray[x][y] = $scope.simObject.currentGrid[x][y];
+                }
+            }
+            
+            $scope.simObject.currentGrid = tempArray;
+            
         } else if($scope.simObject.gridSize < $scope.simObject.currentGrid.length){
             var amountToSubtract =  $scope.simObject.currentGrid.length - $scope.simObject.gridSize;
             
@@ -272,6 +247,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         }
         runSim($scope.simObject.currentGrid);
     }
+    
     function runSim(array) {
         if (!cnvLstSet) {
             setCanvasLst();
@@ -357,7 +333,9 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             $scope.simObject.currentGrid = data["currentGrid"];
             runSim($scope.simObject.currentGrid);
             if (keepRunning === true) {
-                runRequest();
+                setTimeout(function() {
+                        runRequest();
+                    }, $scope.delay);
             }
 
         }).
@@ -392,12 +370,5 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         }
     }
     
-    $scope.setSelectedRule = function(index){
-        if($scope.simObject.rules[index].collapsed === true){
-            $scope.simObject.rules[index].collapsed = false;
-        } else if($scope.simObject.rules[index].collapsed === false) {
-            $scope.simObject.rules[index].collapsed = true;
-        }
-    }
 });
 
