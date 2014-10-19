@@ -9,9 +9,10 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.stopEnabled = false;
     $scope.stepEnabled = false;
     
+
     $scope.stateName = "";
     $scope.stateColor = "";
-    
+
     $scope.ruleCurrentState = 0;
     $scope.ruleNeighborState = 0;
     $scope.ruleNeighborCount = 0;
@@ -32,7 +33,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     var keepRunning = false;
     //for mouse events
     var mousePressed;
-    
+
 
     $scope.createNewSim = function() {
         $scope.simLoaded = true;
@@ -76,8 +77,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         $scope.simObject.rules.push(rule);
     }
 
-    $scope.controlSim = function(state){
-        if(state === 'playing'){
+    $scope.controlSim = function(state) {
+        if (state === 'playing') {
             $scope.playEnabled = false;
             $scope.pauseEnabled = true;
             $scope.stopEnabled = true;
@@ -85,14 +86,14 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             continous = true;
             keepRunning = true;
             runRequest();
-        } else if(state === 'paused'){
+        } else if (state === 'paused') {
             $scope.playEnabled = true;
             $scope.pauseEnabled = false;
             $scope.stopEnabled = true;
             $scope.stepEnabled = true;
             continous = false;
             keepRunning = false;
-        } else if(state === 'stopped'){
+        } else if (state === 'stopped') {
             $scope.playEnabled = true;
             $scope.pauseEnabled = false;
             $scope.stopEnabled = false;
@@ -100,13 +101,13 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             continous = false;
             keepRunning = false;
             runRequest();
-        } else if(state === 'stepped'){
+        } else if (state === 'stepped') {
             continous = true;
             keepRunning = false;
             runRequest();
         }
     };
-    
+
     $scope.setStateSelected = function() {
         $scope.stateSelected = true;
     }
@@ -118,21 +119,26 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         var context = canvas.getContext('2d');
 
         canvas.addEventListener('mousedown', function(evt) {
+            if($scope.playEnabled){
             mousePressed = true;
             drawOnCanvas(evt);
+        }
         }, false);
 
         canvas.addEventListener('mousemove', function(evt) {
+            if($scope.playEnabled){
             if (mousePressed)
-                drawOnCanvas(evt);
+                drawOnCanvas(evt);}
         }, false);
 
         canvas.addEventListener('mouseup', function(evt) {
-            mousePressed = false;
+            if($scope.playEnabled){
+            mousePressed = false;}
         }, false);
 
         canvas.addEventListener('mouseleave', function(evt) {
-            mousePressed = false;
+            if($scope.playEnabled){
+            mousePressed = false;}
         }, false);
 
 
@@ -159,21 +165,24 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         var ctx = canvas.getContext("2d");
         var p = ctx.getImageData(mousePos.x, mousePos.y, 1, 1).data;
         var hex = $scope.stateSelected.stateColor;
-
+        var brush = $scope.brushsize;
         ctx.fillStyle = hex;
-        
+
         $scope.simObject.currentGrid[row][col] = $scope.stateSelected.stateIndex;
 
         ctx.fillRect(posX, posY, cellSize, cellSize);
+ 
+        
+ 
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 1;
         ctx.strokeRect(posX, posY, cellSize, cellSize);
-         
+
         //drawCanvasFromSimobject();
 
     }
-     
-    
+
+
 //    function drawCanvasFromSimobject() {
 //        var posX = 0;
 //        var posY = 0;
@@ -200,10 +209,10 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 //        }
 //       }
 
-    $scope.drawFromCurrent = function(){
+    $scope.drawFromCurrent = function() {
         runSim($scope.simObject.currentGrid);
     }
-    
+
     function runSim(array) {
         if (!cnvLstSet) {
             setCanvasLst();
@@ -239,13 +248,13 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         }
         drawca();
     }
-    
-    
-    var runRequest = function(){
+
+
+    var runRequest = function() {
         var req = new Object();
         req.currentGrid = $scope.simObject.currentGrid;
         req.rules = $scope.simObject.rules;
-        if(continous === true){
+        if (continous === true) {
             req.stop = false;
         } else {
             req.stop = true;
@@ -255,31 +264,31 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         var jsonReq = angular.toJson(req);
 
         $http({
-                url: 'simController',
-                method: "POST",
-                data: jsonReq
-}           ).success(function(data) {
-            
-                
-                $scope.simObject.currentGrid = data["currentGrid"];
-                runSim($scope.simObject.currentGrid);
-            if(keepRunning === true){
+            url: 'simController',
+            method: "POST",
+            data: jsonReq
+        }).success(function(data) {
+
+
+            $scope.simObject.currentGrid = data["currentGrid"];
+            runSim($scope.simObject.currentGrid);
+            if (keepRunning === true) {
                 runRequest();
             }
-            
+
         }).
-        error(function(data, status, headers, config) {
-            alert(status);
-            
-        });
+                error(function(data, status, headers, config) {
+                    alert(status);
+
+                });
     }
-    
-    $scope.setTestData = function(){
+
+    $scope.setTestData = function() {
         var state1 = {stateIndex: 0, stateName: "dead", stateColor: "white"};
         $scope.simObject.states[0] = state1;
         var state2 = {stateIndex: 1, stateName: "alive", stateColor: "black"};
         $scope.simObject.states.push(state2);
-        
+
         var rule1 = {currentState: 1, neighborState: 1, noOfNeighbors: 3, equalityModifier: 1, nextState: 0};
         $scope.simObject.rules.push(rule1);
         var rule2 = {currentState: 1, neighborState: 1, noOfNeighbors: 4, equalityModifier: 2, nextState: 0};
