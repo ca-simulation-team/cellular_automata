@@ -30,8 +30,9 @@
                 </div>
                 <div ng-show="simLoaded">
                     <div class="sidemenuitem">
-                        <span>Grid Size:</span><input type="number" class="form-control" min="5" max="70" ng-model="simObject.gridSize" ng-change="drawFromCurrent()"/>
+                        <span>Grid Size:</span><input type="number" class="form-control" min="5" max="70" ng-model="simObject.gridSize" ng-blur="updateGridSize()"/>
                         <span>Cell Size:</span><input type="number" class="form-control" min="5" max="50"/>
+                        {{simObject.currentGrid | json}}
                     </div>
                     <div class="sidemenuitem">
                         <span>States</span><br/>
@@ -106,7 +107,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                     </div>
                 </div>
             </div>

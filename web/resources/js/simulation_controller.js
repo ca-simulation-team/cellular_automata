@@ -40,7 +40,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
         //initiate grid
         for (i = 0; i < $scope.simObject.gridSize; i++) {
-            row = [];
+            var row = [];
             for (j = 0; j < $scope.simObject.gridSize; j++) {
                 row.push(0);
             }
@@ -242,6 +242,36 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         runSim($scope.simObject.currentGrid);
     }
 
+    $scope.getCol = function (col){
+       var column = [];
+       for(var i=0; i< $scope.simObject.currentGrid.length; i++){
+          column.push( $scope.simObject.currentGrid.length[i][col]);
+       }
+       return column;
+    }
+    $scope.updateGridSize = function(){
+        var changeType;
+        if($scope.simObject.gridSize > $scope.simObject.currentGrid.length){
+            var amountToAdd = $scope.simObject.gridSize - $scope.simObject.currentGrid.length;
+            var totalRows = amountToAdd + $scope.simObject.currentGrid.length;
+            for(var i = 0; i < totalRows; i++){
+                var col = [];
+                col = $scope.getCol(j);
+                for(var j = 0; j < amountToAdd; j++){
+                    
+                    col.push(0);
+                }
+                $scope.simObject.currentGrid.splice(0,0,col);
+            }
+        } else if($scope.simObject.gridSize < $scope.simObject.currentGrid.length){
+            var amountToSubtract =  $scope.simObject.currentGrid.length - $scope.simObject.gridSize;
+            
+            for(var i = 0; i < amountToSubtract; i++){
+                $scope.simObject.currentGrid.pop();
+            }
+        }
+        runSim($scope.simObject.currentGrid);
+    }
     function runSim(array) {
         if (!cnvLstSet) {
             setCanvasLst();
