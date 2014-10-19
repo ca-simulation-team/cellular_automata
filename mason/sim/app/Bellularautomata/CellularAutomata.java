@@ -26,6 +26,7 @@ public class CellularAutomata extends SimState {
         currentGrid = new int[gridSize][gridSize];
 
         currentGrid = newSeededGrid;
+        start();
     }
 
     public void seedGrid() {
