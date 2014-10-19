@@ -4,10 +4,14 @@ var simCtrl = angular.module('ca_app.simController', [])
 
 simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.simloaded = false;
-
+    $scope.playEnabled = false;
+    $scope.pauseEnabled = false;
+    $scope.stopEnabled = false;
+    $scope.stepEnabled = false;
+    
     $scope.stateName = "";
     $scope.stateColor = "";
-
+    
     $scope.ruleCurrentState = 0;
     $scope.ruleNeighborState = 0;
     $scope.ruleNeighborCount = 0;
@@ -28,8 +32,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     var keepRunning = false;
     //for mouse events
     var mousePressed;
-
-
+    
 
     $scope.createNewSim = function() {
         $scope.simLoaded = true;
@@ -46,6 +49,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         $scope.simObject.states.push(defaultState);
         $scope.stateSelected = defaultState;
         runSim($scope.simObject.currentGrid);
+        $scope.playEnabled = true;
+        $scope.stepEnabled = true;
         $scope.setTestData();
     }
 
@@ -73,13 +78,25 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
     $scope.controlSim = function(state){
         if(state === 'playing'){
+            $scope.playEnabled = false;
+            $scope.pauseEnabled = true;
+            $scope.stopEnabled = true;
+            $scope.stepEnabled = false;
             continous = true;
             keepRunning = true;
             runRequest();
         } else if(state === 'paused'){
+            $scope.playEnabled = true;
+            $scope.pauseEnabled = false;
+            $scope.stopEnabled = true;
+            $scope.stepEnabled = true;
             continous = false;
             keepRunning = false;
         } else if(state === 'stopped'){
+            $scope.playEnabled = true;
+            $scope.pauseEnabled = false;
+            $scope.stopEnabled = false;
+            $scope.stepEnabled = true;
             continous = false;
             keepRunning = false;
             runRequest();
@@ -183,6 +200,10 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 //        }
 //       }
 
+    $scope.drawFromCurrent = function(){
+        runSim($scope.simObject.currentGrid);
+    }
+    
     function runSim(array) {
         if (!cnvLstSet) {
             setCanvasLst();

@@ -86,6 +86,7 @@ public class CellularAutomata extends SimState {
     }
     
     public void changeGrid(int[][] newGrid){
-        grid.field = newGrid;
+        setSeededGrid(newGrid);
+        seedGrid();
     }
 }

@@ -1,16 +1,16 @@
 <div id="controlPanel" class="panel panel-default col-md-3">
     <div class="panel-body">
         <div id="controlButtons" class="btn-group btn-group-sm" style="margin: 0 auto">
-            <button class="btn btn-default" id="playBtn" ng-click="controlSim('playing')" ng-disabled="!simLoaded">
+            <button class="btn btn-default" id="playBtn" ng-click="controlSim('playing')" ng-disabled="!playEnabled">
                 <img src="resources/images/icons/appbar.control.play.png" class="button_icon">
             </button>
-            <button class="btn btn-default" id="pauseBtn" ng-click="controlSim('paused')" ng-disabled="!simLoaded">
+            <button class="btn btn-default" id="pauseBtn" ng-click="controlSim('paused')" ng-disabled="!pauseEnabled">
                 <img src="resources/images/icons/appbar.control.pause.png" class="button_icon">
             </button>
-            <button class="btn btn-default" id="stopBtn"  ng-click="controlSim('stopped')" ng-disabled="!simLoaded">
+            <button class="btn btn-default" id="stopBtn"  ng-click="controlSim('stopped')" ng-disabled="!stopEnabled">
                 <img src="resources/images/icons/appbar.control.stop.png" class="button_icon">
             </button>
-            <button class="btn btn-default" id="resumeBtn" ng-click="controlSim('stepped')" ng-disabled="!simLoaded">
+            <button class="btn btn-default" id="resumeBtn" ng-click="controlSim('stepped')" ng-disabled="!stepEnabled">
                 <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
             </button>
         </div> <!--button group end -->
@@ -29,6 +29,10 @@
                     
                 </div>
                 <div ng-show="simLoaded">
+                    <div class="sidemenuitem">
+                        <span>Grid Size:</span><input type="number" class="form-control" min="5" max="70" ng-model="simObject.gridSize" ng-change="drawFromCurrent()"/>
+                        <span>Cell Size:</span><input type="number" class="form-control" min="5" max="50"/>
+                    </div>
                     <div class="sidemenuitem">
                         <span>States</span><br/>
                         <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#createState">Create New State</button>
@@ -80,7 +84,7 @@
                     <span>Set delay:</span><br/>
                     <input id="speedAdjuster" type="range" min="0" max="40" value="0" step="0.1" onchange="setSpeed(this.value)"/>
                 </div>
-                    
+                
             </div>
         </div>
     </div> <!--main panel body end -->

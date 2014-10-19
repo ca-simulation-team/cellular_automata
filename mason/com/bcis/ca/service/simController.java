@@ -51,7 +51,12 @@ public class simController extends HttpServlet {
                 
                 
                 sim.setRules(requestObject.rules);
-                sim.setGridFromClient(requestObject.currentGrid);
+                if (sim.isStarted()){
+                    sim.setGridFromClient(requestObject.currentGrid);
+                } else {
+                    sim.setSeed(requestObject.currentGrid);
+                }
+                
                 
                 if(requestObject.stop == false){
                     
@@ -60,15 +65,7 @@ public class simController extends HttpServlet {
                     sim.stopSimulation();
                     requestObject = sim.stepThrough();
                 }
-//                if(requestObject.stop == false){
-//                    sim.setGridFromClient(requestObject.currentGrid);
-//                    sim.setRules(requestObject.rules);
-//                    requestObject = sim.stepThrough();
-//                    
-//                } else {
-//                    sim.stopSimulation();
-//                    requestObject = sim.stepThrough();
-//                }
+//               
                 
                 response.setContentType("application/json");
 

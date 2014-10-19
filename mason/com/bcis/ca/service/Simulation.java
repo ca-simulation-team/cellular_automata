@@ -33,14 +33,7 @@ public class Simulation implements Serializable{
     private int[][] seed, newNeighbourhood;
     private boolean started = false;
     private int[][] gridFromClient;
-    int[][] initial = {{0,0,0,0,0,0,0,0},
-                                      {0,0,0,0,0,0,0,0},
-                                      {0,0,0,0,0,0,0,0},
-                                      {0,0,1,0,1,0,0,0},
-                                      {0,0,1,0,1,1,0,0},
-                                      {0,0,1,1,1,0,0,0},
-                                      {0,0,0,1,0,0,0,0},
-                                      {0,0,0,0,0,0,0,0},};
+    
     public Simulation() {
     }
 
@@ -48,7 +41,7 @@ public class Simulation implements Serializable{
     public void startSimulation() {
         
         this.simulationState = new CellularAutomata(System.currentTimeMillis());
-        this.simulationState.setSeededGrid(gridFromClient); 
+        this.simulationState.setSeededGrid(seed); 
         for(Rule rule : rules){
             this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
         }
@@ -70,8 +63,10 @@ public class Simulation implements Serializable{
         UniformJSON ujson;
         if(simulationState == null){
             startSimulation();
+        } else {
+            //simulationState.changeGrid(gridFromClient);
         }
-//        simulationState.changeGrid(gridFromClient);
+        
 //        for(Rule rule : rules){
 //            this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
 //        }
@@ -88,7 +83,6 @@ public class Simulation implements Serializable{
     public void stopSimulation() {
         simulationState.finish();
         simulationState = null;
-        
     }
 
     public void resetSimulation() {
@@ -185,6 +179,14 @@ public class Simulation implements Serializable{
 
     public void setRules(List<Rule> rules) {
         this.rules = rules;
+    }
+
+    public boolean isStarted() {
+        return started;
+    }
+
+    public void setStarted(boolean started) {
+        this.started = started;
     }
     
     
