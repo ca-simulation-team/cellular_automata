@@ -44,7 +44,7 @@
                         </div>
                         <div class="radio" ng-repeat="state in simObject.states">
                             <label>
-                                <input type="radio" name="states" id="states" ng-model="$parent.stateSelected" ng-value="state" ng-click="setSelected()"/>
+                                <input type="radio" name="states" id="states" ng-model="$parent.stateSelected" ng-value="state"/>
                                 {{state.stateIndex}} - {{state.stateName}} 
                             </label>
                         </div>
@@ -116,18 +116,31 @@
                     <span>Set delay:</span><br/>
                     <input id="speedAdjuster" type="range" min="0" max="1000" value="0" step="0.1" ng-model="delay"/>
                     <span>Delay(ms): {{delay}}</span>
-<!--                    </canvas><canvas id="myChart" width="200" height="200"></canvas>-->
+
                 </div>
                 
             </div>
         </div>
     </div> <!--main panel body end -->
 </div> <!--main panel end -->
-<div class="col-md-9">
-    
+<div class="col-md-6">
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <div ng-repeat="state in simObject.states" style="display: inline">
+                <button ng-class="{'btn btn-default' : true, 'active' : state.stateIndex == $parent.stateSelected.stateIndex}" ng-click="$parent.setStateSelected(state.stateIndex, state.stateName, state.stateColor)" ng-style="{'border' : '2px solid {{state.stateColor}}'}">
+                    {{state.stateName}}
+                </button>
+            </div>
+        </div>
+    </div>
     <canvas id="drawArea" width="420" height="420" style="display: block"></canvas>
+    
     <canvas id="drawNeighbourhood" width="200" height="200" style="display: none"></canvas>
-    {{simObject.currentGrid | json}}
     <Button id="neighbourhoodButton" style="display: none" onclick="createdNeighbourhood()"> create neighbourhood </Button>
     
+</div>
+<div class="panel panel-default col-md-3">
+    <span>Analytics</span>
+    <button class="btn btn-default" ng-click="createDataForPieChart">Draw pie chart</button>
+    <canvas id="myChart" width="200" height="200"></canvas>
 </div>
