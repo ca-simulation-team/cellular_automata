@@ -31,7 +31,7 @@
                 <div ng-show="simLoaded">
                     <div class="sidemenuitem">
                         <span>Grid Size:</span><input type="number" class="form-control" min="2" max="70" ng-model="simObject.gridSize" ng-blur="updateGridSize()"/>
-                        <span>Cell Size:</span><input type="number" class="form-control" min="5" max="50"/>
+                        <span>Cell Size:</span><input type="number" class="form-control" min="5" max="100" ng-model="simObject.cellSize" ng-blur="drawFromCurrent()"/>
                         
                     </div>
                     <div class="sidemenuitem">
@@ -54,20 +54,19 @@
                         <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#createRule">Create New Rule</button>
                         <div id="createRule" class="collapse">
                             <span>If cell state is: </span>
-                            <select class="form-control" ng-model="ruleCurrentState" ng-options="state.stateIndex for state in simObject.states"></select>
-                            <span>and the state of the neighbors are:</span>
-                            <select class="form-control" ng-model="ruleNeighborState" ng-options="state.stateIndex for state in simObject.states"></select>
-                            <span>and the number of neighbors the cell has is:</span>
-                           <select class="form-control" ng-model="ruleNeighborCount" ng-options="possible for possible in possibleNeighbors"></select>
-                            <span>and the neighbor count should be:</span>
-                            <select class="form-control" ng-model="ruleEqualityModifier">
-                                <option ng-value="0">Equal to value</option>
-                                <option ng-value="1">Less than value</option>
-                                <option ng-value="2">Greater than value</option>
+                            <select class="form-control" ng-model="ruleCurrentState" ng-options="state.stateIndex for state in simObject.states" style="display: inline; width: 70px"></select>
+                            <br/><span>and the state of the neighbors are:</span>
+                            <select class="form-control" ng-model="ruleNeighborState" ng-options="state.stateIndex for state in simObject.states" style="display: inline; width: 70px"></select>
+                            <br/><span>and the number of neighbors the cell has is:</span>
+                            <select class="form-control" ng-model="ruleEqualityModifier" style="display: inline; width: 120px">
+                               <option ng-value="0">Equal to</option>
+                               <option ng-value="1">Less than</option>
+                               <option ng-value="2">Greater than</option>
                             </select>
-                            <span>The state of cell must change into</span>
-                            <select class="form-control" ng-model="ruleNextState" ng-options="state.stateIndex for state in simObject.states"></select>
-                            
+                           <select class="form-control" ng-model="ruleNeighborCount" ng-options="possible for possible in possibleNeighbors" style="display: inline; width: 70px"></select>
+                            <br/><span>The state of cell must change into</span>
+                            <select class="form-control" ng-model="ruleNextState" ng-options="state.stateIndex for state in simObject.states" style="display: inline; width: 70px"></select>
+                            <br/>
                             <button type="button" class="btn btn-default" ng-click="addRule()" style="margin-top: 10px">Add</button>
                         </div>
                         <div style="margin-top: 10px;">
@@ -88,19 +87,19 @@
                                 <div class="panel panel-default" ng-show="!rule.collapsed">
                                     <div class="panel-body">
                                         <span>If cell state is: </span>
-                                        <select class="form-control" ng-model="rule.currentState" ng-options="state.stateIndex as state.stateIndex for state in simObject.states"></select>
+                                        <select class="form-control" ng-model="rule.currentState" ng-options="state.stateIndex as state.stateIndex for state in simObject.states" ng-change="$parent.rulesChanged = true"></select>
                                         <span>and the state of the neighbors are:</span>
-                                        <select class="form-control" ng-model="rule.neighborState" ng-options="state.stateIndex as state.stateIndex for state in simObject.states"></select>
+                                        <select class="form-control" ng-model="rule.neighborState" ng-options="state.stateIndex as state.stateIndex for state in simObject.states" ng-change="$parent.rulesChanged = true"></select>
                                         <span>and the number of neighbors the cell has is:</span>
-                                        <select class="form-control" ng-model="rule.noOfNeighbors" ng-options="possible for possible in possibleNeighbors"></select>
+                                        <select class="form-control" ng-model="rule.noOfNeighbors" ng-options="possible for possible in possibleNeighbors" ng-change="$parent.rulesChanged = true"></select>
                                         <span>and the neighbor count should be:</span>
-                                        <select class="form-control" ng-model="rule.equalityModifier">
+                                        <select class="form-control" ng-model="rule.equalityModifier" ng-change="$parent.rulesChanged = true">
                                             <option ng-value="0">Equal to value</option>
                                             <option ng-value="1">Less than value</option>
                                             <option ng-value="2">Greater than value</option>
                                         </select>
                                         <span>The state of cell must change into</span>
-                                        <select class="form-control" ng-model="rule.nextState" ng-options="state.stateIndex as state.stateIndex for state in simObject.states"></select>
+                                        <select class="form-control" ng-model="rule.nextState" ng-options="state.stateIndex as state.stateIndex for state in simObject.states" ng-change="$parent.rulesChanged = true"></select>
 
                                         <button type="button" class="btn btn-default" ng-click="removeRule($index)" style="margin-top: 10px">Remove</button>
 
@@ -116,7 +115,6 @@
                     <span>Set delay:</span><br/>
                     <input id="speedAdjuster" type="range" min="0" max="1000" value="0" step="0.1" ng-model="delay"/>
                     <span>Delay(ms): {{delay}}</span>
-
                 </div>
                 
             </div>

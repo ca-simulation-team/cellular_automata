@@ -34,6 +34,7 @@ public class Simulation implements Serializable {
     private Agent[] agents;
     private int[][] seed, newNeighbourhood;
     private boolean started = false;
+    private boolean rulesChanged = false;
     private int[][] gridFromClient;
     
     @EJB
@@ -67,12 +68,14 @@ public class Simulation implements Serializable {
             startSimulation();
         } else {
             this.simulationState.setSeededGrid(gridFromClient);
-
+            if(rulesChanged){
+                simulationState.resetRules();
+                for(Rule rule : rules){
+                    this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
+                }
+            }
         }
 
-//        for(Rule rule : rules){
-//            this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState());
-//        }
         ujson = simulationState.getCurrentState();
         return ujson;
     }
@@ -192,4 +195,13 @@ public class Simulation implements Serializable {
         this.started = started;
     }
 
+    public boolean isRulesChanged() {
+        return rulesChanged;
+    }
+
+    public void setRulesChanged(boolean rulesChanged) {
+        this.rulesChanged = rulesChanged;
+    }
+
+    
 }

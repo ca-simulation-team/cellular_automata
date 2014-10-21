@@ -62,9 +62,10 @@ public class CellularAutomata extends SimState {
     public UniformJSON getCurrentState() {
         UniformJSON ujson = new UniformJSON();
         //initialize
-        int[][] thisgrid;
+        int[][] thisgrid; 
         long steps = 0;
         double time = 0;
+        
         //step
         schedule.step(this);
 
@@ -94,5 +95,9 @@ public class CellularAutomata extends SimState {
     public void changeGrid(int[][] newGrid){
         setSeededGrid(newGrid);
         seedGrid();
+    }
+    
+    public void resetRules(){
+        rules.clear();
     }
 }

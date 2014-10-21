@@ -51,6 +51,8 @@ public class simController extends HttpServlet {
                 
                 
                 sim.setRules(requestObject.rules);
+                sim.setRulesChanged(requestObject.rulesChanged);
+                
                 if (sim.isStarted()){
                     sim.setGridFromClient(requestObject.currentGrid);
                 } else {
@@ -59,7 +61,6 @@ public class simController extends HttpServlet {
                 
                 
                 if(requestObject.stop == false){
-                    
                     requestObject = sim.stepThrough();
                 } else if (requestObject.stop == true){
                     sim.stopSimulation();

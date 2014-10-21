@@ -15,5 +15,6 @@ public class UniformJSON
     public boolean stop;
     public long steps;
     public double time;
-    //public boolean gridUpdated;
+    public boolean rulesChanged;
+    
 }

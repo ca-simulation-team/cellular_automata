@@ -18,15 +18,20 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.ruleNeighborCount = 0;
     $scope.ruleEqualityModifier = 0;
     $scope.ruleNextState = 0;
+    $scope.rulesChanged = false;
+    
     $scope.stateSelected = {};
     $scope.simObject = new Object();
     $scope.simObject.gridSize = 10;
     $scope.simObject.currentGrid = [];
     $scope.simObject.states = [];
     $scope.simObject.rules = [];
+    $scope.simObject.cellSize = 15;
+    $scope.simObject.steps = 0;
+    $scope.simObject.timePassed = 0;
+    
     $scope.possibleNeighbors = [1, 2, 3, 4, 5, 6, 7, 8];
     var cnvLstSet = false;
-    var cellSize = 15;
     var defaultStateRemoved = false;
     var continous = true;
     var keepRunning = false;
@@ -78,11 +83,13 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.addRule = function() {
         var rule = {currentState: $scope.ruleCurrentState.stateIndex, neighborState: $scope.ruleNeighborState.stateIndex, noOfNeighbors: $scope.ruleNeighborCount, equalityModifier: $scope.ruleEqualityModifier, nextState: $scope.ruleNextState.stateIndex, collapsed: true};
         $scope.simObject.rules.push(rule);
+        $scope.rulesChanged = true;
         //createDataForPieChart();
     }
     
     $scope.removeRule = function(index) {
         $scope.simObject.rules.splice(index, 1);
+        $scope.rulesChanged = true;
     }
     
     $scope.controlSim = function(state){
@@ -169,10 +176,10 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
         var mousePos = getMousePos(canvas, evt);
 
-        var posX = (Math.floor(mousePos.x / cellSize)) * cellSize;
-        var posY = (Math.floor(mousePos.y / cellSize)) * cellSize;
-        var row = (Math.floor(mousePos.y / cellSize));
-        var col = (Math.floor(mousePos.x / cellSize));
+        var posX = (Math.floor(mousePos.x / $scope.simObject.cellSize)) * $scope.simObject.cellSize;
+        var posY = (Math.floor(mousePos.y / $scope.simObject.cellSize)) * $scope.simObject.cellSize;
+        var row = (Math.floor(mousePos.y / $scope.simObject.cellSize));
+        var col = (Math.floor(mousePos.x / $scope.simObject.cellSize));
 
 
 
@@ -184,13 +191,13 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
         $scope.simObject.currentGrid[row][col] = $scope.stateSelected.stateIndex;
 
-        ctx.fillRect(posX, posY, cellSize, cellSize);
+        ctx.fillRect(posX, posY, $scope.simObject.cellSize, $scope.simObject.cellSize);
 
 
 
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 1;
-        ctx.strokeRect(posX, posY, cellSize, cellSize);
+        ctx.strokeRect(posX, posY, $scope.simObject.cellSize, $scope.simObject.cellSize);
         
         
 
@@ -260,8 +267,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         var posX = 0;
         var posY = 0;
 
-        var width = values.length * cellSize;
-        var height = values.length * cellSize;
+        var width = values.length * $scope.simObject.cellSize;
+        var height = values.length * $scope.simObject.cellSize;
         var isRunning = true;
         canvas.width = width;
         canvas.height = height;
@@ -272,14 +279,14 @@ simCtrl.controller('simulationControl', function($scope, $http) {
                     var hex = $scope.simObject.states[$scope.simObject.currentGrid[i][j]].stateColor;
                     ctx.fillStyle = hex;
 
-                    ctx.fillRect(posX, posY, cellSize, cellSize);
+                    ctx.fillRect(posX, posY, $scope.simObject.cellSize, $scope.simObject.cellSize);
                     ctx.strokeStyle = 'black';
                     ctx.lineWidth = 1;
-                    ctx.strokeRect(posX, posY, cellSize, cellSize);
-                    posX = posX + cellSize;
+                    ctx.strokeRect(posX, posY, $scope.simObject.cellSize, $scope.simObject.cellSize);
+                    posX = posX + $scope.simObject.cellSize;
                 }
                 posX = 0;
-                posY = posY + cellSize;
+                posY = posY + $scope.simObject.cellSize;
             }
         }
         drawca();
@@ -315,6 +322,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         var req = new Object();
         req.currentGrid = $scope.simObject.currentGrid;
         req.rules = $scope.simObject.rules;
+        req.rulesChanged = $scope.rulesChanged;
         if (continous === true) {
             req.stop = false;
         } else {
@@ -329,9 +337,10 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             method: "POST",
             data: jsonReq
         }).success(function(data) {
-
-
             $scope.simObject.currentGrid = data["currentGrid"];
+            $scope.rulesChanged = false;
+            $scope.simObject.steps = data["steps"];
+            $scope.simObject.timePassed = data["time"];
             runSim($scope.simObject.currentGrid);
             if (keepRunning === true) {
                 setTimeout(function() {
