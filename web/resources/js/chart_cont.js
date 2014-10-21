@@ -1,12 +1,5 @@
 var pieChart;
-    var pieData = [
-        {
-            value: 11,
-            color: "#878BB6"
-        }
 
-
-    ];
 function  setupPieChart(data) {
     
     var pieOptions = {
@@ -32,7 +25,4 @@ function drawPieChart(data) {
     setupPieChart(data);
     
 }
-function reloadPieChart(){
-    
-    pieChart.update();
-}
+

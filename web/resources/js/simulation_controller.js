@@ -33,6 +33,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     //for mouse events
     var mousePressed;
     setupPieChart();
+    var generationStatesCount = [];
 
 
     $scope.createNewSim = function() {
@@ -287,6 +288,22 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         drawca();
     }
 
+    function gatherGenerationsStats() {
+
+        var genStatesStats = {};
+        for (var counter = 0; counter < statesLength; counter++)
+        {
+            var pieDat = {};
+            pieDat.value = countNumberOfStates($scope.simObject.states[counter].stateIndex);
+            pieDat.color = $scope.simObject.states[counter].stateColor;
+            pieDat.label = $scope.simObject.states[counter].stateName;
+
+            genStatesStats.push(pieDat);
+
+        }
+        generationStatesCount.push(genStatesStats);
+    }
+
     $scope.createDataForPieChart = function() {
 
         var data = [
@@ -306,7 +323,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         }
         drawPieChart(data);
 
-
+        
     }
 
 
@@ -334,6 +351,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
             $scope.simObject.currentGrid = data["currentGrid"];
             runSim($scope.simObject.currentGrid);
+            gatherGenerationsStats();
             if (keepRunning === true) {
                 setTimeout(function() {
                     runRequest();
