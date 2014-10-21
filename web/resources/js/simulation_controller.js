@@ -32,7 +32,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     var keepRunning = false;
     //for mouse events
     var mousePressed;
-    
+    setupPieChart();
 
 
     $scope.createNewSim = function() {
@@ -52,8 +52,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         runSim($scope.simObject.currentGrid);
         $scope.playEnabled = true;
         $scope.stepEnabled = true;
-        //$scope.setTestData();
-        
+        $scope.setTestData();
+
 
     }
 
@@ -78,15 +78,17 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.addRule = function() {
         var rule = {currentState: $scope.ruleCurrentState.stateIndex, neighborState: $scope.ruleNeighborState.stateIndex, noOfNeighbors: $scope.ruleNeighborCount, equalityModifier: $scope.ruleEqualityModifier, nextState: $scope.ruleNextState.stateIndex, collapsed: true};
         $scope.simObject.rules.push(rule);
-        //createDataForPieChart();
+
+
     }
-    
+
     $scope.removeRule = function(index) {
         $scope.simObject.rules.splice(index, 1);
     }
-    
-    $scope.controlSim = function(state){
-        if(state === 'playing'){
+
+
+    $scope.controlSim = function(state) {
+        if (state === 'playing') {
             $scope.playEnabled = false;
             $scope.pauseEnabled = true;
             $scope.stopEnabled = true;
@@ -191,8 +193,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 1;
         ctx.strokeRect(posX, posY, cellSize, cellSize);
-        
-        
+
+
 
 
 
@@ -209,7 +211,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             }
 
         }
-        
+
         return  stateCount;
 
     }
@@ -219,36 +221,36 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         runSim($scope.simObject.currentGrid);
     }
 
-    
-    $scope.updateGridSize = function(){
-        
-        if($scope.simObject.gridSize > $scope.simObject.currentGrid.length){
+
+    $scope.updateGridSize = function() {
+
+        if ($scope.simObject.gridSize > $scope.simObject.currentGrid.length) {
             var tempArray = [];
             for (var i = 0; i < $scope.simObject.gridSize; i++) {
-            var row = [];
-            for (var j = 0; j < $scope.simObject.gridSize; j++) {
-                row.push(0);
+                var row = [];
+                for (var j = 0; j < $scope.simObject.gridSize; j++) {
+                    row.push(0);
+                }
+                tempArray.push(row);
             }
-            tempArray.push(row);
-            }
-            for(var x = 0; x < $scope.simObject.currentGrid; x++){
-                for(var y = 0; y < $scope.simObject.currentGrid; y++){
-                     tempArray[x][y] = $scope.simObject.currentGrid[x][y];
+            for (var x = 0; x < $scope.simObject.currentGrid; x++) {
+                for (var y = 0; y < $scope.simObject.currentGrid; y++) {
+                    tempArray[x][y] = $scope.simObject.currentGrid[x][y];
                 }
             }
-            
+
             $scope.simObject.currentGrid = tempArray;
-            
-        } else if($scope.simObject.gridSize < $scope.simObject.currentGrid.length){
-            var amountToSubtract =  $scope.simObject.currentGrid.length - $scope.simObject.gridSize;
-            
-            for(var i = 0; i < amountToSubtract; i++){
+
+        } else if ($scope.simObject.gridSize < $scope.simObject.currentGrid.length) {
+            var amountToSubtract = $scope.simObject.currentGrid.length - $scope.simObject.gridSize;
+
+            for (var i = 0; i < amountToSubtract; i++) {
                 $scope.simObject.currentGrid.pop();
             }
         }
         runSim($scope.simObject.currentGrid);
     }
-    
+
     function runSim(array) {
         if (!cnvLstSet) {
             setCanvasLst();
@@ -288,26 +290,25 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.createDataForPieChart = function() {
 
         var data = [
-
         ];
-        
+
 
         var statesLength = $scope.simObject.states.length;
         for (var counter = 0; counter < statesLength; counter++)
         {
-            var pieDat ={};
+            var pieDat = {};
             pieDat.value = countNumberOfStates($scope.simObject.states[counter].stateIndex);
-            var hex = $scope.simObject.states[counter].stateColor;
-            pieDat.color = hex;
-//            alert("data value " + data.value);
+            pieDat.color = $scope.simObject.states[counter].stateColor;
+            pieDat.label = $scope.simObject.states[counter].stateName;
 
-              data.push(pieDat);    
-            
+            data.push(pieDat);
+
         }
+        drawPieChart(data);
 
-        
-        
+
     }
+
 
 
 
@@ -335,8 +336,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             runSim($scope.simObject.currentGrid);
             if (keepRunning === true) {
                 setTimeout(function() {
-                        runRequest();
-                    }, $scope.delay);
+                    runRequest();
+                }, $scope.delay);
             }
 
         }).
@@ -347,29 +348,29 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     }
 
 
-//    $scope.setTestData = function() {
-//
-//        var state1 = {stateIndex: 0, stateName: "dead", stateColor: "white"};
-//        $scope.simObject.states[0] = state1;
-//        var state2 = {stateIndex: 1, stateName: "alive", stateColor: "black"};
-//        $scope.simObject.states.push(state2);
-//        
-//        var rule1 = {currentState: 1, neighborState: 1, noOfNeighbors: 3, equalityModifier: 1, nextState: 0, collapsed: true};
-//        $scope.simObject.rules.push(rule1);
-//        var rule2 = {currentState: 1, neighborState: 1, noOfNeighbors: 4, equalityModifier: 2, nextState: 0, collapsed: true};
-//        $scope.simObject.rules.push(rule2);
-//        var rule3 = {currentState: 0, neighborState: 1, noOfNeighbors: 3, equalityModifier: 0, nextState: 1, collapsed: true};
-//        $scope.simObject.rules.push(rule3);
-//
-//    }
-    
-    $scope.setSelectedRule = function(index){
-        if($scope.simObject.rules[index].collapsed === true){
+    $scope.setTestData = function() {
+
+        var state1 = {stateIndex: 0, stateName: "dead", stateColor: "white"};
+        $scope.simObject.states[0] = state1;
+        var state2 = {stateIndex: 1, stateName: "alive", stateColor: "black"};
+        $scope.simObject.states.push(state2);
+
+        var rule1 = {currentState: 1, neighborState: 1, noOfNeighbors: 3, equalityModifier: 1, nextState: 0, collapsed: true};
+        $scope.simObject.rules.push(rule1);
+        var rule2 = {currentState: 1, neighborState: 1, noOfNeighbors: 4, equalityModifier: 2, nextState: 0, collapsed: true};
+        $scope.simObject.rules.push(rule2);
+        var rule3 = {currentState: 0, neighborState: 1, noOfNeighbors: 3, equalityModifier: 0, nextState: 1, collapsed: true};
+        $scope.simObject.rules.push(rule3);
+
+    }
+
+    $scope.setSelectedRule = function(index) {
+        if ($scope.simObject.rules[index].collapsed === true) {
             $scope.simObject.rules[index].collapsed = false;
-        } else if($scope.simObject.rules[index].collapsed === false) {
+        } else if ($scope.simObject.rules[index].collapsed === false) {
             $scope.simObject.rules[index].collapsed = true;
         }
     }
-    
+
 });
 

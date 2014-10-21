@@ -1,36 +1,35 @@
 var pieChart;
     var pieData = [
         {
-            value: data,
+            value: 11,
             color: "#878BB6"
         }
 
 
     ];
 function  setupPieChart(data) {
+    
     var pieOptions = {
-        segmentShowStroke: false,
-        animateScale: true
+        
+        segmentShowStroke: true,
+        animateScale: true,
+        animationSteps: 50,
+        animationEasing : "easeOutBounce",
+        segmentStrokeColor : "#ececec"
     };
-    var pieData = [
-        {
-            value: data,
-            color: "#878BB6"
-        }
+    
 
-
-    ];
+    
     var canvas = document.getElementById("myChart").getContext("2d");
+    
     pieChart = new Chart(canvas).Pie(data, pieOptions);
-
+    
 
 
 }
-function updatePieChart(data) {
-    pieChart.removeData(0);
-    
-    pieChart.addData(data);
-
+function drawPieChart(data) {
+    pieChart.destroy();
+    setupPieChart(data);
     
 }
 function reloadPieChart(){
