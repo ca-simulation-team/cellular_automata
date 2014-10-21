@@ -18,24 +18,24 @@ public class Main {
         int[][] initial = {{0,0,0,0,0,0,0,0},
                                       {0,0,0,0,0,0,0,0},
                                       {0,0,0,0,0,0,0,0},
-                                      {0,0,1,0,1,0,0,0},
-                                      {0,0,1,0,1,1,0,0},
-                                      {0,0,1,1,1,0,0,0},
-                                      {0,0,0,1,0,0,0,0},
+                                      {0,0,0,0,1,0,0,0},
+                                      {0,0,0,0,1,0,0,0},
+                                      {0,0,0,0,1,0,0,0},
+                                      {0,0,0,0,0,0,0,0},
                                       {0,0,0,0,0,0,0,0},};
         
         ca.setSeededGrid(initial);
         
-        ca.addRule(1, 1, 3, 1, 0);
-        ca.addRule(1, 1, 4, 2, 0);
-        ca.addRule(0, 1, 3, 0, 1);
+        ca.addRule(0, 1, 2, 2, 1, 50);
+//        ca.addRule(1, 1, 4, 2, 0, 80);
+//        ca.addRule(0, 1, 3, 0, 1, 80);
         
         
         ca.start();
         
         UniformJSON ujson = new UniformJSON();
         
-        for(int x = 0; x < 5; x++){
+        for(int x = 0; x < 2; x++){
             ujson = ca.getCurrentState();
             for(int i = 0; i < ujson.currentGrid.length; i++){
                 for(int j = 0; j < ujson.currentGrid.length; j++){

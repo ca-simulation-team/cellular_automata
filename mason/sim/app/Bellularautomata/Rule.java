@@ -18,7 +18,8 @@ public class Rule {
     int noOfNeighbors;
     int equalityModifier;
     int nextState;
-//    private int probability;
+    int probability;
+    
     public Rule(){
         
     }
@@ -65,6 +66,16 @@ public class Rule {
     public void setNextState(int nextState) {
         this.nextState = nextState;
     }
+
+    public int getProbability() {
+        return probability;
+    }
+
+    public void setProbability(int probability) {
+        this.probability = probability;
+    }
+
+    
     
     
 }

@@ -1,5 +1,6 @@
 package sim.app.Bellularautomata;
 
+import ec.util.MersenneTwisterFast;
 import java.util.ArrayList;
 import java.util.List;
 import sim.engine.SimState;
@@ -27,11 +28,17 @@ public class Stepper implements Steppable {
         tempGrid.setTo(ca.grid);
         int width = tempGrid.getWidth();
         int height = tempGrid.getHeight();
+        MersenneTwisterFast randomGen = new MersenneTwisterFast();
+        int rndValue = randomGen.nextInt(100);
+        
          for(int x=0;x<width;x++)
             for(int y=0;y<height;y++)
                 {
                 for(Rule rule : rules){
                     
+                    //check neighbors for static rule
+                    
+                    //count neighbors for dynamic rule
                     int count = 0;
                     for(int dx = -1; dx < 2; dx++) {
                         for(int dy = -1; dy < 2; dy++){
@@ -42,32 +49,34 @@ public class Stepper implements Steppable {
                            }
                         }
                     }
-                    if(rule.getEqualityModifier() == 0){
-                        if(count == rule.getNoOfNeighbors()){ 
-                            if(rule.getCurrentState() == tempGrid.field[x][y]){
-                                int[] changeVal = {x,y,rule.getNextState()};
-                                changes.add(changeVal);
-                                //ca.grid.field[x][y] = rule.getNextState();
+                    int p = rule.getProbability();
+                    if((rndValue <= p) || (p == 100)){
+                        if(rule.getEqualityModifier() == 0){
+                            if(count == rule.getNoOfNeighbors()){ 
+                                if(rule.getCurrentState() == tempGrid.field[x][y]){
+                                    int[] changeVal = {x,y,rule.getNextState()};
+                                    changes.add(changeVal);
+                                    //ca.grid.field[x][y] = rule.getNextState();
+                                }
+                            }
+                        } else if (rule.getEqualityModifier() == 1) {
+                            if(count < rule.getNoOfNeighbors()){
+                                if(rule.getCurrentState() == tempGrid.field[x][y]){
+                                    int[] changeVal = {x,y,rule.getNextState()};
+                                    changes.add(changeVal);
+                                    //ca.grid.field[x][y] = rule.getNextState();
+                                }
+                            }
+                        } else if(rule.getEqualityModifier() == 2){
+                            if(count > rule.getNoOfNeighbors()){
+                                if(rule.getCurrentState() == tempGrid.field[x][y]){
+                                    int[] changeVal = {x,y,rule.getNextState()};
+                                    changes.add(changeVal);
+                                    //ca.grid.field[x][y] = rule.getNextState();
+                                }
                             }
                         }
-                    } else if (rule.getEqualityModifier() == 1) {
-                        if(count < rule.getNoOfNeighbors()){
-                            if(rule.getCurrentState() == tempGrid.field[x][y]){
-                                int[] changeVal = {x,y,rule.getNextState()};
-                                changes.add(changeVal);
-                                //ca.grid.field[x][y] = rule.getNextState();
-                            }
-                        }
-                    } else if(rule.getEqualityModifier() == 2){
-                        if(count > rule.getNoOfNeighbors()){
-                            if(rule.getCurrentState() == tempGrid.field[x][y]){
-                                int[] changeVal = {x,y,rule.getNextState()};
-                                changes.add(changeVal);
-                                //ca.grid.field[x][y] = rule.getNextState();
-                            }
-                        }
-                    }
-                         
+                    }    
                 } //end of rule loop
                 for(int[] changeValues : changes){
              ca.grid.field[changeValues[0]][changeValues[1]] = changeValues[2];

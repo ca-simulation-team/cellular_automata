@@ -82,13 +82,14 @@ public class CellularAutomata extends SimState {
         return ujson;
     }
 
-    public void addRule(int currentState, int neighbourState, int noOfNeighbours, int equalityModifier, int nextStep){
+    public void addRule(int currentState, int neighbourState, int noOfNeighbours, int equalityModifier, int nextStep, int p){
         Rule rule = new Rule();
         rule.setCurrentState(currentState);
         rule.setNoOfNeighbors(noOfNeighbours);
         rule.setNeighborState(neighbourState);
         rule.setEqualityModifier(equalityModifier);
         rule.setNextState(nextStep);
+        rule.setProbability(p);
         rules.add(rule);
     }
     
