@@ -12,7 +12,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
     $scope.stateName = "";
     $scope.stateColor = "";
-
+    $scope.isDynamic = true;
+    $scope.rulePattern = [[]];
     $scope.ruleCurrentState = 0;
     $scope.ruleNeighborState = 0;
     $scope.ruleNeighborCount = 0;
@@ -83,7 +84,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     }
 
     $scope.addRule = function() {
-        var rule = {currentState: $scope.ruleCurrentState.stateIndex, neighborState: $scope.ruleNeighborState.stateIndex, noOfNeighbors: $scope.ruleNeighborCount, equalityModifier: $scope.ruleEqualityModifier, nextState: $scope.ruleNextState.stateIndex, probability: $scope.ruleProbability, collapsed: true};
+        var rule = {currentState: $scope.ruleCurrentState.stateIndex, neighborState: $scope.ruleNeighborState.stateIndex, noOfNeighbors: $scope.ruleNeighborCount, equalityModifier: $scope.ruleEqualityModifier, nextState: $scope.ruleNextState.stateIndex, probability: $scope.ruleProbability, isDynamic: $scope.isDynamic, rulePattern: $scope.rulePattern, collapsed: true};
         $scope.simObject.rules.push(rule);
         $scope.rulesChanged = true;
         //createDataForPieChart();
@@ -379,11 +380,11 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         var state2 = {stateIndex: 1, stateName: "alive", stateColor: "black"};
         $scope.simObject.states.push(state2);
 
-        var rule1 = {currentState: 1, neighborState: 1, noOfNeighbors: 3, equalityModifier: 1, nextState: 0, probability : 100, collapsed: true};
+        var rule1 = {currentState: 1, neighborState: 1, noOfNeighbors: 3, equalityModifier: 1, nextState: 0, probability : 100, isDynamic: true, rulePattern: [[]], collapsed: true};
         $scope.simObject.rules.push(rule1);
-        var rule2 = {currentState: 1, neighborState: 1, noOfNeighbors: 4, equalityModifier: 2, nextState: 0, probability : 100, collapsed: true};
+        var rule2 = {currentState: 1, neighborState: 1, noOfNeighbors: 4, equalityModifier: 2, nextState: 0, probability : 100, isDynamic: true, rulePattern: [[]], collapsed: true};
         $scope.simObject.rules.push(rule2);
-        var rule3 = {currentState: 0, neighborState: 1, noOfNeighbors: 3, equalityModifier: 0, nextState: 1, probability : 100, collapsed: true};
+        var rule3 = {currentState: 0, neighborState: 1, noOfNeighbors: 3, equalityModifier: 0, nextState: 1, probability : 100, isDynamic: true, rulePattern: [[]], collapsed: true};
         $scope.simObject.rules.push(rule3);
 
     }

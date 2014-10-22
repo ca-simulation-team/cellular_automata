@@ -53,7 +53,9 @@
                         <span>Rules</span><br/>
                         <button type="button" class="btn btn-default" data-toggle="collapse" data-target="#createRule">Create New Rule</button>
                         <div id="createRule" class="collapse">
-                            <span>If cell state is: </span>
+                            <input type="checkbox" name="checkDynamic" ng-model="isDynamic" checked="checked"/>Dynamic Rule <br/>
+                            <div ng-show="isDynamic">
+                                <span>If cell state is: </span>
                             <select class="form-control" ng-model="ruleCurrentState" ng-options="state.stateIndex for state in simObject.states" style="display: inline; width: 70px"></select>
                             <br/><span>and the state of the neighbors are:</span>
                             <select class="form-control" ng-model="ruleNeighborState" ng-options="state.stateIndex for state in simObject.states" style="display: inline; width: 70px"></select>
@@ -64,7 +66,12 @@
                                <option ng-value="2">Greater than</option>
                             </select>
                            <select class="form-control" ng-model="ruleNeighborCount" ng-options="possible for possible in possibleNeighbors" style="display: inline; width: 70px"></select>
-                            <br/><span>The state of cell must change into</span>
+                            </div>
+                            <div ng-show="!isDynamic">
+                                <span>Draw static rule pattern:</span>
+                                <canvas id="staticRule" width="40" height="40" style="display: none"></canvas>
+                            </div>
+                            <br/><span>The next state of cell must be:</span>
                             <select class="form-control" ng-model="ruleNextState" ng-options="state.stateIndex for state in simObject.states" style="display: inline; width: 70px"></select>
                             <br/><hr/><span>Set probability (% from 0 to 100) :</span>
                             <input type="number" class="form-control" ng-model="ruleProbability" min="0" max="100"/>
@@ -73,7 +80,7 @@
                         <div style="margin-top: 10px;">
                             <div ng-repeat="rule in simObject.rules" style="margin-top: 5px">
                                 <button type="button" class="btn btn-default" ng-click="setSelectedRule($index)">
-                                    <img src="resources/images/icons/appbar.draw.pixel.fill.grid.png" class="button_icon" style="display: inline"/>
+                                    <img src="resources/images/icons/current_cell.png" class="button_icon" style="display: inline"/>
                                     <span>{{rule.currentState}} | </span>
                                     <img src="resources/images/icons/appbar.calendar.future.png" class="button_icon" style="display: inline"/>
                                     <span>{{rule.neighborState}} | </span>

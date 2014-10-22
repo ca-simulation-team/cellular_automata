@@ -19,6 +19,8 @@ public class Rule {
     int equalityModifier;
     int nextState;
     int probability;
+    boolean isDynamic;
+    int[][] rulePattern;
     
     public Rule(){
         
@@ -73,6 +75,22 @@ public class Rule {
 
     public void setProbability(int probability) {
         this.probability = probability;
+    }
+
+    public boolean isIsDynamic() {
+        return isDynamic;
+    }
+
+    public void setIsDynamic(boolean isDynamic) {
+        this.isDynamic = isDynamic;
+    }
+
+    public int[][] getRulePattern() {
+        return rulePattern;
+    }
+
+    public void setRulePattern(int[][] rulePattern) {
+        this.rulePattern = rulePattern;
     }
 
     
