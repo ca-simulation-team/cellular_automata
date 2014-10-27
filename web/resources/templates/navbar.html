@@ -12,7 +12,7 @@
                     <li><a href="#">Create new MA simulation</a></li>
                     <li><a href="#">Download</a></li>
                     <li><a href="#">Load from file</a></li>
-                    <li><a href="#">Load Example</a></li>
+                    <li><a href data-toggle="modal" data-target="#examplelist">Load Example</a></li>
                 </ul>
             </li>
           <li><a href="#">About</a></li>
@@ -21,3 +21,21 @@
        </ul>
     </div>
 </nav>
+
+ <div class="modal fade" id="examplelist" tabindex="-1" role="dialog" aria-labelledby="exampleLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+        <h4 class="modal-title" id="exampleLabel">Examples simulations</h4>
+      </div>
+      <div class="modal-body">
+        <!-- example stuff goes here -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Load simulation</button>
+      </div>
+    </div>
+  </div>
+</div>
