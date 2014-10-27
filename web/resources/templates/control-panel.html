@@ -69,7 +69,7 @@
                             </div>
                             <div ng-show="!isDynamic">
                                 <span>Draw static rule pattern:</span>
-                                <canvas id="staticRule" width="40" height="40" style="display: none"></canvas>
+                                <canvas id="staticRuleDraw" width="40" height="40" style="display: inline-block"></canvas>
                             </div>
                             <br/><span>The next state of cell must be:</span>
                             <select class="form-control" ng-model="ruleNextState" ng-options="state.stateIndex for state in simObject.states" style="display: inline; width: 70px"></select>
@@ -132,7 +132,7 @@
         </div>
     </div> <!--main panel body end -->
 </div> <!--main panel end -->
-<div class="col-md-6">
+<div class="col-md-9">
     <div class="panel panel-default">
         <div class="panel-body">
             <div ng-repeat="state in simObject.states" style="display: inline">
@@ -148,8 +148,8 @@
     <Button id="neighbourhoodButton" style="display: none" onclick="createdNeighbourhood()"> create neighbourhood </Button>
     
 </div>
-<div class="panel panel-default col-md-3">
+<!--<div class="panel panel-default col-md-3">
     <span>Analytics</span>
     <button class="btn btn-default" ng-click="createDataForPieChart()">Draw pie chart</button>
     <canvas id="myChart" width="200" height="200"></canvas>
-</div>
+</div>-->

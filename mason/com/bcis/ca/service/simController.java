@@ -49,7 +49,6 @@ public class simController extends HttpServlet {
                 Gson gson = new Gson();
                 UniformJSON requestObject = gson.fromJson(requestString, UniformJSON.class);
                 
-                
                 sim.setRules(requestObject.rules);
                 sim.setRulesChanged(requestObject.rulesChanged);
                 
