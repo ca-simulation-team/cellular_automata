@@ -437,13 +437,13 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         req.steps = 0;
         req.time = 0;
         var jsonReq = angular.toJson(req);
-        alert(jsonReq);
+        
         $http({
             url: 'simController',
             method: "POST",
             data: jsonReq
         }).success(function(data) {
-            alert(data["currentGrid"])
+            
             $scope.simObject.currentGrid = data["currentGrid"];
             $scope.rulesChanged = false;
             $scope.simObject.steps = data["steps"];
