@@ -9,7 +9,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.stopEnabled = false;
     $scope.stepEnabled = false;
     $scope.delay = 0;
-
+    $scope.saveFilename = "default_simulation";
+    $scope.inputFile = [];
     $scope.stateName = "";
     $scope.stateColor = "";
     $scope.isDynamic = true;
@@ -462,7 +463,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
                     alert(status);
 
                 });
-    }
+    };
 
 
     $scope.setTestData = function() {
@@ -478,7 +479,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         $scope.simObject.rules.push(rule2);
         var rule3 = {currentState: 0, neighborState: 1, noOfNeighbors: 3, equalityModifier: 0, nextState: 1, probability: 100, isDynamic: true, rulePattern: [[0,0,0],[0,0,0],[0,0,0]], collapsed: true};
         $scope.simObject.rules.push(rule3);
-        }
+        };
 
     $scope.setruleoneten = function(){
         var state1 = {stateIndex: 0, stateName: "empty", stateColor: "white"};
@@ -535,14 +536,41 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         var rule8 = {currentState: 0, neighborState: 0, noOfNeighbors: 0, equalityModifier: 0, nextState: 0, probability: 100, isDynamic: false, rulePattern: rulepat7, collapsed: true};
         $scope.simObject.rules.push(rule8);
         
-    }
+    };
     $scope.setSelectedRule = function(index) {
         if ($scope.simObject.rules[index].collapsed === true) {
             $scope.simObject.rules[index].collapsed = false;
         } else if ($scope.simObject.rules[index].collapsed === false) {
             $scope.simObject.rules[index].collapsed = true;
         }
-    }
+    };
 
+    $scope.saveCurrent = function(){
+        var fullName = $scope.saveFilename + '.bel';
+        var toSave = angular.toJson($scope.simObject);
+        var dl = document.createElement('a');
+        dl.setAttribute('href', 'data:application/json;charset=utf-8,' + toSave);
+        dl.setAttribute('download', fullName);
+        dl.click();
+       
+    };
+    
+    $scope.readFromFile = function(){
+        var file = $scope.inputFile[0];
+        
+        
+        if(true){
+            var reader = new FileReader();
+
+            reader.onload = function(e) {
+              var jsonText = reader.result;
+              $scope.simObject = angular.fromJson(jsonText);
+            }
+
+            reader.readAsText(file);  
+        } else {
+            alert("wrong file!");
+        }
+    };
 });
 
