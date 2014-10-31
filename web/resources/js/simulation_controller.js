@@ -44,7 +44,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     var mousePressed;
     //setupPieChart();
     var generationStatesCount = [];
-
+    var JsonObj = null;
 
     $scope.createNewSim = function() {
         $scope.simLoaded = true;
@@ -64,11 +64,10 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         $scope.playEnabled = true;
         $scope.stepEnabled = true;
         $scope.rulesChanged = true;
-        $scope.setTestData();
         setNeighborhoodCanvasLst();
-
+        //document.getElementById('files').addEventListener('change', handleFileSelect, false);
     }
-
+    
     $scope.addState = function() {
         if (defaultStateRemoved === false) {
             $scope.simObject.states.pop();
@@ -555,22 +554,33 @@ simCtrl.controller('simulationControl', function($scope, $http) {
        
     };
     
-    $scope.readFromFile = function(){
-        var file = $scope.inputFile[0];
-        
-        
-        if(true){
-            var reader = new FileReader();
+    
 
-            reader.onload = function(e) {
-              var jsonText = reader.result;
-              $scope.simObject = angular.fromJson(jsonText);
-            }
+    function handleFileSelect(evt) {
+        var files = evt.target.files; // FileList object
+        f = files[0];
+        var reader = new FileReader();
 
-            reader.readAsText(file);  
-        } else {
-            alert("wrong file!");
-        }
-    };
+        // Closure to capture the file information.
+        reader.onload = (function (theFile) {
+            return function (e) { 
+                JsonObj = e.target.result
+                
+            };
+        })(f);
+
+        // Read in JSON as a data URL.
+        reader.readAsText(f, 'UTF-8');
+    }
+    
+    $scope.setFromFile = function(){
+        $scope.createNewSim();
+        $scope.simObject = angular.fromJson(JsonObj);
+        $scope.drawFromCurrent();
+    }
+    
+    $scope.setFileListener = function(){
+        document.getElementById('files').addEventListener('change', handleFileSelect, false);
+    }
 });
 
