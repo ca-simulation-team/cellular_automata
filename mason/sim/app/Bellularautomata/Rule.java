@@ -6,11 +6,14 @@
 
 package sim.app.Bellularautomata;
 
+import javax.ejb.Stateless;
+
 /**
  *
  * @author Nawaz Gayoom
  * @version 1.0
  */
+@Stateless
 public class Rule {
     
     int currentState;
@@ -21,6 +24,7 @@ public class Rule {
     int probability;
     boolean isDynamic;
     int[][] rulePattern;
+    int[][] neighborhood;
     
     public Rule(){
         
@@ -91,6 +95,14 @@ public class Rule {
 
     public void setRulePattern(int[][] rulePattern) {
         this.rulePattern = rulePattern;
+    }
+
+    public int[][] getNeighborhood() {
+        return neighborhood;
+    }
+
+    public void setNeighborhood(int[][] neighborhood) {
+        this.neighborhood = neighborhood;
     }
 
     

@@ -17,6 +17,9 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.rulePattern = [[0, 0, 0],
         [0, 0, 0],
         [0, 0, 0]];
+    $scope.neighborhood = [[1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1]];
     $scope.ruleCurrentState = 0;
     $scope.ruleNeighborState = 0;
     $scope.ruleNeighborCount = 0;
@@ -57,7 +60,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             }
             $scope.simObject.currentGrid.push(row);
         }
-        var defaultState = {stateIndex: 0, stateName: "Default", stateColor: "#FFFFFF"};
+        var defaultState = {stateIndex: 0, stateName: "Default", stateColor: "#FFFFFF", stateWeight: 1};
         $scope.simObject.states.push(defaultState);
         $scope.stateSelected = defaultState;
         runSim($scope.simObject.currentGrid);
@@ -65,7 +68,6 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         $scope.stepEnabled = true;
         $scope.rulesChanged = true;
         setNeighborhoodCanvasLst();
-        //document.getElementById('files').addEventListener('change', handleFileSelect, false);
     }
     
     $scope.addState = function() {
@@ -73,13 +75,13 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             $scope.simObject.states.pop();
             defaultStateRemoved = true;
             var stateIndex = $scope.simObject.states.length;
-            var state = {stateIndex: stateIndex, stateName: $scope.stateName, stateColor: $scope.stateColor};
+            var state = {stateIndex: stateIndex, stateName: $scope.stateName, stateColor: $scope.stateColor, stateWeight: 1};
             $scope.simObject.states.push(state);
             $scope.stateSelected = state;
             runSim($scope.simObject.currentGrid);
         } else {
             var stateIndex = $scope.simObject.states.length;
-            var state = {stateIndex: stateIndex, stateName: $scope.stateName, stateColor: $scope.stateColor};
+            var state = {stateIndex: stateIndex, stateName: $scope.stateName, stateColor: $scope.stateColor, stateWeight: 1};
             $scope.simObject.states.push(state);
         }
 
@@ -88,10 +90,20 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
     $scope.addRule = function() {
         
-        var rule = {currentState: $scope.ruleCurrentState.stateIndex, neighborState: $scope.ruleNeighborState.stateIndex, noOfNeighbors: $scope.ruleNeighborCount, equalityModifier: $scope.ruleEqualityModifier, nextState: $scope.ruleNextState.stateIndex, probability: $scope.ruleProbability, isDynamic: $scope.isDynamic, rulePattern: [[$scope.rulePattern[0][0],$scope.rulePattern[0][1],$scope.rulePattern[0][2]],
-                                                                                                                                                                                                                                                                                                                                             [$scope.rulePattern[1][0],$scope.rulePattern[1][1],$scope.rulePattern[1][2]],
-                                                                                                                                                                                                                                                                                                                                             [$scope.rulePattern[2][0],$scope.rulePattern[2][1],$scope.rulePattern[2][2]]],
-            collapsed: true};
+        var rule = {currentState: $scope.ruleCurrentState.stateIndex, 
+                    neighborState: $scope.ruleNeighborState.stateIndex, 
+                    noOfNeighbors: $scope.ruleNeighborCount, 
+                    equalityModifier: $scope.ruleEqualityModifier, 
+                    nextState: $scope.ruleNextState.stateIndex, 
+                    probability: $scope.ruleProbability, 
+                    isDynamic: $scope.isDynamic,
+                    rulePattern: [[$scope.rulePattern[0][0],$scope.rulePattern[0][1],$scope.rulePattern[0][2]],
+                                 [$scope.rulePattern[1][0],$scope.rulePattern[1][1],$scope.rulePattern[1][2]],
+                                 [$scope.rulePattern[2][0],$scope.rulePattern[2][1],$scope.rulePattern[2][2]]],
+                    neighborhood: [[$scope.neighborhood[0][0],$scope.neighborhood[0][1],$scope.neighborhood[0][2]],
+                                 [$scope.neighborhood[1][0],$scope.neighborhood[1][1],$scope.neighborhood[1][2]],
+                                 [$scope.neighborhood[2][0],$scope.neighborhood[2][1],$scope.neighborhood[2][2]]],
+                    collapsed: true};
         $scope.simObject.rules.push(rule);
         $scope.rulesChanged = true;
         //createDataForPieChart();
@@ -117,7 +129,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             $scope.pauseEnabled = false;
             $scope.stopEnabled = true;
             $scope.stepEnabled = true;
-            continous = false;
+            continous = true;
             keepRunning = false;
         } else if (state === 'stopped') {
             $scope.playEnabled = true;
@@ -135,7 +147,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     };
 
     $scope.setStateSelected = function(stateIndex, stateName, stateColor) {
-        var state = {stateIndex: stateIndex, stateName: stateName, stateColor: stateColor};
+        var state = {stateIndex: stateIndex, stateName: stateName, stateColor: stateColor, stateWeight: 1};
         $scope.stateSelected = state;
     }
 
@@ -447,6 +459,9 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             $scope.simObject.currentGrid = data["currentGrid"];
             $scope.rulesChanged = false;
             $scope.simObject.steps = data["steps"];
+            if(data["time"] == null){
+                alert('this is where it goes wrong');
+            }
             $scope.simObject.timePassed = data["time"];
 
             runSim($scope.simObject.currentGrid);
@@ -459,83 +474,12 @@ simCtrl.controller('simulationControl', function($scope, $http) {
 
         }).
                 error(function(data, status, headers, config) {
-                    alert(status);
+//                    alert(status);
 
                 });
     };
 
 
-    $scope.setTestData = function() {
-
-        var state1 = {stateIndex: 0, stateName: "dead", stateColor: "white"};
-        $scope.simObject.states[0] = state1;
-        var state2 = {stateIndex: 1, stateName: "alive", stateColor: "black"};
-        $scope.simObject.states.push(state2);
-
-        var rule1 = {currentState: 1, neighborState: 1, noOfNeighbors: 3, equalityModifier: 1, nextState: 0, probability: 100, isDynamic: true, rulePattern: [[0,0,0],[0,0,0],[0,0,0]], collapsed: true};
-        $scope.simObject.rules.push(rule1);
-        var rule2 = {currentState: 1, neighborState: 1, noOfNeighbors: 4, equalityModifier: 2, nextState: 0, probability: 100, isDynamic: true, rulePattern: [[0,0,0],[0,0,0],[0,0,0]], collapsed: true};
-        $scope.simObject.rules.push(rule2);
-        var rule3 = {currentState: 0, neighborState: 1, noOfNeighbors: 3, equalityModifier: 0, nextState: 1, probability: 100, isDynamic: true, rulePattern: [[0,0,0],[0,0,0],[0,0,0]], collapsed: true};
-        $scope.simObject.rules.push(rule3);
-        };
-
-    $scope.setruleoneten = function(){
-        var state1 = {stateIndex: 0, stateName: "empty", stateColor: "white"};
-        $scope.simObject.states[0] = state1;
-        var state2 = {stateIndex: 1, stateName: "filled", stateColor: "black"};
-        $scope.simObject.states.push(state2);
-        var rulepat = [[1,1,1],
-                            [0,0,0],
-                            [0,0,0]
-        ];
-        var rulepat1 = [[1,1,0],
-                            [0,0,0],
-                            [0,0,0]
-        ];
-        var rulepat2 = [[1,0,1],
-                            [0,0,0],
-                            [0,0,0]
-        ];
-        var rulepat3 = [[1,0,0],
-                            [0,0,0],
-                            [0,0,0]
-        ];
-        var rulepat4 = [[0,1,1],
-                            [0,0,0],
-                            [0,0,0]
-        ];
-        var rulepat5 = [[0,1,0],
-                            [0,0,0],
-                            [0,0,0]
-        ];
-        var rulepat6 = [[0,0,1],
-                            [0,0,0],
-                            [0,0,0]
-        ];
-        var rulepat7 = [[0,0,0],
-                            [0,0,0],
-                            [0,0,0]
-        ];
-        
-        var rule1 = {currentState: 0, neighborState: 0, noOfNeighbors: 0, equalityModifier: 0, nextState: 0, probability: 100, isDynamic: false, rulePattern: rulepat, collapsed: true};
-        $scope.simObject.rules.push(rule1);
-        var rule2 = {currentState: 0, neighborState: 0, noOfNeighbors: 0, equalityModifier: 0, nextState: 1, probability: 100, isDynamic: false, rulePattern: rulepat1, collapsed: true};
-        $scope.simObject.rules.push(rule2);
-        var rule3 = {currentState: 0, neighborState: 0, noOfNeighbors: 0, equalityModifier: 0, nextState: 1, probability: 100, isDynamic: false, rulePattern: rulepat2, collapsed: true};
-        $scope.simObject.rules.push(rule3);
-        var rule4 = {currentState: 0, neighborState: 0, noOfNeighbors: 0, equalityModifier: 0, nextState: 0, probability: 100, isDynamic: false, rulePattern: rulepat3, collapsed: true};
-        $scope.simObject.rules.push(rule4);
-        var rule5 = {currentState: 0, neighborState: 0, noOfNeighbors: 0, equalityModifier: 0, nextState: 1, probability: 100, isDynamic: false, rulePattern: rulepat4, collapsed: true};
-        $scope.simObject.rules.push(rule5);
-        var rule6 = {currentState: 0, neighborState: 0, noOfNeighbors: 0, equalityModifier: 0, nextState: 1, probability: 100, isDynamic: false, rulePattern: rulepat5, collapsed: true};
-        $scope.simObject.rules.push(rule6);
-        var rule7 = {currentState: 0, neighborState: 0, noOfNeighbors: 0, equalityModifier: 0, nextState: 1, probability: 100, isDynamic: false, rulePattern: rulepat6, collapsed: true};
-        $scope.simObject.rules.push(rule7);
-        var rule8 = {currentState: 0, neighborState: 0, noOfNeighbors: 0, equalityModifier: 0, nextState: 0, probability: 100, isDynamic: false, rulePattern: rulepat7, collapsed: true};
-        $scope.simObject.rules.push(rule8);
-        
-    };
     $scope.setSelectedRule = function(index) {
         if ($scope.simObject.rules[index].collapsed === true) {
             $scope.simObject.rules[index].collapsed = false;
@@ -565,7 +509,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         reader.onload = (function (theFile) {
             return function (e) { 
                 JsonObj = e.target.result
-                
+                alert(JsonObj);
             };
         })(f);
 
@@ -582,5 +526,51 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.setFileListener = function(){
         document.getElementById('files').addEventListener('change', handleFileSelect, false);
     }
+    
+    $scope.randomizeGrid = function(){
+        var randomArray = [];
+        for(var i = 0; i < $scope.simObject.states.length; i++){
+            for(var j = 0; j < $scope.simObject.states[i].stateWeight; j++){
+                randomArray.push($scope.simObject.states[i].stateIndex);
+            }
+        }
+        
+        for(var k = 0; k < $scope.simObject.currentGrid.length; k++){
+            for(var l = 0; l < $scope.simObject.currentGrid.length; l++){
+                var index = Math.floor(Math.random() * (randomArray.length - 0)) + 0;
+                var stateTo = randomArray[index];
+                $scope.simObject.currentGrid[k][l] = stateTo;
+            }
+        }
+        $scope.drawFromCurrent();
+    }
+    
+   $scope.seedThis = function(){
+       var req = new Object();
+       req.seedThis = true;
+       req.currentGrid = $scope.simObject.currentGrid;
+       var jsonReq = angular.toJson(req);
+       $http({
+            url: 'simController',
+            method: "POST",
+            data: jsonReq
+        }).success(function(data) {
+            //do nothing
+        }).
+                error(function(data, status, headers, config) {
+                    alert(status);
+
+                });
+   }
+   
+   $scope.setAllToSelected = function(){
+       for(var i = 0; i < $scope.simObject.currentGrid.length; i++){
+           for(var j = 0; j < $scope.simObject.currentGrid.length; j++){
+               $scope.simObject.currentGrid[i][j] = $scope.stateSelected.stateIndex;
+           }
+       }
+       
+       $scope.drawFromCurrent();
+   }
 });
 

@@ -3,6 +3,7 @@ package sim.app.Bellularautomata;
 import ec.util.MersenneTwisterFast;
 import java.util.ArrayList;
 import java.util.List;
+import javax.ejb.Stateless;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.field.grid.IntGrid2D;
@@ -10,6 +11,7 @@ import sim.field.grid.IntGrid2D;
  *
  * @author Nawaz
  */
+@Stateless
 public class Stepper implements Steppable {
     
     
@@ -30,7 +32,6 @@ public class Stepper implements Steppable {
         int height = tempGrid.getHeight();
         MersenneTwisterFast randomGen = new MersenneTwisterFast();
         int rndValue = randomGen.nextInt(100);
-        boolean tester = true;
          for(int x=0;x<width;x++)
             for(int y=0;y<height;y++)
                 {
@@ -57,7 +58,9 @@ public class Stepper implements Steppable {
                             for(int i = 0; i < rulePattern.length; i++){
                                 for(int j = 0; j < rulePattern.length; j++){
                                     if(neighborPattern[i][j] != rulePattern[i][j]){
-                                        match = false;
+                                        if(rule.neighborhood[i][j] == 0){
+                                            match = false;
+                                        }
                                     }
                                 }
                             }
@@ -69,13 +72,13 @@ public class Stepper implements Steppable {
                             
                         //process for dynamic rule
                         int count = 0;
-
                         for(int dx = -1; dx < 2; dx++) {
                             for(int dy = -1; dy < 2; dy++){
                                int neighbourState = tempGrid.field[tempGrid.stx(x+dx)][tempGrid.sty(y+dy)];
-
                                if (neighbourState == rule.getNeighborState()){
-                                   ++count;
+                                   if(rule.neighborhood[dx+1][dy+1] == 1){
+                                    ++count;
+                                   }
                                }
                             }
                         }

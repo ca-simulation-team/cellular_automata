@@ -48,7 +48,9 @@ public class simController extends HttpServlet {
                
                 Gson gson = new Gson();
                 UniformJSON requestObject = gson.fromJson(requestString, UniformJSON.class);
-                
+                if(requestObject.seedThis == true){
+                    sim.setSeed(requestObject.currentGrid);
+                } else {
                 sim.setRules(requestObject.rules);
                 sim.setRulesChanged(requestObject.rulesChanged);
                 
@@ -66,11 +68,11 @@ public class simController extends HttpServlet {
                     requestObject = sim.stepThrough();
                 }
 //               
-                
+                }
                 response.setContentType("application/json");
 
                 GsonBuilder builder = new GsonBuilder();
-                gson = builder.create();
+                gson = builder.create();        
                 String jsonContent = gson.toJson(requestObject);
                 PrintWriter out = response.getWriter();
                 out.print(jsonContent);

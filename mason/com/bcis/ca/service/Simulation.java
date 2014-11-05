@@ -47,7 +47,7 @@ public class Simulation implements Serializable {
 
         simulationState.setSeededGrid(seed);
         for (Rule rule : rules) {
-            simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState(), rule.getProbability(), rule.isIsDynamic(), rule.getRulePattern());
+            simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState(), rule.getProbability(), rule.isIsDynamic(), rule.getRulePattern(), rule.getNeighborhood());
         }
         //this.simulationState.setNeighbourhood(newNeighbourhood);
         simulationState.start();
@@ -71,7 +71,7 @@ public class Simulation implements Serializable {
             if(rulesChanged){
                 simulationState.resetRules();
                 for(Rule rule : rules){
-                    this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState(), rule.getProbability(), rule.isIsDynamic(), rule.getRulePattern());
+                    this.simulationState.addRule(rule.getCurrentState(), rule.getNeighborState(), rule.getNoOfNeighbors(), rule.getEqualityModifier(), rule.getNextState(), rule.getProbability(), rule.isIsDynamic(), rule.getRulePattern(), rule.getNeighborhood());
                 }
             }
         }
@@ -88,6 +88,7 @@ public class Simulation implements Serializable {
 
  
     public void stopSimulation() { 
+        started = false;
         simulationState.finish();
         
     }

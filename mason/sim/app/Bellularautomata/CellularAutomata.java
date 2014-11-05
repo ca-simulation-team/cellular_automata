@@ -59,6 +59,7 @@ public class CellularAutomata extends SimState {
     }
 
     
+    @Override
     public UniformJSON getCurrentState() {
         UniformJSON ujson = new UniformJSON();
         //initialize
@@ -82,7 +83,7 @@ public class CellularAutomata extends SimState {
         return ujson;
     }
 
-    public void addRule(int currentState, int neighbourState, int noOfNeighbours, int equalityModifier, int nextStep, int p, boolean isDynamic, int[][] rulePattern){
+    public void addRule(int currentState, int neighbourState, int noOfNeighbours, int equalityModifier, int nextStep, int p, boolean isDynamic, int[][] rulePattern, int[][] neighborhood){
         Rule rule = new Rule();
         rule.setCurrentState(currentState);
         rule.setNoOfNeighbors(noOfNeighbours);
@@ -92,12 +93,13 @@ public class CellularAutomata extends SimState {
         rule.setProbability(p);
         rule.setIsDynamic(isDynamic);
         rule.setRulePattern(rulePattern);
+        rule.setNeighborhood(neighborhood);
         rules.add(rule);
     }
     
     public void changeGrid(int[][] newGrid){
-        setSeededGrid(newGrid);
-        seedGrid();
+        this.grid.field = newGrid;
+        this.gridSize = newGrid.length;
     }
     
     public void resetRules(){

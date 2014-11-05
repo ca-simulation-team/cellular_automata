@@ -13,8 +13,9 @@
             <button class="btn btn-default" id="resumeBtn" ng-click="controlSim('stepped')" ng-disabled="!stepEnabled">
                 <img src="resources/images/icons/appbar.control.resume.png" class="button_icon">
             </button>
+            
         </div> <!--button group end -->
-
+        <button class="btn btn-default" id="setSeedBtn" ng-click="seedThis()" ng-disabled="!stepEnabled">Seed Grid</button>
         <hr/>
         <ul class="nav nav-tabs" role="tablist" id="myTab">
             <li class="active"><a href="#model" role="tab" data-toggle="tab">Model</a></li>
@@ -24,7 +25,7 @@
             <div class="tab-pane active" id="model">
                 <div ng-show="!simLoaded">
                     <div class="sidemenuitem">
-                        <button class="btn btn-default" type="button" ng-click="createNewSim()">Create New CA Simulation</button>
+                        <button class="btn btn-default" type="button" ng-click="createNewSim()">Create a new model</button>
                     </div>
                     
                 </div>
@@ -122,12 +123,18 @@
                 </div>
             </div>
             <div class="tab-pane" id="parameters">
-                <div class="sidemenuitem_bottom">
+                <div class="sidemenuitem">
                     <span>Set delay:</span><br/>
                     <input id="speedAdjuster" type="range" min="0" max="1000" value="0" step="0.1" ng-model="delay"/>
                     <span>Delay(ms): {{delay}}</span>
                 </div>
-                
+                <div class="sidemenuitem_bottom">
+                    <span>Randomization weightage</span><br/>
+                    <div ng-repeat="state in simObject.states">
+                        <span>{{state.stateName}}</span>
+                        <input type="number" class="form-control" ng-model="state.stateWeight"/>
+                    </div>
+                </div>
             </div>
         </div>
     </div> <!--main panel body end -->
@@ -135,11 +142,19 @@
 <div class="col-md-9">
     <div class="panel panel-default">
         <div class="panel-body">
+            <button class="btn btn-default" ng-click="setAllToSelected()">
+                    Set all cells to selected
+            </button>
+            <button class="btn btn-default" ng-click="randomizeGrid()">
+                    Randomize
+            </button>
             <div ng-repeat="state in simObject.states" style="display: inline">
                 <button ng-class="{'btn btn-default' : true, 'active' : state.stateIndex == $parent.stateSelected.stateIndex}" ng-click="$parent.setStateSelected(state.stateIndex, state.stateName, state.stateColor)" ng-style="{'border' : '2px solid {{state.stateColor}}'}">
                     {{state.stateName}}
                 </button>
+                
             </div>
+            
         </div>
     </div>
     <canvas id="drawArea" width="420" height="420" style="display: block"></canvas>

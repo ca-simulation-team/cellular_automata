@@ -65,14 +65,14 @@ public class Main {
                             };
         ca.setSeededGrid(initial);
         
-        ca.addRule(0, 1, 2, 0, 0, 100,false, rulepat);
-        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat1);
-        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat2);
-        ca.addRule(0, 1, 2, 0, 0, 100,false, rulepat3);
-        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat4);
-        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat5);
-        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat6);
-        ca.addRule(0, 1, 2, 0, 0, 100,false, rulepat7);
+//        ca.addRule(0, 1, 2, 0, 0, 100,false, rulepat);
+//        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat1);
+//        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat2);
+//        ca.addRule(0, 1, 2, 0, 0, 100,false, rulepat3);
+//        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat4);
+//        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat5);
+//        ca.addRule(0, 1, 2, 0, 1, 100,false, rulepat6);
+//        ca.addRule(0, 1, 2, 0, 0, 100,false, rulepat7);
         
 //       ca.addRule(0, 1, 2, 2, 1, 50);
 //       ca.addRule(1, 1, 4, 2, 0, 80);

@@ -16,5 +16,5 @@ public class UniformJSON
     public long steps;
     public double time;
     public boolean rulesChanged;
-    
+    public boolean seedThis;
 }
