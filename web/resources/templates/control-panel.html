@@ -81,15 +81,15 @@
                         <div style="margin-top: 10px;">
                             <div ng-repeat="rule in simObject.rules" style="margin-top: 5px">
                                 <button type="button" class="btn btn-default" ng-click="setSelectedRule($index)">
-                                    <img src="resources/images/icons/current_cell.png" class="button_icon" style="display: inline"/>
+                                    <img src="resources/images/icons/currentCell.png" class="button_icon" style="display: inline"/>
                                     <span>{{rule.currentState}} | </span>
-                                    <img src="resources/images/icons/appbar.calendar.future.png" class="button_icon" style="display: inline"/>
+                                    <img src="resources/images/icons/nebState.png" class="button_icon" style="display: inline"/>
                                     <span>{{rule.neighborState}} | </span>
                                     <img src="resources/images/icons/appbar.box.unfolded.png" class="button_icon" style="display: inline"/>
                                     <span>{{rule.noOfNeighbors}} | </span>
                                     <img src="resources/images/icons/appbar.markup.png" class="button_icon" style="display: inline"/>
                                     <span>{{rule.equalityModifier}} | </span>
-                                    <img src="resources/images/icons/appbar.arrow.corner.up.right.png" class="button_icon" style="display: inline"/>
+                                    <img src="resources/images/icons/next_state.png" class="button_icon" style="display: inline"/>
                                     <span>{{rule.nextState}} |</span>
                                     <img src="resources/images/icons/dice.png" class="button_icon" style="display: inline"/>
                                     <span>{{rule.probability}}</span>
