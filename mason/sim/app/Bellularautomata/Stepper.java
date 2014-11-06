@@ -58,14 +58,15 @@ public class Stepper implements Steppable {
                             for(int i = 0; i < rulePattern.length; i++){
                                 for(int j = 0; j < rulePattern.length; j++){
                                     if(neighborPattern[i][j] != rulePattern[i][j]){
-                                        if(rule.neighborhood[i][j] == 0){
+                                        
                                             match = false;
-                                        }
+                                       
                                     }
                                 }
                             }
 
                             if(match){
+                             
                                 ca.grid.field[x][y] = rule.getNextState();     
                             }
                         } else {
