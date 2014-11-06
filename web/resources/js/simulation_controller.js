@@ -50,6 +50,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     var JsonObj = null;
 
     $scope.createNewSim = function() {
+        $scope.resetToDefault();
         $scope.simLoaded = true;
 
         //initiate grid
@@ -64,6 +65,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         $scope.simObject.states.push(defaultState);
         $scope.stateSelected = defaultState;
         runSim($scope.simObject.currentGrid);
+        $scope.seedThis();
         $scope.playEnabled = true;
         $scope.stepEnabled = true;
         $scope.rulesChanged = true;
@@ -273,6 +275,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             }
         }
         runSim($scope.simObject.currentGrid);
+        $scope.seedThis();
     }
 
     function runSim(array) {
@@ -508,8 +511,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
         // Closure to capture the file information.
         reader.onload = (function (theFile) {
             return function (e) { 
-                JsonObj = e.target.result
-                alert(JsonObj);
+                JsonObj = e.target.result;
+
             };
         })(f);
 
@@ -520,6 +523,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.setFromFile = function(){
         $scope.createNewSim();
         $scope.simObject = angular.fromJson(JsonObj);
+        $scope.seedThis();
         $scope.drawFromCurrent();
     }
     
@@ -571,6 +575,51 @@ simCtrl.controller('simulationControl', function($scope, $http) {
        }
        
        $scope.drawFromCurrent();
+   }
+   
+   $scope.resetToDefault = function(){
+       $scope.simloaded = false;
+       $scope.playEnabled = false;
+       $scope.pauseEnabled = false;
+       $scope.stopEnabled = false;
+       $scope.stepEnabled = false;
+       $scope.delay = 0;
+       $scope.inputFile = [];
+       $scope.stateName = "";
+       $scope.stateColor = "";
+       $scope.isDynamic = true;
+       $scope.rulePattern = [[0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]];
+       $scope.neighborhood = [[1, 1, 1],
+        [1, 1, 1],
+        [1, 1, 1]];
+       $scope.ruleCurrentState = 0;
+       $scope.ruleNeighborState = 0;
+       $scope.ruleNeighborCount = 0;
+       $scope.ruleEqualityModifier = 0;
+       $scope.ruleNextState = 0;
+       $scope.ruleProbability = 100;
+       $scope.rulesChanged = false;
+
+       $scope.stateSelected = {};
+       $scope.simObject = new Object();
+       $scope.simObject.gridSize = 10;
+       $scope.simObject.currentGrid = [];
+       $scope.simObject.states = [];
+       $scope.simObject.rules = [];
+       $scope.simObject.cellSize = 15;
+       $scope.simObject.steps = 0;
+       $scope.simObject.timePassed = 0;
+       
+       cnvLstSet = false;
+       defaultStateRemoved = false;
+       continous = true;
+       keepRunning = false;
+   }
+   
+   $scope.reloadPage = function(){
+       location.reload();
    }
 });
 
