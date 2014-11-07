@@ -37,7 +37,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
     $scope.simObject.cellSize = 15;
     $scope.simObject.steps = 0;
     $scope.simObject.timePassed = 0;
-
+    $scope.sample = null;
     $scope.possibleNeighbors = [1, 2, 3, 4, 5, 6, 7, 8];
     var cnvLstSet = false;
     var defaultStateRemoved = false;
@@ -123,6 +123,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             $scope.pauseEnabled = true;
             $scope.stopEnabled = true;
             $scope.stepEnabled = false;
+            timer.play(false);
             continous = true;
             keepRunning = true;
             runRequest();
@@ -131,6 +132,7 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             $scope.pauseEnabled = false;
             $scope.stopEnabled = true;
             $scope.stepEnabled = true;
+            timer.pause();
             continous = true;
             keepRunning = false;
         } else if (state === 'stopped') {
@@ -138,8 +140,12 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             $scope.pauseEnabled = false;
             $scope.stopEnabled = false;
             $scope.stepEnabled = true;
+            timer.stop();
+            $scope.seconds = 0;
+            $scope.minutes = 0;
             continous = false;
             keepRunning = false;
+            $scope.simObject.steps = 0;
             runRequest();
         } else if (state === 'stepped') {
             continous = true;
@@ -461,12 +467,12 @@ simCtrl.controller('simulationControl', function($scope, $http) {
             
             $scope.simObject.currentGrid = data["currentGrid"];
             $scope.rulesChanged = false;
-            $scope.simObject.steps = data["steps"];
+            $scope.simObject.steps++;
             if(data["time"] == null){
                 alert('this is where it goes wrong');
             }
             $scope.simObject.timePassed = data["time"];
-
+            
             runSim($scope.simObject.currentGrid);
 //            gatherGenerationsStats();
             if (keepRunning === true) {
@@ -601,7 +607,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
        $scope.ruleNextState = 0;
        $scope.ruleProbability = 100;
        $scope.rulesChanged = false;
-
+       $scope.minutes = 0;
+       $scope.seconds = 0;
        $scope.stateSelected = {};
        $scope.simObject = new Object();
        $scope.simObject.gridSize = 10;
@@ -611,7 +618,8 @@ simCtrl.controller('simulationControl', function($scope, $http) {
        $scope.simObject.cellSize = 15;
        $scope.simObject.steps = 0;
        $scope.simObject.timePassed = 0;
-       
+       $scope.resetTime = false;
+       $scope.continueTime = true;
        cnvLstSet = false;
        defaultStateRemoved = false;
        continous = true;
@@ -621,5 +629,35 @@ simCtrl.controller('simulationControl', function($scope, $http) {
    $scope.reloadPage = function(){
        location.reload();
    }
+   
+   var golString = {"gridSize":30,"currentGrid":[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,1,0,0,0,1,0,0,1,0],[0,0,1,0,1,0,0,1,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1],[0,0,0,0,0,1,0,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0],[0,1,0,0,0,0,1,1,0,0,0,0,1,0,1,1,0,0,0,0,1,0,0,0,1,0,0,1,0,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1],[0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,1,0],[0,0,1,0,0,0,0,1,1,1,0,1,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0],[1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0],[0,0,0,0,0,0,0,1,1,1,0,1,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0],[1,0,1,0,0,1,0,0,0,1,1,1,0,0,0,0,0,1,1,0,1,1,0,0,1,0,0,1,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,1,0,0],[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1],[0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,0,0,1,0],[0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,1,0,0,0,0,0,0,0,0,1],[0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0],[0,1,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,1,0,0,1],[0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0],[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,0],[0,0,0,0,0,1,0,1,0,1,0,1,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,1,0,1],[0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,0],[0,0,0,0,0,1,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,0,1,0,0,0,0,0,0,0,0],[1,1,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0],[0,0,1,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[0,1,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]],"states":[{"stateIndex":0,"stateName":"dead","stateColor":"#c0c0c0","stateWeight":5},{"stateIndex":1,"stateName":"alive","stateColor":"#00ff00","stateWeight":1}],"rules":[{"currentState":1,"neighborState":1,"noOfNeighbors":3,"equalityModifier":"1","nextState":0,"probability":100,"isDynamic":true,"rulePattern":[[0,0,0],[0,0,0],[0,0,0]],"neighborhood":[[1,1,1],[1,1,1],[1,1,1]],"collapsed":true},{"currentState":1,"neighborState":1,"noOfNeighbors":4,"equalityModifier":"2","nextState":0,"probability":100,"isDynamic":true,"rulePattern":[[0,0,0],[0,0,0],[0,0,0]],"neighborhood":[[1,1,1],[1,1,1],[1,1,1]],"collapsed":true},{"currentState":0,"neighborState":1,"noOfNeighbors":3,"equalityModifier":"0","nextState":1,"probability":100,"isDynamic":true,"rulePattern":[[0,0,0],[0,0,0],[0,0,0]],"neighborhood":[[1,1,1],[1,1,1],[1,1,1]],"collapsed":true}],"cellSize":15,"steps":0,"timePassed":0};
+   var infString = {"gridSize":40,"currentGrid":[[0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,2,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,0,2,0,0,0,0,0,0,0,2,0,2,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1,0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0],[2,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,2,0,2,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,1,0,1,0,2,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0],[0,2,0,0,0,0,1,0,0,2,0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1,0],[0,2,0,0,1,0,0,0,0,2,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0],[0,0,0,0,0,0,2,0,0,2,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],[0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,0,1,0,0,0,2,0,0,0,0,0,0,0],[0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,1,0,0,2,0,0,0,1,0],[0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,2,0,0,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0],[0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,2,0,0],[0,0,0,0,2,0,2,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,2,1,0,0,0],[0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,2,0,0],[0,1,0,0,0,2,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,2,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,2,0,0,0,0,2,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,2,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,2,1,2,0,0,0,0,0,0,0,2,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,1,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,1],[2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,2,0,0,2,0,0,0],[0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,2,0,0,0,0,0,0,0,0,1,0,0],[0,0,0,2,0,0,0,0,0,1,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,2,0,0,0,0,0],[2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,2,0],[0,0,0,0,0,1,0,0,0,0,0,0,2,0,0,0,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,2,0,2,0,0,0,0,0,0,0],[0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,2,0,0,0,0,0,0,0,2,0,0,0,0,0,2,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0,2,0,0,0,0,0,0,0,0,0]],"states":[{"stateIndex":0,"stateName":"healthy","stateColor":"#00ff00","stateWeight":30},{"stateIndex":1,"stateName":"infected","stateColor":"#808040","stateWeight":1},{"stateIndex":2,"stateName":"dead","stateColor":"#c0c0c0","stateWeight":2},{"stateIndex":3,"stateName":"zombie","stateColor":"#ff0000","stateWeight":0}],"rules":[{"currentState":0,"neighborState":1,"noOfNeighbors":1,"equalityModifier":"2","nextState":1,"probability":100,"isDynamic":true,"rulePattern":[[0,0,0],[0,0,0],[0,0,0]],"neighborhood":[[1,1,1],[1,1,1],[1,1,1]],"collapsed":true},{"currentState":1,"neighborState":1,"noOfNeighbors":4,"equalityModifier":"2","nextState":2,"probability":100,"isDynamic":true,"rulePattern":[[0,0,0],[0,0,0],[0,0,0]],"neighborhood":[[1,1,1],[1,1,1],[1,1,1]],"collapsed":true},{"currentState":2,"neighborState":1,"noOfNeighbors":2,"equalityModifier":"2","nextState":3,"probability":50,"isDynamic":true,"rulePattern":[[0,0,0],[0,0,0],[0,0,0]],"neighborhood":[[1,1,1],[1,1,1],[1,1,1]],"collapsed":true},{"currentState":3,"neighborState":2,"noOfNeighbors":3,"equalityModifier":"0","nextState":0,"probability":100,"isDynamic":true,"rulePattern":[[0,0,0],[0,0,0],[0,0,0]],"neighborhood":[[1,1,1],[1,1,1],[1,1,1]],"collapsed":true}],"cellSize":15,"steps":1,"timePassed":0};
+   $scope.loadExample = function(){
+       if($scope.sample === 'gol'){
+           $scope.createNewSim();
+           $scope.simObject = angular.fromJson(golString);
+           $scope.seedThis();
+           $scope.drawFromCurrent();
+       } else if($scope.sample ===  'inf'){
+           $scope.simObject = angular.fromJson(infString);
+           $scope.createNewSim();
+           $scope.seedThis();
+           $scope.drawFromCurrent();
+       }
+   }
+   
+   $scope.minutes = 0;
+   $scope.seconds = 0;
+   $scope.increaseTime = function(){
+       if($scope.seconds < 60){
+           $scope.seconds++;
+       } else {
+           $scope.minutes++;
+       }
+   };
+   var timer = $.timer(function() {
+                $scope.increaseTime();
+        });
+   timer.set({ time : 1000, autostart : false });
 });
 
